@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.controlBoard.ControlBoard;
 import frc.robot.drivetrain.DriveConstants;
 import frc.robot.drivetrain.DriveSubsystem;
 import frc.robot.drivetrain.DriveConstants.SwerveConstants;
@@ -16,9 +17,9 @@ public class DriveCommand extends CommandBase {
   /** Creates a new DriveCommand. */
   private DriveSubsystem driveSubsystem;
   // TODO: Update this control to a control board style input
-  private CommandXboxController control;
+  private ControlBoard control;
 
-  public DriveCommand(DriveSubsystem driveSubsystem, CommandXboxController control) {
+  public DriveCommand(DriveSubsystem driveSubsystem, ControlBoard control) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.driveSubsystem = driveSubsystem;
@@ -39,20 +40,28 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
     //
-    double xSpeed = MathUtil.applyDeadband(getSquareInput(this.control.getLeftX()) * SwerveConstants.kMaxXSpeed, SwerveConstants.kDeadBand);
-    double ySpeed = MathUtil.applyDeadband(getSquareInput(-this.control.getLeftY()) * SwerveConstants.kMaxYSpeed, SwerveConstants.kDeadBand);
-    double rotationSpeed = MathUtil.applyDeadband(getSquareInput(this.control.getRightX()) * SwerveConstants.kMaxRotationSpeed, SwerveConstants.kDeadBand);
-    SmartDashboard.putNumber("SwerveDriveXSpeed", xSpeed);
-    SmartDashboard.putNumber("SwerveDriveYSpeed", ySpeed);
-    SmartDashboard.putNumber("SwerveRotationSpeed", rotationSpeed);
+    double xSpeed = MathUtil.applyDeadband(this.getSquareInput(this.control.xInput()) * SwerveConstants.kMaxXSpeed,
+        SwerveConstants.kDeadBand);
+    double ySpeed = MathUtil.applyDeadband(this.getSquareInput(-this.control.yInput()) * SwerveConstants.kMaxYSpeed,
+        SwerveConstants.kDeadBand);
+    double rotationSpeed = MathUtil.applyDeadband(
+        this.getSquareInput(this.control.rotationalInput()) * SwerveConstants.kMaxRotationSpeed,
+        SwerveConstants.kDeadBand);
+    SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
+    SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);
+    SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", rotationSpeed);
     this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed, SwerveConstants.kFieldRelative,
         SwerveConstants.kRateLimit);
 
     // If a/b is pressed on the contorller, set the robot to brake mode/ re-define
     // forward respecitively
-    if (this.control.a().getAsBoolean()) {
+
+    // control.brake() returns a trigger value(not a boolean), so use .getAsBoolean
+    // to convert it to a boolean(same for setZeroHeading)
+    if (this.control.brake().getAsBoolean()) {
       this.driveSubsystem.setX();
-    } else if (this.control.b().getAsBoolean()) {
+    } else if (this.control.setZeroHeading().getAsBoolean()) {
+      // zero heading is a method in driveSubsystem that "redefine" forward for the robot
       this.driveSubsystem.zeroHeading();
     }
   }
@@ -71,7 +80,7 @@ public class DriveCommand extends CommandBase {
 
   // This method square the input(for less sensitive control)
   private double getSquareInput(double input) {
-    return Math.pow(input, 2)*Math.signum(input);
+    return Math.pow(input, 2) * Math.signum(input);
   }
 
 }

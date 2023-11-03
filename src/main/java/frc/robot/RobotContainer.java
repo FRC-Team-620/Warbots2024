@@ -8,26 +8,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.controlBoard.CompControl;
+import frc.robot.controlBoard.ControlBoard;
 import frc.robot.drivetrain.DriveSubsystem;
 import frc.robot.drivetrain.commands.DriveCommand;
 
 public class RobotContainer {
 
-  private CommandXboxController control = new CommandXboxController(0);
-  private DriveSubsystem m_swerve = new DriveSubsystem();
+  private ControlBoard control = new CompControl();
+  private DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   public RobotContainer() {
-    //TODO: replace with the commands later!!!
 
-    //create a new brake command
-    // control.a().onTrue(new RunCommand(
-    //   () -> m_swerve.setX(),
-    //   m_swerve));
-
-    // // reset zero heading
-    // control.b().onTrue(new RunCommand(()->m_swerve.zeroHeading(), m_swerve));
-
-    this.m_swerve.setDefaultCommand(new DriveCommand(this.m_swerve, this.control));
+    this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+    
     configureBindings();
   }
 
@@ -38,6 +32,6 @@ public class RobotContainer {
   }
 
   public DriveSubsystem getDriveSubsystem(){
-    return this.m_swerve;
+    return this.driveSubsystem;
   }
 }

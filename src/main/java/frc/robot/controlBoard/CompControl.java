@@ -9,16 +9,39 @@ public class CompControl implements ControlBoard{
     private CommandXboxController driver = new CommandXboxController(0);
     private CommandXboxController operator = new CommandXboxController(1);
     
+    //TODO: Implement operator controls in the future
+    //=============Operator Controls=============
+
+
+    //=============Driver Controls=============
     @Override
-    public Trigger brake() {
+    public double xInput() {
         // TODO Auto-generated method stub
-        return driver.leftBumper();
+        return this.driver.getLeftX();
     }
 
     @Override
-    public Trigger zeroHeading() {
+    public double yInput() {
         // TODO Auto-generated method stub
-        return driver.rightBumper();
+        return this.driver.getLeftY();
+    }
+
+    @Override
+    public double rotationalInput() {
+        // TODO Auto-generated method stub
+        return this.driver.getRightX();
+    }
+    
+    @Override
+    public Trigger brake() {
+        // TODO Auto-generated method stub
+        return this.driver.leftBumper();
+    }
+
+    @Override
+    public Trigger setZeroHeading() {
+        // TODO Auto-generated method stub
+        return this.driver.rightBumper();
     }
     
 }
