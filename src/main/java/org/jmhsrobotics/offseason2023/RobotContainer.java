@@ -2,16 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package org.jmhsrobotics.offseason2023;
+
+import org.jmhsrobotics.offseason2023.commands.DriveCommand;
+import org.jmhsrobotics.offseason2023.controlBoard.CompControl;
+import org.jmhsrobotics.offseason2023.controlBoard.ControlBoard;
+import org.jmhsrobotics.offseason2023.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.controlBoard.CompControl;
-import frc.robot.controlBoard.ControlBoard;
-import frc.robot.drivetrain.DriveSubsystem;
-import frc.robot.drivetrain.commands.DriveCommand;
 
 public class RobotContainer {
 

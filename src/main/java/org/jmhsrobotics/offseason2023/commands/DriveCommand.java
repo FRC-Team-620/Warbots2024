@@ -2,16 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.drivetrain.commands;
+package org.jmhsrobotics.offseason2023.commands;
+
+import org.jmhsrobotics.offseason2023.controlBoard.ControlBoard;
+import org.jmhsrobotics.offseason2023.subsystems.DriveConstants;
+import org.jmhsrobotics.offseason2023.subsystems.DriveSubsystem;
+import org.jmhsrobotics.offseason2023.subsystems.DriveConstants.SwerveConstants;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.controlBoard.ControlBoard;
-import frc.robot.drivetrain.DriveConstants;
-import frc.robot.drivetrain.DriveSubsystem;
-import frc.robot.drivetrain.DriveConstants.SwerveConstants;
 
 public class DriveCommand extends CommandBase {
   /** Creates a new DriveCommand. */

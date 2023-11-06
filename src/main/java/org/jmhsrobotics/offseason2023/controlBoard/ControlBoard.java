@@ -1,4 +1,4 @@
-package frc.robot.controlBoard;
+package org.jmhsrobotics.offseason2023.controlBoard;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
