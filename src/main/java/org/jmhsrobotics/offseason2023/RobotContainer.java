@@ -4,10 +4,10 @@
 
 package org.jmhsrobotics.offseason2023;
 
-import org.jmhsrobotics.offseason2023.commands.DriveCommand;
 import org.jmhsrobotics.offseason2023.controlBoard.CompControl;
 import org.jmhsrobotics.offseason2023.controlBoard.ControlBoard;
-import org.jmhsrobotics.offseason2023.subsystems.DriveSubsystem;
+import org.jmhsrobotics.offseason2023.subsystems.drive.DriveSubsystem;
+import org.jmhsrobotics.offseason2023.subsystems.drive.commands.DriveCommand;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
