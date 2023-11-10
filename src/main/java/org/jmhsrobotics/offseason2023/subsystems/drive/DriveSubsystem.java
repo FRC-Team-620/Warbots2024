@@ -72,8 +72,9 @@ public class DriveSubsystem extends SubsystemBase {
           m_rearRight.getPosition()
       });
 
-    SwerveVisualizer visualizer;
-    double simRot = 0;
+  SwerveVisualizer visualizer;
+  double simRot = 0;
+
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     visualizer = new SwerveVisualizer(1, 1);
@@ -98,6 +99,17 @@ public class DriveSubsystem extends SubsystemBase {
         });
   }
 
+  public ChassisSpeeds getChassisSpeeds() {
+    return SwerveConstants.kDriveKinematics.toChassisSpeeds(m_frontLeft.getState(), m_frontRight.getState(),
+        m_rearLeft.getState(), m_rearRight.getState());
+  }
+
+  public void drive(ChassisSpeeds chassisSpeeds){
+    double xSpeed = chassisSpeeds.vxMetersPerSecond/SwerveConstants.kMaxSpeedMetersPerSecond;
+    double ySpeed = chassisSpeeds.vyMetersPerSecond/SwerveConstants.kMaxSpeedMetersPerSecond;
+    double rotation = chassisSpeeds.omegaRadiansPerSecond/SwerveConstants.kMaxAngularSpeed;
+    this.drive(xSpeed, ySpeed, rotation, false, false);
+  }
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -201,8 +213,9 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
-    simRot +=  rotDelivered; //TODO: Wrong for sim
-    visualizer.update(m_frontLeft.getState().angle, m_frontRight.getState().angle, m_rearLeft.getState().angle, m_rearRight.getState().angle, getPose());
+    simRot += rotDelivered; // TODO: Wrong for sim
+    visualizer.update(m_frontLeft.getState().angle, m_frontRight.getState().angle, m_rearLeft.getState().angle,
+        m_rearRight.getState().angle, getPose());
   }
 
   /**
@@ -276,6 +289,6 @@ public class DriveSubsystem extends SubsystemBase {
     m_rearLeft.update(0.02);
     m_rearRight.update(0.02);
     PlatformJNI.JNI_SimSetPhysicsInput(DeviceType.PigeonIMU.value, 30, "HeadingRaw",
-				-MathUtil.inputModulus(simRot, -180, 180));
+        -MathUtil.inputModulus(simRot, -180, 180));
   }
 }
