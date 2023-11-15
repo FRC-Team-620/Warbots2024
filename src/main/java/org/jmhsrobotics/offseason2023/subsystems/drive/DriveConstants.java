@@ -35,8 +35,8 @@ public final class DriveConstants {
     public static final double kDeadBand = 0.05;
     // Driving Parameters - Note that these are not the maximum capable speeds of
     // the robot, rather the allowed maximum speeds
-    public static final double kMaxSpeedMetersPerSecond = 4.8;
-    public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
+    public static final double kMaxSpeedMetersPerSecond = 2.4;
+    public static final double kMaxAngularSpeed =  Math.PI; // radians per second
 
     public static final double kDirectionSlewRate = 1.2; // radians per second
     public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)

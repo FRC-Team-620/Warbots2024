@@ -12,6 +12,11 @@ import org.jmhsrobotics.warcore.swerve.SwerveVisualizer;
 import com.ctre.phoenix.platform.DeviceType;
 import com.ctre.phoenix.platform.PlatformJNI;
 import com.ctre.phoenix.sensors.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.FollowPathHolonomic;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -84,6 +89,10 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearLeft = new SimSwerveModule();
       m_rearRight = new SimSwerveModule();
     }
+
+    AutoBuilder.configureHolonomic( this::getPose,this::resetOdometry, this::getChassisSpeeds, this::drive, new HolonomicPathFollowerConfig(new PIDConstants(.5, 0,0), new PIDConstants(1.5, 0, 0),DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond,.5, new ReplanningConfig()), this);
+
+
   }
 
   @Override
@@ -110,6 +119,8 @@ public class DriveSubsystem extends SubsystemBase {
     double rotation = chassisSpeeds.omegaRadiansPerSecond/SwerveConstants.kMaxAngularSpeed;
     this.drive(xSpeed, ySpeed, rotation, false, false);
   }
+
+
   /**
    * Returns the currently-estimated pose of the robot.
    *
