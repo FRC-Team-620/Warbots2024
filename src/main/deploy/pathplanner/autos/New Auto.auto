@@ -16,6 +16,24 @@
           "data": {
             "pathName": "test1"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "New Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "newcommanddfsdf"
+          }
         }
       ]
     }

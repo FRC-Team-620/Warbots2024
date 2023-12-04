@@ -6,7 +6,10 @@ package org.jmhsrobotics.offseason2023;
 
 import java.util.List;
 
+import org.jmhsrobotics.offseason2023.subsystems.drive.commands.IntakeCommand;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -19,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -29,10 +33,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
-    
+    NamedCommands.registerCommand("Intake", new IntakeCommand(this.m_robotContainer.getDriveSubsystem(), 5));
+    NamedCommands.registerCommand("Wait", new WaitCommand(30));
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
+    SmartDashboard.putData("IntakeCommand", new IntakeCommand(this.m_robotContainer.getDriveSubsystem(), 5));
 
   }
 
@@ -42,46 +47,51 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+  }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+  }
 
   @Override
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    m_autonomousCommand=autoChooser.getSelected();
+    m_autonomousCommand = autoChooser.getSelected();
 
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
 
-      List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(
-      new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
-      new Pose2d(3.0, 1.0, Rotation2d.fromDegrees(0)),
-      new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(0))
-  );
-  
-  
-  // Create the path using the bezier points created above
-  PathPlannerPath path = new PathPlannerPath(
-      bezierPoints,
-      new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), // The constraints for this path. If using a differential drivetrain, the angular constraints have no effect.
-      new GoalEndState(0.0, Rotation2d.fromDegrees(0)) // Goal end state. You can set a holonomic rotation here. If using a differential drivetrain, the rotation will have no effect.
-  );
+    List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(
+        new Pose2d(1.0, 1.0, Rotation2d.fromDegrees(0)),
+        new Pose2d(3.0, 1.0, Rotation2d.fromDegrees(0)),
+        new Pose2d(5.0, 3.0, Rotation2d.fromDegrees(0)));
 
-
+    // Create the path using the bezier points created above
+    PathPlannerPath path = new PathPlannerPath(
+        bezierPoints,
+        new PathConstraints(3.0, 3.0, 2 * Math.PI, 4 * Math.PI), // The constraints for this path. If using a
+                                                                 // differential drivetrain, the angular constraints
+                                                                 // have no effect.
+        new GoalEndState(0.0, Rotation2d.fromDegrees(0)) // Goal end state. You can set a holonomic rotation here. If
+                                                         // using a differential drivetrain, the rotation will have no
+                                                         // effect.
+    );
 
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void autonomousExit() {}
+  public void autonomousExit() {
+  }
 
   @Override
   public void teleopInit() {
@@ -91,10 +101,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+  }
 
   @Override
-  public void teleopExit() {}
+  public void teleopExit() {
+  }
 
   @Override
   public void testInit() {
@@ -102,8 +114,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+  }
 
   @Override
-  public void testExit() {}
+  public void testExit() {
+  }
 }

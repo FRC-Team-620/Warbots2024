@@ -9,10 +9,10 @@ import org.jmhsrobotics.offseason2023.controlBoard.ControlBoard;
 import org.jmhsrobotics.offseason2023.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.offseason2023.subsystems.drive.commands.DriveCommand;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class RobotContainer {
 
@@ -22,17 +22,18 @@ public class RobotContainer {
   public RobotContainer() {
 
     this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
-    
+    SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
   }
 
-  public DriveSubsystem getDriveSubsystem(){
+  public DriveSubsystem getDriveSubsystem() {
     return this.driveSubsystem;
   }
 }
