@@ -5,16 +5,14 @@
 package org.jmhsrobotics.offseason2023.subsystems.drive.commands;
 
 import org.jmhsrobotics.offseason2023.controlBoard.ControlBoard;
-import org.jmhsrobotics.offseason2023.subsystems.drive.DriveConstants;
-import org.jmhsrobotics.offseason2023.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.offseason2023.subsystems.drive.DriveConstants.SwerveConstants;
+import org.jmhsrobotics.offseason2023.subsystems.drive.DriveSubsystem;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class DriveCommand extends CommandBase {
+public class DriveCommand extends Command {
   /** Creates a new DriveCommand. */
   private DriveSubsystem driveSubsystem;
   // TODO: Update this control to a control board style input
@@ -62,7 +60,8 @@ public class DriveCommand extends CommandBase {
     if (this.control.brake().getAsBoolean()) {
       this.driveSubsystem.setX();
     } else if (this.control.setZeroHeading().getAsBoolean()) {
-      // zero heading is a method in driveSubsystem that "redefine" forward for the robot
+      // zero heading is a method in driveSubsystem that "redefine" forward for the
+      // robot
       this.driveSubsystem.zeroHeading();
     }
   }
