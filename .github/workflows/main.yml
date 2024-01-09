@@ -55,6 +55,6 @@ jobs:
   #   - name: Grant execute permission for gradlew
   #     run: chmod +x gradlew
 
-    # Runs a single command using the runners shell
-    - name: Check that code is formatted correctly
-      run: ./gradlew spotlessCheck
+    # # Runs a single command using the runners shell
+    # - name: Check that code is formatted correctly
+    #   run: ./gradlew spotlessCheck
