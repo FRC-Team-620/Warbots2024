@@ -2,12 +2,12 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.jmhsrobotics.offseason2023;
+package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.offseason2023.controlBoard.CompControl;
-import org.jmhsrobotics.offseason2023.controlBoard.ControlBoard;
-import org.jmhsrobotics.offseason2023.subsystems.drive.DriveSubsystem;
-import org.jmhsrobotics.offseason2023.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.controlBoard.CompControl;
+import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;

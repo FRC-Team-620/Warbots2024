@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.jmhsrobotics.offseason2023.subsystems.drive;
+package org.jmhsrobotics.frc2024.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -14,7 +14,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
-import org.jmhsrobotics.offseason2023.subsystems.drive.DriveConstants.ModuleConstants;
+import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.ModuleConstants;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;

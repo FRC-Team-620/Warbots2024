@@ -8,7 +8,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
-def ROBOT_MAIN_CLASS = "org.jmhsrobotics.offseason2023.Main"
+def ROBOT_MAIN_CLASS = "org.jmhsrobotics.frc2024.Main"
 repositories {
 			mavenCentral()
 			maven { url 'https://jitpack.io' }

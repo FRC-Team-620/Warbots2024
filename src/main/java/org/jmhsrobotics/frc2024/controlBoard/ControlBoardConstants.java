@@ -1,4 +1,4 @@
-package org.jmhsrobotics.offseason2023.controlBoard;
+package org.jmhsrobotics.frc2024.controlBoard;
 
 public class ControlBoardConstants {
     public static final int kDriverControllerPort = 0;
