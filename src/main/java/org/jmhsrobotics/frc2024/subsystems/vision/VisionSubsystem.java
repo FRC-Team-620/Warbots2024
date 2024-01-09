@@ -1,4 +1,4 @@
-package org.jmhsrobotics.subsystems.vision;
+package org.jmhsrobotics.frc2024.subsystems.vision;
 
 import org.jmhsrobotics.warcore.nt.NT4Util;
 import org.photonvision.PhotonCamera;

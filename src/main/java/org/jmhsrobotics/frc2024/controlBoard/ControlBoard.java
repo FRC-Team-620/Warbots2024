@@ -1,4 +1,4 @@
-package org.jmhsrobotics.offseason2023.controlBoard;
+package org.jmhsrobotics.frc2024.controlBoard;
 
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 

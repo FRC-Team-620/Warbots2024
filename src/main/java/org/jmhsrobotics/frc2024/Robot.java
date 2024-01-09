@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.jmhsrobotics.offseason2023;
+package org.jmhsrobotics.frc2024;
 
 import java.util.List;
 
-import org.jmhsrobotics.offseason2023.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
