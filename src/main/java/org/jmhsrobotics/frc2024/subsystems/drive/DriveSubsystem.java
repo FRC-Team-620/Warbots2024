@@ -90,19 +90,6 @@ public class DriveSubsystem extends SubsystemBase {
       m_rearLeft = new SimSwerveModule();
       m_rearRight = new SimSwerveModule();
     }
-
-    AutoBuilder.configureHolonomic(this::getPose, this::resetOdometry, this::getChassisSpeeds, this::drive,
-        new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
-            DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
-        this::getAllianceFlipState,
-        this);
-
-  }
-
-  // TODO: fix this later to flip correctly based on side color
-  private boolean getAllianceFlipState() {
-    return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Blue
-        : false;
   }
 
   @Override
