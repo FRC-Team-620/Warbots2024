@@ -1,4 +1,4 @@
-package org.jmhsrobotics.frc2024.subsystems.drive;
+package org.jmhsrobotics.frc2024.subsystems.drive.swerve;
 
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
