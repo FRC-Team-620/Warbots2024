@@ -4,18 +4,15 @@
 
 package org.jmhsrobotics.frc2024.subsystems.drive;
 
-import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.AutoConstants;
+import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.SwerveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.ISwerveModule;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.MAXSwerveModule;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.RevSwerveDrive;
+import org.jmhsrobotics.frc2024.subsystems.drive.swerve.SimSwerveModule;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.sim.Pigeon2SimState;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Twist2d;
@@ -23,65 +20,55 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create MAXSwerveModules
-  private ISwerveModule m_frontLeft = new MAXSwerveModule(
-      SwerveConstants.kFrontLeftDrivingCanId,
-      SwerveConstants.kFrontLeftTurningCanId,
-      SwerveConstants.kFrontLeftChassisAngularOffset);
+  private ISwerveModule m_frontLeft;
 
-  private ISwerveModule m_frontRight = new MAXSwerveModule(
-      SwerveConstants.kFrontRightDrivingCanId,
-      SwerveConstants.kFrontRightTurningCanId,
-      SwerveConstants.kFrontRightChassisAngularOffset);
+  private ISwerveModule m_frontRight;
 
-  private ISwerveModule m_rearLeft = new MAXSwerveModule(
-      SwerveConstants.kRearLeftDrivingCanId,
-      SwerveConstants.kRearLeftTurningCanId,
-      SwerveConstants.kBackLeftChassisAngularOffset);
+  private ISwerveModule m_rearLeft;
 
-  private ISwerveModule m_rearRight = new MAXSwerveModule(
-      SwerveConstants.kRearRightDrivingCanId,
-      SwerveConstants.kRearRightTurningCanId,
-      SwerveConstants.kBackRightChassisAngularOffset);
+  private ISwerveModule m_rearRight;
 
   // Create gyro
   private final Pigeon2 m_gyro = new Pigeon2(SwerveConstants.kGyroCanId);
 
   // Create RevSwerveDrive
-  private final RevSwerveDrive swerveDrive = new RevSwerveDrive(m_frontLeft, m_frontRight, m_rearLeft, m_rearRight,
-      m_gyro);
+  private final RevSwerveDrive swerveDrive;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    if (Robot.isSimulation()) {
+      m_frontLeft = new SimSwerveModule();
+      m_frontRight = new SimSwerveModule();
+      m_rearLeft = new SimSwerveModule();
+      m_rearRight = new SimSwerveModule();
+    } else {
+      m_frontLeft = new MAXSwerveModule(
+          SwerveConstants.kFrontLeftDrivingCanId,
+          SwerveConstants.kFrontLeftTurningCanId,
+          SwerveConstants.kFrontLeftChassisAngularOffset);
 
-    AutoBuilder.configureHolonomic(swerveDrive::getPose, swerveDrive::resetOdometry, swerveDrive::getChassisSpeeds,
-        this::drive,
-        new HolonomicPathFollowerConfig(
-            new PIDConstants(
-                AutoConstants.kPathTranslationP,
-                AutoConstants.kPathTranslationI,
-                AutoConstants.kPathTranslationD),
-            new PIDConstants(
-                AutoConstants.kPathRotationP,
-                AutoConstants.kPathRotationI,
-                AutoConstants.kPathRotationD),
-            SwerveConstants.kMaxSpeedMetersPerSecond,
-            SwerveConstants.kTrackWidth / 2,
-            new ReplanningConfig()),
-        this::getAllianceFlipState,
-        this);
+      m_frontRight = new MAXSwerveModule(
+          SwerveConstants.kFrontRightDrivingCanId,
+          SwerveConstants.kFrontRightTurningCanId,
+          SwerveConstants.kFrontRightChassisAngularOffset);
 
-  }
+      m_rearLeft = new MAXSwerveModule(
+          SwerveConstants.kRearLeftDrivingCanId,
+          SwerveConstants.kRearLeftTurningCanId,
+          SwerveConstants.kBackLeftChassisAngularOffset);
 
-  // TODO: fix this later to flip correctly based on side color
-  private boolean getAllianceFlipState() {
-    return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Blue
-        : false;
+      m_rearRight = new MAXSwerveModule(
+          SwerveConstants.kRearRightDrivingCanId,
+          SwerveConstants.kRearRightTurningCanId,
+          SwerveConstants.kBackRightChassisAngularOffset);
+    }
+
+    swerveDrive = new RevSwerveDrive(m_frontLeft, m_frontRight, m_rearLeft, m_rearRight,
+        m_gyro);
   }
 
   @Override

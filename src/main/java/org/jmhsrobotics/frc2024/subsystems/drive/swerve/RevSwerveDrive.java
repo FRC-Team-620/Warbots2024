@@ -60,13 +60,6 @@ public class RevSwerveDrive extends RobotDriveBase {
                 });
 
         m_visualizer = new SwerveVisualizer(SwerveConstants.kTrackWidth, SwerveConstants.kWheelBase);
-
-        if (Robot.isSimulation()) {
-            m_frontLeft = new SimSwerveModule();
-            m_frontRight = new SimSwerveModule();
-            m_rearLeft = new SimSwerveModule();
-            m_rearRight = new SimSwerveModule();
-        }
     }
 
     /**
