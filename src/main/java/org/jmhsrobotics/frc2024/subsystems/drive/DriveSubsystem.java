@@ -12,15 +12,18 @@ import org.jmhsrobotics.warcore.swerve.SwerveVisualizer;
 import com.ctre.phoenix.platform.DeviceType;
 import com.ctre.phoenix.platform.PlatformJNI;
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.ctre.phoenix6.sim.Pigeon2SimState;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -79,7 +82,6 @@ public class DriveSubsystem extends SubsystemBase {
       });
 
   SwerveVisualizer visualizer;
-  double simRot = 0;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -220,7 +222,6 @@ public class DriveSubsystem extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
-    simRot += rotDelivered; // TODO: Wrong for sim
     visualizer.update(m_frontLeft.getState().angle, m_frontRight.getState().angle, m_rearLeft.getState().angle,
         m_rearRight.getState().angle, getPose());
   }
@@ -300,13 +301,17 @@ public class DriveSubsystem extends SubsystemBase {
     this.drive(0, 0, 0, SwerveConstants.kFieldRelative, SwerveConstants.kRateLimit);
   }
 
+  private final Pigeon2SimState imuSim = m_gyro.getSimState();
+
   @Override
   public void simulationPeriodic() {
     m_frontLeft.update(0.02);
     m_frontRight.update(0.02);
     m_rearLeft.update(0.02);
     m_rearRight.update(0.02);
-    PlatformJNI.JNI_SimSetPhysicsInput(DeviceType.PigeonIMU.value, 30, "HeadingRaw",
-        -MathUtil.inputModulus(simRot, -180, 180));
+
+    Twist2d twist = SwerveConstants.kDriveKinematics.toTwist2d(new SwerveModulePosition[] { m_frontLeft.getPosition(),
+        m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition() });
+    imuSim.addYaw(twist.dtheta); // TODO: this may need to be converted back somthing is wrong elsewhere.
   }
 }
