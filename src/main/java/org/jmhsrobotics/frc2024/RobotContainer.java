@@ -35,16 +35,17 @@ public class RobotContainer {
   private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
-    // Named commands must be added before building the chooser.
-    NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
-    NamedCommands.registerCommand("Wait", new WaitCommand(30));
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    
+   
 
     this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
     SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
     configureBindings();
+    
+    // Named commands must be added before building the chooser.
     configurePathPlanner();
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   private void configurePathPlanner() {
