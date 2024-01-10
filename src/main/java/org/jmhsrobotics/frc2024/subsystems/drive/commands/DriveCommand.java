@@ -44,7 +44,7 @@ public class DriveCommand extends Command {
     double ySpeed = MathUtil.applyDeadband(this.getSquareInput(-this.control.yInput()) * SwerveConstants.kMaxYSpeed,
         SwerveConstants.kDeadBand);
     double rotationSpeed = MathUtil.applyDeadband(
-        this.getSquareInput(this.control.rotationalInput()) * SwerveConstants.kMaxRotationSpeed,
+        this.getSquareInput(-this.control.rotationalInput()) * SwerveConstants.kMaxRotationSpeed,
         SwerveConstants.kDeadBand);
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);

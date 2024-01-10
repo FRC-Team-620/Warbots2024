@@ -15,11 +15,13 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.sim.Pigeon2SimState;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -37,6 +39,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   // Create RevSwerveDrive
   private final RevSwerveDrive swerveDrive;
+
+  private SwerveModulePosition[] currentModulePositions;
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
@@ -119,8 +123,8 @@ public class DriveSubsystem extends SubsystemBase {
   /** Resets the drive encoders to currently read a position of 0. */
   public void resetEncoders() {
     m_frontLeft.resetEncoders();
-    m_rearLeft.resetEncoders();
     m_frontRight.resetEncoders();
+    m_rearLeft.resetEncoders();
     m_rearRight.resetEncoders();
   }
 
@@ -138,7 +142,6 @@ public class DriveSubsystem extends SubsystemBase {
   // public double getTurnRate() {
   // double[] vels = new double[3];
   // m_gyro.getRawGyro(vels);
-  // m_gyro
   // return vels[2] * (SwerveConstants.kGyroReversed ? -1.0 : 1.0);
   // }
   // yee haw brother
@@ -152,13 +155,38 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
-    m_frontLeft.update(0.02);
-    m_frontRight.update(0.02);
-    m_rearLeft.update(0.02);
-    m_rearRight.update(0.02);
-    Twist2d twist = SwerveConstants.kDriveKinematics.toTwist2d(new SwerveModulePosition[] { m_frontLeft.getPosition(),
-        m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition() });
-    imuSim.addYaw(twist.dtheta); // TODO: this may need to be converted back somthing is wrong elsewhere.
+    var deltapos = new SwerveModulePosition[] {
+        getPoseDeltas(m_frontLeft),
+        getPoseDeltas(m_frontRight),
+        getPoseDeltas(m_rearLeft),
+        getPoseDeltas(m_rearRight)
+    };
+    SmartDashboard.putNumber("FLSpeed", m_frontLeft.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("FRSpeed", m_frontRight.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("RLSpeed", m_rearLeft.getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("RRSpeed", m_rearRight.getState().speedMetersPerSecond);
+
+    SmartDashboard.putNumber("FLAngle", m_frontLeft.getState().angle.getDegrees());
+    SmartDashboard.putNumber("FRAngle", m_frontRight.getState().angle.getDegrees());
+    SmartDashboard.putNumber("RLAngle", m_rearLeft.getState().angle.getDegrees());
+    SmartDashboard.putNumber("RRAngle", m_rearRight.getState().angle.getDegrees());
+
+    Twist2d twist = SwerveConstants.kDriveKinematics.toTwist2d(deltapos);
+    SmartDashboard.putNumber("dtheta", twist.dtheta);
+    // imuSim.addYaw(Math.toDegrees(twist.dtheta));
+    swerveDrive.rotation = swerveDrive.rotation.plus(Rotation2d.fromRadians(-twist.dtheta));
+
+  }
+
+  private SwerveModulePosition getPoseDeltas(ISwerveModule module) {
+    // var start = module.getPosition().copy();
+    var startpos = module.getPosition().distanceMeters;
+    module.update(SwerveConstants.dtOffset);
+    // var end = module.getPosition();
+    var endpos = module.getPosition().distanceMeters;
+    var enddeg = module.getPosition().angle.getDegrees();
+
+    return new SwerveModulePosition(startpos- endpos, new Rotation2d(enddeg));
   }
 
   public Pose2d getPose() {

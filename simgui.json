@@ -1,4 +1,13 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "Pigeon 2 (v6)[62]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -37,11 +46,23 @@
         "Intakecommand": {
           "open": true
         },
+        "SwerveDrive": {
+          "Input": {
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       }
     }
   },
   "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
+    "Connections": {
+      "open": true
+    },
     "visible": true
   }
 }
