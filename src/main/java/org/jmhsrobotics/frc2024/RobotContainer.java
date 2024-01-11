@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.unf.Unf;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -30,35 +31,37 @@ public class RobotContainer {
 
   private ControlBoard control = new CompControl();
   // Subsystems
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  // private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  private final Unf unf = new Unf();
 
-  private final SendableChooser<Command> autoChooser;
+
+  // private final SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
     
-   
+    this.unf.setDefaultCommand(new DriveCommand(unf, this.control));
 
-    this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+    // this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
     SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
     configureBindings();
     
     // Named commands must be added before building the chooser.
     configurePathPlanner();
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
+    // autoChooser = AutoBuilder.buildAutoChooser();
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
   }
 
   private void configurePathPlanner() {
     // Add path planner auto chooser.
 
-    AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
-        driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
-        new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
-            DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
-        this::getAllianceFlipState,
-        driveSubsystem);
-    NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
-    NamedCommands.registerCommand("Wait", new WaitCommand(30));
+    // AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
+    //     driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
+    //     new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
+    //         DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
+    //     this::getAllianceFlipState,
+    //     driveSubsystem);
+    // NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
+    // NamedCommands.registerCommand("Wait", new WaitCommand(30));
   }
 
   // TODO: fix this later to flip correctly based on side color
@@ -72,15 +75,16 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    Command picked = autoChooser.getSelected();
-    if (picked == null) {
-      return Commands.print("No autonomous command configured");
-    } else {
-      return picked;
-    }
+    // Command picked = autoChooser.getSelected();
+    // if (picked == null) {
+    //   return Commands.print("No autonomous command configured");
+    // } else {
+    //   return picked;
+    // }
+    return null;
   }
 
-  public DriveSubsystem getDriveSubsystem() {
-    return this.driveSubsystem;
-  }
+  // public DriveSubsystem getDriveSubsystem() {
+  //   return this.driveSubsystem;
+  // }
 }

@@ -186,7 +186,7 @@ public class DriveSubsystem extends SubsystemBase {
     var endpos = module.getPosition().distanceMeters;
     var enddeg = module.getPosition().angle.getDegrees();
 
-    return new SwerveModulePosition(startpos- endpos, new Rotation2d(enddeg));
+    return new SwerveModulePosition( endpos - startpos, new Rotation2d(enddeg));
   }
 
   public Pose2d getPose() {

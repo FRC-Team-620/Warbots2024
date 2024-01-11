@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024.subsystems.drive.commands;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.SwerveConstants;
+import org.jmhsrobotics.frc2024.subsystems.unf.Unf;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,11 +15,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class DriveCommand extends Command {
   /** Creates a new DriveCommand. */
-  private DriveSubsystem driveSubsystem;
+  private Unf driveSubsystem;
   // TODO: Update this control to a control board style input
   private ControlBoard control;
 
-  public DriveCommand(DriveSubsystem driveSubsystem, ControlBoard control) {
+  public DriveCommand(Unf driveSubsystem, ControlBoard control) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.driveSubsystem = driveSubsystem;
@@ -32,7 +33,7 @@ public class DriveCommand extends Command {
   public void initialize() {
     // stop drive is a method to set speed inputs to zero and angle the wheels in
     // brake angle
-    this.driveSubsystem.stopDrive();
+    // this.driveSubsystem.stopDrive();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,27 +50,26 @@ public class DriveCommand extends Command {
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", rotationSpeed);
-    this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed, SwerveConstants.kFieldRelative,
-        SwerveConstants.kRateLimit);
+    this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed);
 
     // If a/b is pressed on the contorller, set the robot to brake mode/ re-define
     // forward respecitively
 
     // control.brake() returns a trigger value(not a boolean), so use .getAsBoolean
     // to convert it to a boolean(same for setZeroHeading)
-    if (this.control.brake().getAsBoolean()) {
-      this.driveSubsystem.brake();
-    } else if (this.control.setZeroHeading().getAsBoolean()) {
-      // zero heading is a method in driveSubsystem that "redefine" forward for the
-      // robot
-      this.driveSubsystem.zeroHeading();
-    }
+    // if (this.control.brake().getAsBoolean()) {
+    //   this.driveSubsystem.brake();
+    // } else if (this.control.setZeroHeading().getAsBoolean()) {
+    //   // zero heading is a method in driveSubsystem that "redefine" forward for the
+    //   // robot
+    //   this.driveSubsystem.zeroHeading();
+    // }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    this.driveSubsystem.stopDrive();
+    // this.driveSubsystem.stopDrive();
   }
 
   // Returns true when the command should end.

@@ -28,7 +28,7 @@ public final class DriveConstants {
     public static final double kMaxXSpeed = 0.8;
     public static final double kMaxYSpeed = 0.8;
     public static final double kMaxRotationSpeed = 0.8;
-    public static final boolean kFieldRelative = true;
+    public static final boolean kFieldRelative = false;
     public static final boolean kRateLimit = false;
 
     // drive deadband constants
@@ -104,7 +104,7 @@ public final class DriveConstants {
     // Invert the turning encoder, since the output shaft rotates in the opposite
     // direction of
     // the steering motor in the MAXSwerve Module.
-    public static final boolean kTurningEncoderInverted = false;
+    public static final boolean kTurningEncoderInverted = true;
 
     // Calculations required for driving motor conversion factors and feed forward
     public static final double kDrivingMotorFreeSpeedRps = NeoMotorConstants.kFreeSpeedRpm / 60;
