@@ -44,7 +44,7 @@ public class DriveCommand extends Command {
     double ySpeed = MathUtil.applyDeadband(this.getSquareInput(-this.control.yInput()) * SwerveConstants.kMaxYSpeed,
         SwerveConstants.kDeadBand);
     double rotationSpeed = MathUtil.applyDeadband(
-        this.getSquareInput(this.control.rotationalInput()) * SwerveConstants.kMaxRotationSpeed,
+        this.getSquareInput(-this.control.rotationalInput()) * SwerveConstants.kMaxRotationSpeed,
         SwerveConstants.kDeadBand);
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
     SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);
@@ -58,7 +58,7 @@ public class DriveCommand extends Command {
     // control.brake() returns a trigger value(not a boolean), so use .getAsBoolean
     // to convert it to a boolean(same for setZeroHeading)
     if (this.control.brake().getAsBoolean()) {
-      this.driveSubsystem.setX();
+      this.driveSubsystem.brake();
     } else if (this.control.setZeroHeading().getAsBoolean()) {
       // zero heading is a method in driveSubsystem that "redefine" forward for the
       // robot
