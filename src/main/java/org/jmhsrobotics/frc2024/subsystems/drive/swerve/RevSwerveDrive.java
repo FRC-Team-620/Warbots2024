@@ -24,7 +24,6 @@ public class RevSwerveDrive extends RobotDriveBase {
     private ISwerveModule m_frontLeft, m_frontRight, m_rearLeft, m_rearRight;
 
     private final Pigeon2 m_gyro;
-    public Rotation2d rotation = new Rotation2d();
 
     // Slew rate filter variables for controlling lateral acceleration
     private double m_currentRotation = 0.0;
@@ -69,8 +68,7 @@ public class RevSwerveDrive extends RobotDriveBase {
      * @return the current yaw of the robot
      */
     private Rotation2d getCurrentYaw() {
-        // return Rotation2d.fromDegrees(m_gyro.getYaw().getValue());
-        return this.rotation;
+        return Rotation2d.fromDegrees(m_gyro.getYaw().getValue());
     }
 
     /**
