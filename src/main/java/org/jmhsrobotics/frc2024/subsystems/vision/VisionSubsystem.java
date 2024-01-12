@@ -62,6 +62,7 @@ public class VisionSubsystem
                     new Pose3d(bestCameraToTarget.getTranslation(), bestCameraToTarget.getRotation()));
         }
 
+        //Puting the estimated pose to the network table
         NT4Util.putPose3d("Vision/EstimatedTarget",this.getEstimatedGlobalPose(this.drive.getPose()).get().estimatedPose);
     }
 
