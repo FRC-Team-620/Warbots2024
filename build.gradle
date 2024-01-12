@@ -122,7 +122,7 @@ gversion {
 
 
 spotless {
-    ratchetFrom 'origin/2024Migration'
+    ratchetFrom 'origin/main'
     enforceCheck false
     java {
         target fileTree('.') {
