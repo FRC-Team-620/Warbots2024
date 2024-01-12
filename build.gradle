@@ -1,6 +1,8 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2024.1.1"
+    id "com.peterabeles.gversion" version "1.10"
+    id 'com.diffplug.spotless' version '6.12.0'
 }
 
 java {
@@ -10,9 +12,9 @@ java {
 
 def ROBOT_MAIN_CLASS = "org.jmhsrobotics.frc2024.Main"
 repositories {
-			mavenCentral()
-			maven { url 'https://jitpack.io' }
-		}
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project DeployUtils.
 deploy {
@@ -103,4 +105,65 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
+}
+project.compileJava.dependsOn(spotlessApply);
+
+// Create version file
+project.compileJava.dependsOn(createVersionFile)
+
+gversion {
+    srcDir       = "src/main/java/"
+    classPackage = "org.jmhsrobotics.frc2024"
+    className    = "BuildConstants"
+    dateFormat   = "yyyy-MM-dd HH:mm:ss z"
+    timeZone     = "America/New_York"
+    indent       = "  "
+}
+
+
+spotless {
+    ratchetFrom 'origin/2024Migration'
+    enforceCheck false
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**', '**/BuildConstants.java'
+        }
+        toggleOffOn()
+        // googleJavaFormat()
+        eclipse()
+        removeUnusedImports()
+        // indentWithSpaces()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    groovyGradle {
+        target fileTree('.') {
+            include '**/*.gradle'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        greclipse()
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'xml', {
+        target fileTree('.') {
+            include '**/*.xml'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        eclipseWtp('xml')
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
+    format 'misc', {
+        target fileTree('.') {
+            include '**/*.md', '**/.gitignore'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
 }

@@ -171,3 +171,4 @@ out/
 # Simulation GUI and other tools window save file
 *-window.json
 ctre_sim/
+src/main/java/org/jmhsrobotics/frc2024/BuildConstants.java
