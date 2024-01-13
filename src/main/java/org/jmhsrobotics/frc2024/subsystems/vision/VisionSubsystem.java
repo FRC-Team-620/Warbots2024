@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.vision;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,29 +68,28 @@ public class VisionSubsystem extends SubsystemBase {
 		PhotonPipelineResult results = this.cam.getLatestResult();
 
 		List<PhotonTrackedTarget> targets = results.getTargets();
-		List<Pose3d> posList = new ArrayList<Pose3d>();
-		List<Double> flucialIDs = new ArrayList<Double>();
 
 		SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
-
-		for(PhotonTrackedTarget target : targets){
-			Transform3d pos = target.getAlternateCameraToTarget();
-
-			Pose3d pos3D = new Pose3d(pos.getTranslation(), pos.getRotation());
-			posList.add(pos3D);
-			flucialIDs.add(target.getFiducialId()+0.0);
-
+		int len = targets.size();
+		Pose3d[] posList = new Pose3d[len];
+		double[] flucialIDs = new double[len];
+		for (int i = 0; i < len; i++) {
+			Transform3d tmptrans = targets.get(i).getBestCameraToTarget();
+			Pose3d pos3D = new Pose3d(tmptrans.getTranslation(), tmptrans.getRotation());
+			posList[i] = pos3D;
+			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
-		SmartDashboard.putNumberArray("Vision/posList", (Double[])(flucialIDs.toArray()));
-		NT4Util.putPose3d("Vision/poseList", (Pose3d[])(posList.toArray()));
 
+		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		NT4Util.putPose3d("Vision/poseList", posList);
 
 		// if (target != null) {
-		// 	Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-		// 	SmartDashboard.putBoolean("Vision/hasTraget", results.hasTargets());
-		// 	SmartDashboard.putNumber("Vision/FiducialID", target.getFiducialId());
-		// 	NT4Util.putPose3d("Vision/target",
-		// 			new Pose3d(bestCameraToTarget.getTranslation(), bestCameraToTarget.getRotation()));
+		// Transform3d bestCameraToTarget = target.getBestCameraToTarget();
+		// SmartDashboard.putBoolean("Vision/hasTraget", results.hasTargets());
+		// SmartDashboard.putNumber("Vision/FiducialID", target.getFiducialId());
+		// NT4Util.putPose3d("Vision/target",
+		// new Pose3d(bestCameraToTarget.getTranslation(),
+		// bestCameraToTarget.getRotation()));
 		// }
 
 		// Puting the estimated pose to the network table
@@ -107,7 +105,6 @@ public class VisionSubsystem extends SubsystemBase {
 		this.estimator.setReferencePose(prevPose);
 		return this.estimator.update();
 	}
-
 
 	VisionSystemSim visionSim = new VisionSystemSim("main");
 	PhotonCameraSim cameraSim;
