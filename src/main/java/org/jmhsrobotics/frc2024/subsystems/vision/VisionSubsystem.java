@@ -73,10 +73,14 @@ public class VisionSubsystem extends SubsystemBase {
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
 		double[] flucialIDs = new double[len];
+
 		for (int i = 0; i < len; i++) {
+			Pose3d robotPose3d = new Pose3d(this.drive.getPose());
 			Transform3d tmptrans = targets.get(i).getBestCameraToTarget();
-			Pose3d pos3D = new Pose3d(tmptrans.getTranslation(), tmptrans.getRotation());
-			posList[i] = pos3D;
+			Pose3d outPutPose = robotPose3d.plus(tmptrans);
+
+			// Pose3d pos3D = new Pose3d(tmptrans.getTranslation(), tmptrans.getRotation());
+			posList[i] = outPutPose;
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
 
