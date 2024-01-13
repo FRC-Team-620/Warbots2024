@@ -23,6 +23,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +37,9 @@ public class VisionSubsystem extends SubsystemBase {
 	PhotonCamera cam;
 
 	// get the camera position on the robot
-	Transform3d camOnRobot = new Transform3d(new Translation3d(0.5, 0, 0.3), new Rotation3d());
+	Transform3d camOnRobot = new Transform3d(
+			new Translation3d(Units.inchesToMeters(9.5), Units.inchesToMeters(-3.5), Units.inchesToMeters(7)),
+			new Rotation3d());
 
 	// construct a photonPoseEstimator
 	PhotonPoseEstimator estimator;
@@ -73,13 +76,11 @@ public class VisionSubsystem extends SubsystemBase {
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
 		double[] flucialIDs = new double[len];
-
 		for (int i = 0; i < len; i++) {
 			Pose3d robotPose3d = new Pose3d(this.drive.getPose());
-			Transform3d tmptrans = targets.get(i).getBestCameraToTarget();
-			Pose3d outPutPose = robotPose3d.plus(tmptrans);
+			Transform3d targetTransFromCam = targets.get(i).getBestCameraToTarget();
+			Pose3d outPutPose = robotPose3d.plus(camOnRobot.plus(targetTransFromCam));
 
-			// Pose3d pos3D = new Pose3d(tmptrans.getTranslation(), tmptrans.getRotation());
 			posList[i] = outPutPose;
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
@@ -87,21 +88,12 @@ public class VisionSubsystem extends SubsystemBase {
 		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
 		NT4Util.putPose3d("Vision/poseList", posList);
 
-		// if (target != null) {
-		// Transform3d bestCameraToTarget = target.getBestCameraToTarget();
-		// SmartDashboard.putBoolean("Vision/hasTraget", results.hasTargets());
-		// SmartDashboard.putNumber("Vision/FiducialID", target.getFiducialId());
-		// NT4Util.putPose3d("Vision/target",
-		// new Pose3d(bestCameraToTarget.getTranslation(),
-		// bestCameraToTarget.getRotation()));
-		// }
+
 
 		// Puting the estimated pose to the network table
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());
 		if (estimatedPose.isPresent()) {
 			NT4Util.putPose3d("Vision/EstimatedTarget", estimatedPose.get().estimatedPose);
-		} else {
-			NT4Util.putPose3d("Vision/EstimatedTarget", new Pose3d());
 		}
 	}
 
@@ -117,14 +109,8 @@ public class VisionSubsystem extends SubsystemBase {
 		visionSim.addAprilTags(layout);
 		SimCameraProperties cameraProp = new SimCameraProperties();
 		cameraSim = new PhotonCameraSim(this.cam, cameraProp);
-		Translation3d robotToCameraTrl = new Translation3d(0, 0, 0);
-		// and pitched 15 degrees up.
-		Rotation3d robotToCameraRot = new Rotation3d(0, 0, 0);
-		Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
-
-		// Add this camera to the vision system simulation with the given
 		// robot-to-camera transform.
-		visionSim.addCamera(cameraSim, robotToCamera);
+		visionSim.addCamera(cameraSim, camOnRobot);
 		// A 640 x 480 camera with a 100 degree diagonal FOV.
 		// cameraProp.setCalibration(640, 480, Rotation2d.fromDegrees(100));
 		// // Approximate detection noise with average and standard deviation error in
