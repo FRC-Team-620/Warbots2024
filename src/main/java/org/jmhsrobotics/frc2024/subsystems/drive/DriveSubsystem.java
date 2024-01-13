@@ -127,7 +127,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     // if sideways became for/backward somehow, change it to 0 degree
-    m_gyro.setYaw(90);
+    m_gyro.setYaw(0);
   }
 
   /**
