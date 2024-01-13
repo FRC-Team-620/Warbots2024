@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -28,59 +29,57 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class RobotContainer {
 
-  private ControlBoard control = new CompControl();
-  // Subsystems
-  private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+	private ControlBoard control = new CompControl();
+	// Subsystems
+	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-  private final SendableChooser<Command> autoChooser;
+	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
 
-  public RobotContainer() {
-    
-   
+	private final SendableChooser<Command> autoChooser;
 
-    this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
-    SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
-    configureBindings();
-    
-    // Named commands must be added before building the chooser.
-    configurePathPlanner();
-    autoChooser = AutoBuilder.buildAutoChooser();
-    SmartDashboard.putData("Auto Chooser", autoChooser);
-  }
+	public RobotContainer() {
 
-  private void configurePathPlanner() {
-    // Add path planner auto chooser.
+		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
+		configureBindings();
 
-    AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
-        driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
-        new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
-            DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
-        this::getAllianceFlipState,
-        driveSubsystem);
-    NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
-    NamedCommands.registerCommand("Wait", new WaitCommand(30));
-  }
+		// Named commands must be added before building the chooser.
+		configurePathPlanner();
+		autoChooser = AutoBuilder.buildAutoChooser();
+		SmartDashboard.putData("Auto Chooser", autoChooser);
+	}
 
-  // TODO: fix this later to flip correctly based on side color
-  // TODO: Check parity of this
-  private boolean getAllianceFlipState() {
-    return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Blue
-        : false;
-  }
+	private void configurePathPlanner() {
+		// Add path planner auto chooser.
 
-  private void configureBindings() {
-  }
+		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
+				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
+				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
+						DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
+				this::getAllianceFlipState, driveSubsystem);
+		NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
+		NamedCommands.registerCommand("Wait", new WaitCommand(30));
+	}
 
-  public Command getAutonomousCommand() {
-    Command picked = autoChooser.getSelected();
-    if (picked == null) {
-      return Commands.print("No autonomous command configured");
-    } else {
-      return picked;
-    }
-  }
+	// TODO: fix this later to flip correctly based on side color
+	// TODO: Check parity of this
+	private boolean getAllianceFlipState() {
+		return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Blue : false;
+	}
 
-  public DriveSubsystem getDriveSubsystem() {
-    return this.driveSubsystem;
-  }
+	private void configureBindings() {
+	}
+
+	public Command getAutonomousCommand() {
+		Command picked = autoChooser.getSelected();
+		if (picked == null) {
+			return Commands.print("No autonomous command configured");
+		} else {
+			return picked;
+		}
+	}
+
+	public DriveSubsystem getDriveSubsystem() {
+		return this.driveSubsystem;
+	}
 }
