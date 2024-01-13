@@ -9,6 +9,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.SwerveConstants;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -39,9 +40,9 @@ public class DriveCommand extends Command {
   @Override
   public void execute() {
     //
-    double xSpeed = MathUtil.applyDeadband(this.getSquareInput(this.control.xInput()) * SwerveConstants.kMaxXSpeed,
+    double xSpeed = MathUtil.applyDeadband(this.getSquareInput(-this.control.yInput()) * SwerveConstants.kMaxXSpeed,
         SwerveConstants.kDeadBand);
-    double ySpeed = MathUtil.applyDeadband(this.getSquareInput(-this.control.yInput()) * SwerveConstants.kMaxYSpeed,
+    double ySpeed = MathUtil.applyDeadband(this.getSquareInput(-this.control.xInput()) * SwerveConstants.kMaxYSpeed,
         SwerveConstants.kDeadBand);
     double rotationSpeed = MathUtil.applyDeadband(
         this.getSquareInput(-this.control.rotationalInput()) * SwerveConstants.kMaxRotationSpeed,
