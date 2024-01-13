@@ -9,6 +9,9 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.simulation.PhotonCameraSim;
+import org.photonvision.simulation.SimCameraProperties;
+import org.photonvision.simulation.VisionSystemSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -54,6 +57,9 @@ public class VisionSubsystem extends SubsystemBase {
 			DriverStation.reportError("Fail to load the april tag map", e.getStackTrace());
 		}
 		estimator.setFieldTags(layout);
+
+		// Simulation
+		simulationInit();
 	}
 
 	@Override
@@ -81,5 +87,47 @@ public class VisionSubsystem extends SubsystemBase {
 	public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevPose) {
 		this.estimator.setReferencePose(prevPose);
 		return this.estimator.update();
+	}
+
+	VisionSystemSim visionSim = new VisionSystemSim("main");
+	PhotonCameraSim cameraSim;
+
+	private void simulationInit() {
+		visionSim.addAprilTags(layout);
+		SimCameraProperties cameraProp = new SimCameraProperties();
+		cameraSim = new PhotonCameraSim(this.cam, cameraProp);
+		Translation3d robotToCameraTrl = new Translation3d(0, 0, 0);
+		// and pitched 15 degrees up.
+		Rotation3d robotToCameraRot = new Rotation3d(0, 0, 0);
+		Transform3d robotToCamera = new Transform3d(robotToCameraTrl, robotToCameraRot);
+
+		// Add this camera to the vision system simulation with the given
+		// robot-to-camera transform.
+		visionSim.addCamera(cameraSim, robotToCamera);
+		// A 640 x 480 camera with a 100 degree diagonal FOV.
+		// cameraProp.setCalibration(640, 480, Rotation2d.fromDegrees(100));
+		// // Approximate detection noise with average and standard deviation error in
+		// // pixels.
+		// cameraProp.setCalibError(0.25, 0.08);
+		// // Set the camera image capture framerate (Note: this is limited by robot
+		// loop
+		// // rate).
+		// cameraProp.setFPS(20);
+		// // The average and standard deviation in milliseconds of image data latency.
+		// cameraProp.setAvgLatencyMs(35);
+		// cameraProp.setLatencyStdDevMs(5);
+		SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
+		cameraSim.enableRawStream(true);
+		cameraSim.enableProcessedStream(true);
+
+		// Enable drawing a wireframe visualization of the field to the camera streams.
+		// This is extremely resource-intensive and is disabled by default.
+		cameraSim.enableDrawWireframe(true);
+	}
+
+	@Override
+	public void simulationPeriodic() {
+		visionSim.update(drive.getPose());
+
 	}
 }
