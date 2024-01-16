@@ -26,6 +26,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -88,8 +89,6 @@ public class VisionSubsystem extends SubsystemBase {
 		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
 		NT4Util.putPose3d("Vision/poseList", posList);
 
-
-
 		// Puting the estimated pose to the network table
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());
 		if (estimatedPose.isPresent()) {
@@ -134,7 +133,7 @@ public class VisionSubsystem extends SubsystemBase {
 
 	@Override
 	public void simulationPeriodic() {
-		visionSim.update(drive.getPose());
+		visionSim.update(drive.simpos); //Slight hack but fixes latency issue
 
 	}
 }

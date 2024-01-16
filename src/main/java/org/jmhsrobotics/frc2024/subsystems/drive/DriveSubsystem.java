@@ -148,7 +148,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   private final Pigeon2SimState imuSim = m_gyro.getSimState();
-
+  public Pose2d simpos = new Pose2d();
   @Override
   public void simulationPeriodic() {
     var prevPos = new SwerveDriveWheelPositions(new SwerveModulePosition[] {
@@ -168,6 +168,7 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
     }).copy();
     var twist = SwerveConstants.kDriveKinematics.toTwist2d(prevPos, currpos);
+    simpos = getPose().exp(twist);
     imuSim.addYaw(Math.toDegrees(twist.dtheta));
   }
 
