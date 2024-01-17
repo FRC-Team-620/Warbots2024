@@ -26,7 +26,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -133,7 +132,7 @@ public class VisionSubsystem extends SubsystemBase {
 
 	@Override
 	public void simulationPeriodic() {
-		visionSim.update(drive.simpos); //Slight hack but fixes latency issue
+		visionSim.update(drive.simpos); // Slight hack but fixes latency issue
 
 	}
 }
