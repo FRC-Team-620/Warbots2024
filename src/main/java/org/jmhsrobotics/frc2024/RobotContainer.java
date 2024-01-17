@@ -6,6 +6,7 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -34,6 +35,8 @@ public class RobotContainer {
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
 	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
+
+	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
