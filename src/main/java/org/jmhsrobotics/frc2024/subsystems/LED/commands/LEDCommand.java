@@ -4,34 +4,34 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class LEDCommand extends Command{
-    
-    private LEDSubsystem ledSubsystem;
+public class LEDCommand extends Command {
 
-    public LEDCommand(LEDSubsystem ledSubsystem){
-        this.ledSubsystem = ledSubsystem;
-    }
+	private LEDSubsystem ledSubsystem;
 
-    @Override
-    public void initialize() {
-        this.ledSubsystem.startLED();
-    }
+	public LEDCommand(LEDSubsystem ledSubsystem) {
+		this.ledSubsystem = ledSubsystem;
+	}
 
-    @Override
-    public void execute() {
-        this.ledSubsystem.setRGB(255, 0, 0);
+	@Override
+	public void initialize() {
+		this.ledSubsystem.startLED();
+	}
 
-        // create a rainbow effect
-        // this.ledSubsystem.rainBow();
-    }
+	@Override
+	public void execute() {
+		this.ledSubsystem.setRGB(255, 0, 0);
 
-    @Override
-    public boolean isFinished() {
-        return false;
-    }
+		// create a rainbow effect
+		// this.ledSubsystem.rainBow();
+	}
 
-    @Override
-    public void end(boolean interrupted) {
-        this.ledSubsystem.endLED();
-    }
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
+
+	@Override
+	public void end(boolean interrupted) {
+		this.ledSubsystem.endLED();
+	}
 }
