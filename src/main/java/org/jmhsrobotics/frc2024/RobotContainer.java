@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.LEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -43,6 +44,7 @@ public class RobotContainer {
 	public RobotContainer() {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+		this.ledSubsystem.setDefaultCommand(new LEDCommand(this.ledSubsystem));
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
 		configureBindings();
 

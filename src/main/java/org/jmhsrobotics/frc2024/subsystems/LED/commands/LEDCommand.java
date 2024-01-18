@@ -10,19 +10,22 @@ public class LEDCommand extends Command {
 
 	public LEDCommand(LEDSubsystem ledSubsystem) {
 		this.ledSubsystem = ledSubsystem;
+
+		addRequirements(this.ledSubsystem);
 	}
 
 	@Override
 	public void initialize() {
 		this.ledSubsystem.startLED();
+		
 	}
 
 	@Override
 	public void execute() {
-		this.ledSubsystem.setRGB(255, 0, 0);
 
 		// create a rainbow effect
 		// this.ledSubsystem.rainBow();
+        this.ledSubsystem.setRGB(255, 0, 0);
 	}
 
 	@Override

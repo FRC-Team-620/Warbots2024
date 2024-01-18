@@ -10,6 +10,7 @@ public class LEDSubsystem extends SubsystemBase {
 	private AddressableLED LED;
 	private AddressableLEDBuffer ledBuffer;
 
+	private int rainBowPixelHue = 0;
 	public LEDSubsystem() {
 		if (RobotBase.isSimulation()) {
 			initSim();
@@ -38,14 +39,16 @@ public class LEDSubsystem extends SubsystemBase {
 		for (int i = 0; i < this.ledBuffer.getLength(); i++) {
 			this.ledBuffer.setRGB(i, r, g, b);
 		}
+		this.LED.setData(this.ledBuffer);
+
 	}
 
 	public void rainBow() {
-		int rainBowPixelHue = 0;
 		for (var i = 0; i < this.ledBuffer.getLength(); i++) {
 			final var hue = (rainBowPixelHue + (i * 180 / this.ledBuffer.getLength())) % 180;
 			this.ledBuffer.setHSV(i, hue, 225, 128);
 		}
+		this.LED.setData(this.ledBuffer);
 		rainBowPixelHue += 3;
 
 		rainBowPixelHue %= 180;
