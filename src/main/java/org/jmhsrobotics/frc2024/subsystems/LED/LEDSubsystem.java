@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.simulation.AddressableLEDSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDSubsystem extends SubsystemBase {
-	private AddressableLED LED;
+	private AddressableLED led;
 	private AddressableLEDBuffer ledBuffer;
 
 	private int rainBowPixelHue = 0;
@@ -17,29 +17,29 @@ public class LEDSubsystem extends SubsystemBase {
 		}
 
 		// TODO: find the real port
-		this.LED = new AddressableLED(9);
+		this.led = new AddressableLED(9);
 
 		// TODO: get the real length
 		this.ledBuffer = new AddressableLEDBuffer(60);
 
-		this.LED.setLength(this.ledBuffer.getLength());
-		this.LED.setData(this.ledBuffer);
+		this.led.setLength(this.ledBuffer.getLength());
+		this.led.setData(this.ledBuffer);
 
 	}
 
 	public void startLED() {
-		this.LED.start();
+		this.led.start();
 	}
 
 	public void endLED() {
-		this.LED.stop();;
+		this.led.stop();;
 	}
 
 	public void setRGB(int r, int g, int b) {
 		for (int i = 0; i < this.ledBuffer.getLength(); i++) {
 			this.ledBuffer.setRGB(i, r, g, b);
 		}
-		this.LED.setData(this.ledBuffer);
+		this.led.setData(this.ledBuffer);
 
 	}
 
@@ -48,7 +48,7 @@ public class LEDSubsystem extends SubsystemBase {
 			final var hue = (rainBowPixelHue + (i * 180 / this.ledBuffer.getLength())) % 180;
 			this.ledBuffer.setHSV(i, hue, 225, 128);
 		}
-		this.LED.setData(this.ledBuffer);
+		this.led.setData(this.ledBuffer);
 		rainBowPixelHue += 3;
 
 		rainBowPixelHue %= 180;
@@ -56,7 +56,7 @@ public class LEDSubsystem extends SubsystemBase {
 
 	private AddressableLEDSim simLEDs;
 	private void initSim() {
-		simLEDs = new AddressableLEDSim(LED);
+		simLEDs = new AddressableLEDSim(led);
 		simLEDs.setLength(60);
 
 	}
