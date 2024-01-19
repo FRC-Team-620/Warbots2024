@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
@@ -96,10 +95,10 @@ public class Constants {
 		public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
 				/ kDrivingMotorReduction;
 
-				//used
+		// used
 		public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
 				/ kDrivingMotorReduction; // meters
-				//used
+		// used
 		public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
 				/ kDrivingMotorReduction) / 60.0; // meters per second
 
@@ -132,7 +131,7 @@ public class Constants {
 
 	// TODO: Clean up auto constants later
 	public static final class AutoConstants {
-		
+
 	}
 
 	public static final class NeoMotorConstants {
