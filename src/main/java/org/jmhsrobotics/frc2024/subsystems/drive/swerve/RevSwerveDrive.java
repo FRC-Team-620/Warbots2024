@@ -1,7 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.drive.swerve;
 
-import org.jmhsrobotics.Constants;
-import org.jmhsrobotics.Constants.SwerveConstants;
+import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Constants.SwerveConstants;
 import org.jmhsrobotics.frc2024.utils.SwerveUtils;
 import org.jmhsrobotics.warcore.swerve.SwerveVisualizer;
 

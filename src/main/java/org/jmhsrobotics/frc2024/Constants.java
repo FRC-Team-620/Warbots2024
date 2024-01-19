@@ -1,4 +1,4 @@
-package org.jmhsrobotics;
+package org.jmhsrobotics.frc2024;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
@@ -96,8 +96,10 @@ public class Constants {
 		public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
 				/ kDrivingMotorReduction;
 
+				//used
 		public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
 				/ kDrivingMotorReduction; // meters
+				//used
 		public static final double kDrivingEncoderVelocityFactor = ((kWheelDiameterMeters * Math.PI)
 				/ kDrivingMotorReduction) / 60.0; // meters per second
 
@@ -130,26 +132,7 @@ public class Constants {
 
 	// TODO: Clean up auto constants later
 	public static final class AutoConstants {
-		public static final double kMaxSpeedMetersPerSecond = 3;
-		public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-		public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-		public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-
-		public static final double kPathTranslationP = 0.5;
-		public static final double kPathTranslationI = 0;
-		public static final double kPathTranslationD = 0;
-
-		public static final double kPathRotationP = 1.5;
-		public static final double kPathRotationI = 0;
-		public static final double kPathRotationD = 0;
-
-		public static final double kPXController = 1;
-		public static final double kPYController = 1;
-		public static final double kPThetaController = 1;
-
-		// Constraint for the motion profiled robot angle controller
-		public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
-				kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
+		
 	}
 
 	public static final class NeoMotorConstants {

@@ -4,9 +4,9 @@
 
 package org.jmhsrobotics.frc2024.subsystems.drive;
 
-import org.jmhsrobotics.Constants;
-import org.jmhsrobotics.Constants.SwerveConstants;
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.Robot;
+import org.jmhsrobotics.frc2024.Constants.SwerveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.ISwerveModule;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.MAXSwerveModule;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.RevSwerveDrive;

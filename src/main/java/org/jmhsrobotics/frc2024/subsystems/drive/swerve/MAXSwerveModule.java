@@ -13,7 +13,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
-import org.jmhsrobotics.Constants;
+import org.jmhsrobotics.frc2024.Constants;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;

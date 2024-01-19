@@ -4,7 +4,6 @@
 
 package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.Constants;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
