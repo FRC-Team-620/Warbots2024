@@ -15,7 +15,9 @@
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/IntakeCommand": "Command",
       "/SmartDashboard/PIDController[2]": "PIDController",
-      "/SmartDashboard/Schedular": "Scheduler"
+      "/SmartDashboard/Schedular": "Scheduler",
+      "/SmartDashboard/VisionDebug": "Field2d",
+      "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"
     },
     "windows": {
       "/SmartDashboard/Auto Chooser": {

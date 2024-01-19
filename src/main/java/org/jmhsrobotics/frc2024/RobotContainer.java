@@ -6,6 +6,8 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -32,6 +34,7 @@ public class RobotContainer {
 	private ControlBoard control = new CompControl();
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+	private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
 	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
 
@@ -42,6 +45,8 @@ public class RobotContainer {
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
 		configureBindings();
+
+		armSubsystem.setDefaultCommand(new ArmCommand(0, armSubsystem));
 
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
