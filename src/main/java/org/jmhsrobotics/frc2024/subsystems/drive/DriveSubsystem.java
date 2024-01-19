@@ -4,8 +4,9 @@
 
 package org.jmhsrobotics.frc2024.subsystems.drive;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.Robot;
-import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.SwerveConstants;
+import org.jmhsrobotics.frc2024.Constants.SwerveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.ISwerveModule;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.MAXSwerveModule;
 import org.jmhsrobotics.frc2024.subsystems.drive.swerve.RevSwerveDrive;
@@ -34,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase {
 	private ISwerveModule m_rearRight;
 
 	// Create gyro
-	private final Pigeon2 m_gyro = new Pigeon2(SwerveConstants.kGyroCanId);
+	private final Pigeon2 m_gyro = new Pigeon2(Constants.SwerveConstants.kGyroCanId);
 
 	// Create RevSwerveDrive
 	private final RevSwerveDrive swerveDrive;
@@ -48,17 +49,21 @@ public class DriveSubsystem extends SubsystemBase {
 			m_rearLeft = new SimSwerveModule();
 			m_rearRight = new SimSwerveModule();
 		} else {
-			m_frontLeft = new MAXSwerveModule(SwerveConstants.kFrontLeftDrivingCanId,
-					SwerveConstants.kFrontLeftTurningCanId, SwerveConstants.kFrontLeftChassisAngularOffset);
+			m_frontLeft = new MAXSwerveModule(Constants.SwerveConstants.kFrontLeftDrivingCanId,
+					Constants.SwerveConstants.kFrontLeftTurningCanId,
+					Constants.SwerveConstants.kFrontLeftChassisAngularOffset);
 
-			m_frontRight = new MAXSwerveModule(SwerveConstants.kFrontRightDrivingCanId,
-					SwerveConstants.kFrontRightTurningCanId, SwerveConstants.kFrontRightChassisAngularOffset);
+			m_frontRight = new MAXSwerveModule(Constants.SwerveConstants.kFrontRightDrivingCanId,
+					Constants.SwerveConstants.kFrontRightTurningCanId,
+					Constants.SwerveConstants.kFrontRightChassisAngularOffset);
 
-			m_rearLeft = new MAXSwerveModule(SwerveConstants.kRearLeftDrivingCanId,
-					SwerveConstants.kRearLeftTurningCanId, SwerveConstants.kBackLeftChassisAngularOffset);
+			m_rearLeft = new MAXSwerveModule(Constants.SwerveConstants.kRearLeftDrivingCanId,
+					Constants.SwerveConstants.kRearLeftTurningCanId,
+					Constants.SwerveConstants.kBackLeftChassisAngularOffset);
 
-			m_rearRight = new MAXSwerveModule(SwerveConstants.kRearRightDrivingCanId,
-					SwerveConstants.kRearRightTurningCanId, SwerveConstants.kBackRightChassisAngularOffset);
+			m_rearRight = new MAXSwerveModule(Constants.SwerveConstants.kRearRightDrivingCanId,
+					Constants.SwerveConstants.kRearRightTurningCanId,
+					Constants.SwerveConstants.kBackRightChassisAngularOffset);
 		}
 
 		swerveDrive = new RevSwerveDrive(m_frontLeft, m_frontRight, m_rearLeft, m_rearRight, m_gyro);
@@ -71,9 +76,9 @@ public class DriveSubsystem extends SubsystemBase {
 	}
 
 	public void drive(ChassisSpeeds chassisSpeeds) {
-		double xSpeed = chassisSpeeds.vxMetersPerSecond / SwerveConstants.kMaxSpeedMetersPerSecond;
-		double ySpeed = chassisSpeeds.vyMetersPerSecond / SwerveConstants.kMaxSpeedMetersPerSecond;
-		double rotation = chassisSpeeds.omegaRadiansPerSecond / SwerveConstants.kMaxAngularSpeed;
+		double xSpeed = chassisSpeeds.vxMetersPerSecond / Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
+		double ySpeed = chassisSpeeds.vyMetersPerSecond / Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
+		double rotation = chassisSpeeds.omegaRadiansPerSecond / Constants.SwerveConstants.kMaxAngularSpeed;
 		this.drive(xSpeed, ySpeed, rotation, false, false);
 	}
 
