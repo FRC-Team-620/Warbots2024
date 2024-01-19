@@ -40,7 +40,7 @@ public class Robot extends TimedRobot {
 	public void setupLogs() {
 		if (Robot.isSimulation()) {
 			// Filesystem.getOperatingDirectory().getAbsolutePath().
-			DataLogManager.start(Filesystem.getOperatingDirectory().getAbsolutePath() + "\\logs");
+			DataLogManager.start(Filesystem.getOperatingDirectory().getAbsolutePath() + "/logs");
 		} else {
 			DataLogManager.start();
 		}
