@@ -4,9 +4,9 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.Constants;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
-import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
@@ -55,7 +55,7 @@ public class RobotContainer {
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
-						DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
+						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
 		NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
