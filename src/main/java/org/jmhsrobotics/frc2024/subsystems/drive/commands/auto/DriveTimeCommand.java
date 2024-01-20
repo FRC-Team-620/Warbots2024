@@ -44,4 +44,13 @@ public class DriveTimeCommand extends Command {
 
 	}
 
+	public void end()
+    {
+        if (!isFinsihed())
+        {
+            drivePower = 0;
+        }
+
+    }
+
 }
