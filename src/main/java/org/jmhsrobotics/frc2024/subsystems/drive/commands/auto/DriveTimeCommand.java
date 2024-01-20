@@ -46,10 +46,7 @@ public class DriveTimeCommand extends Command {
 
 	public void end()
     {
-        if (!isFinsihed())
-        {
-            drivePower = 0;
-        }
+        this.drive.drive(0, 0, 0, true, false);
 
     }
 
