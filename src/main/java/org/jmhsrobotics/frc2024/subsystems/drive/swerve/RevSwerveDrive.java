@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.drive.swerve;
 
-import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants.SwerveConstants;
+import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Constants.SwerveConstants;
 import org.jmhsrobotics.frc2024.utils.SwerveUtils;
 import org.jmhsrobotics.warcore.swerve.SwerveVisualizer;
 
@@ -31,8 +32,8 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 	private SwerveVisualizer m_visualizer;
 
-	private SlewRateLimiter m_magLimiter = new SlewRateLimiter(SwerveConstants.kMagnitudeSlewRate);
-	private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(SwerveConstants.kRotationalSlewRate);
+	private SlewRateLimiter m_magLimiter = new SlewRateLimiter(Constants.SwerveConstants.kMagnitudeSlewRate);
+	private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.SwerveConstants.kRotationalSlewRate);
 	private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
 	// Odometry class for tracking robot pose
@@ -48,11 +49,12 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 		this.m_gyro = gyro;
 
-		this.m_odometry = new SwerveDriveOdometry(SwerveConstants.kDriveKinematics, getCurrentYaw(),
+		this.m_odometry = new SwerveDriveOdometry(Constants.SwerveConstants.kDriveKinematics, getCurrentYaw(),
 				new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
 						m_rearLeft.getPosition(), m_rearRight.getPosition()});
 
-		m_visualizer = new SwerveVisualizer(SwerveConstants.kTrackWidth, SwerveConstants.kWheelBase);
+		m_visualizer = new SwerveVisualizer(Constants.SwerveConstants.kTrackWidth,
+				Constants.SwerveConstants.kWheelBase);
 	}
 
 	/**
@@ -116,9 +118,9 @@ public class RevSwerveDrive extends RobotDriveBase {
 		}
 
 		// Convert the commanded speeds into the correct units for the drivetrain
-		double xSpeedDelivered = xSpeedCommanded * SwerveConstants.kMaxSpeedMetersPerSecond;
-		double ySpeedDelivered = ySpeedCommanded * SwerveConstants.kMaxSpeedMetersPerSecond;
-		double rotDelivered = m_currentRotation * SwerveConstants.kMaxAngularSpeed;
+		double xSpeedDelivered = xSpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
+		double ySpeedDelivered = ySpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
+		double rotDelivered = m_currentRotation * Constants.SwerveConstants.kMaxAngularSpeed;
 
 		// TODO: Rndo Andrei's crime
 		// If wheel speeds are 0, set X wheel configuration
@@ -134,11 +136,12 @@ public class RevSwerveDrive extends RobotDriveBase {
 		} else {
 			updatedChassisSpeeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
 		}
-		SwerveModuleState[] swerveModuleStates = SwerveConstants.kDriveKinematics
+		SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.kDriveKinematics
 				.toSwerveModuleStates(updatedChassisSpeeds);
 
 		// Limit the wheel speeds to the maximum speed
-		SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveConstants.kMaxSpeedMetersPerSecond);
+		SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
+				Constants.SwerveConstants.kMaxSpeedMetersPerSecond);
 
 		// Set the desired module states
 		mapDesiredModuleStates(swerveModuleStates, rotDelivered);
