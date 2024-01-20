@@ -74,7 +74,7 @@ public class RobotContainer {
 	public Command getAutonomousCommand() {
 		Command picked = autoChooser.getSelected();
 		if (picked == null) {
-			return new DriveTimeCommand(10.0, 0.3, driveSubsystem);
+			return new DriveTimeCommand(1.535, 0.3, driveSubsystem);
 		} else {
 			return picked;
 		}
