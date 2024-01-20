@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DriveTimeCommand extends Command {
-    
+
 	private DriveSubsystem drive;
 
 	private double driveSeconds;
@@ -44,10 +44,9 @@ public class DriveTimeCommand extends Command {
 
 	}
 
-	public void end()
-    {
-        this.drive.drive(0, 0, 0, true, false);
+	public void end() {
+		this.drive.drive(0, 0, 0, true, false);
 
-    }
+	}
 
 }
