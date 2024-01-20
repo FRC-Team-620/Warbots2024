@@ -1,46 +1,47 @@
-package frc.robot.commands.drivetrain;
+package org.jmhsrobotics.frc2024.subsystems.drive.commands.auto;
+
+import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
 
-public class DriveTime 
-{
-    private final DriveSubsystem drive;
+public class DriveTimeCommand extends Command {
+    
+	private DriveSubsystem drive;
 
-    private double driveSeconds;
-    private double drivePower;
+	private double driveSeconds;
+	private double drivePower;
 
-    private Timer timer = new Timer();
+	private Timer timer = new Timer();
 
-    public DriveTime(double seconds, double power, DriveSubsystem subsystem) {
+	public DriveTimeCommand(double seconds, double power, DriveSubsystem subsystem) {
 
-        driveSeconds = seconds;
-        drivePower = power;
+		driveSeconds = seconds;
+		drivePower = power;
 
-        drive = subsystem;
+		drive = subsystem;
 
-    }
+	}
 
-    public void initialize() {
+	public void initialize() {
 
-        timer.start();
-        timer.reset();
+		timer.start();
+		timer.reset();
 
-    }
+	}
 
-    @Override
-    public void execute() {
+	@Override
+	public void execute() {
 
-        drive.drive(drivePower, 0, 0, false);
+		this.drive.drive(drivePower, 0, 0, false);
 
-    }
+	}
 
-    @Override
-    public boolean isFinished() {
+	@Override
+	public boolean isFinished() {
 
-        return timer.get() >= driveSeconds;
+		return timer.get() >= driveSeconds;
 
-    }
+	}
 
 }
