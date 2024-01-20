@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;

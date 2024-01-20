@@ -33,7 +33,7 @@ public class DriveTimeCommand extends Command {
 	@Override
 	public void execute() {
 
-		this.drive.drive(drivePower, 0, 0, false);
+		this.drive.drive(drivePower, 0, 0, true, false);
 
 	}
 
