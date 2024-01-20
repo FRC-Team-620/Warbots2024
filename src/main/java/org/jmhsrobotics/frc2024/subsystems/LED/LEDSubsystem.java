@@ -1,5 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.LED;
 
+import org.jmhsrobotics.frc2024.Constants;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -17,10 +19,10 @@ public class LEDSubsystem extends SubsystemBase {
 		}
 
 		// TODO: find the real port
-		this.led = new AddressableLED(9);
+		this.led = new AddressableLED(Constants.LEDConstants.LEDPortID);
 
 		// TODO: get the real length
-		this.ledBuffer = new AddressableLEDBuffer(60);
+		this.ledBuffer = new AddressableLEDBuffer(Constants.LEDConstants.LEDLength);
 
 		this.led.setLength(this.ledBuffer.getLength());
 		this.led.setData(this.ledBuffer);
@@ -49,7 +51,7 @@ public class LEDSubsystem extends SubsystemBase {
 			this.ledBuffer.setHSV(i, hue, 225, 128);
 		}
 		this.led.setData(this.ledBuffer);
-		rainBowPixelHue += 3;
+		rainBowPixelHue += Constants.LEDConstants.rainbowSpeed;
 
 		rainBowPixelHue %= 180;
 	}
@@ -57,7 +59,7 @@ public class LEDSubsystem extends SubsystemBase {
 	private AddressableLEDSim simLEDs;
 	private void initSim() {
 		simLEDs = new AddressableLEDSim(led);
-		simLEDs.setLength(60);
+		simLEDs.setLength(Constants.LEDConstants.LEDLength);
 
 	}
 

@@ -138,4 +138,9 @@ public class Constants {
 		public static final double kFreeSpeedRpm = 5676;
 	}
 
+	public static final class LEDConstants{
+		public static final int LEDPortID = 9;
+		public static final int LEDLength = 60;
+		public static final int rainbowSpeed = 3;
+	}
 }
