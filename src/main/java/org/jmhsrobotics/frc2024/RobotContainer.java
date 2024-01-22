@@ -27,8 +27,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import monologue.Logged;
 
-public class RobotContainer {
+public class RobotContainer implements Logged {
 
 	private ControlBoard control = new CompControl();
 	// Subsystems
