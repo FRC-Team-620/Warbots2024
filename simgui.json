@@ -17,6 +17,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Auto Chooser": "String Chooser",
+      "/SmartDashboard/BaseLineAuto": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/IntakeCommand": "Command",
       "/SmartDashboard/PIDController[2]": "PIDController",
@@ -26,6 +27,11 @@
     },
     "windows": {
       "/SmartDashboard/Auto Chooser": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/BaseLineAuto": {
         "window": {
           "visible": true
         }
@@ -41,6 +47,11 @@
         }
       },
       "/SmartDashboard/Schedular": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/VisionSystemSim-main/Sim Field": {
         "window": {
           "visible": true
         }
