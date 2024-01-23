@@ -6,6 +6,8 @@ public interface ControlBoard {
 
     // =============Operator Controls=============
 
+    public Trigger presetHigh();
+
     // =============Driver Controls=============
     public Trigger brake();
 

@@ -1,7 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
@@ -9,19 +9,21 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 public class ArmSubsystem extends SubsystemBase {
 
 	private MechanismLigament2d m_arm;
 	private CANSparkMax armPivot = new CANSparkMax(9, MotorType.kBrushless);
-	private RelativeEncoder PitchEncoder = armPivot.getEncoder();
+	private AbsoluteEncoder pitchEncoder;
 	// private AbsoluteEncoder PitchEncoder=armPivot.getAbsoluteEncoder(kDutyCycle);
 	// private AbsoluteEncoder PitchEncoder=armPivot.getEncoder();
 
 	public ArmSubsystem() {
-
+		pitchEncoder = armPivot.getAbsoluteEncoder(Type.kDutyCycle);
 		armPivot.setSmartCurrentLimit(40);
 		armPivot.setIdleMode(com.revrobotics.CANSparkBase.IdleMode.kBrake);
+		init2d();
 
 	}
 
@@ -30,14 +32,15 @@ public class ArmSubsystem extends SubsystemBase {
 	}
 
 	public double getArmPitch() {
-		return PitchEncoder.getPosition();
+		return pitchEncoder.getPosition();
 	}
 
 	public void init2d() {
+		// TODO: finish sim
 		Mechanism2d mech = new Mechanism2d(3, 3);
 		MechanismRoot2d root = mech.getRoot("base", 1.5, 0);
-		var m_arm = root.append(new MechanismLigament2d("arm", 2, 0));
-		SmartDashboard.putData("Mech2d", mech);
+		m_arm = root.append(new MechanismLigament2d("arm", 2, 0));
+		SmartDashboard.putData("ArmSubsystem/armSIM", mech);
 	}
 
 	@Override

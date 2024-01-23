@@ -11,11 +11,17 @@
           "open": true
         }
       }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
     }
   },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/ArmSubsystem/armSIM": "Mechanism2d",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/IntakeCommand": "Command",
@@ -25,17 +31,17 @@
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"
     },
     "windows": {
+      "/SmartDashboard/ArmSubsystem/armSIM": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Auto Chooser": {
         "window": {
           "visible": true
         }
       },
       "/SmartDashboard/Field": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/IntakeCommand": {
         "window": {
           "visible": true
         }
@@ -48,6 +54,13 @@
     }
   },
   "NetworkTables": {
+    "retained": {
+      "SmartDashboard": {
+        "Auto Chooser": {
+          "open": true
+        }
+      }
+    },
     "transitory": {
       "SmartDashboard": {
         "Intakecommand": {
@@ -71,5 +84,23 @@
       "open": true
     },
     "visible": true
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": 332
+        }
+      ],
+      "window": {
+        "visible": false
+      }
+    }
   }
 }

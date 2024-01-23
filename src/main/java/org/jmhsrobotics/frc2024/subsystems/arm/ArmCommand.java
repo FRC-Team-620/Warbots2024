@@ -7,12 +7,14 @@ public class ArmCommand extends Command {
 
 	private ArmSubsystem armSubsystem;
 	private double angle;
-	ProfiledPIDController ArmPID;
+	ProfiledPIDController armPID;
 
 	public ArmCommand(double angle, ArmSubsystem armSubsystem) {
 		this.armSubsystem = armSubsystem;
 		this.angle = angle;
-		this.ArmPID = new ProfiledPIDController(.1, 0, 0, null);
+		// TODO: tune Values;
+		this.armPID = new ProfiledPIDController(.1, 0, 0, null);
+
 		addRequirements(armSubsystem);
 
 	}
@@ -20,22 +22,22 @@ public class ArmCommand extends Command {
 	public void initialize() {
 		// TODO Auto-generated method stub
 		super.initialize();
-		ArmPID.reset(new State(angle, 0));
-		ArmPID.setGoal(angle);
-		ArmPID.setTolerance(3, 3);
+		armPID.reset(new State(angle, 0));
+		armPID.setGoal(angle);
+		armPID.setTolerance(3, 3);
 	}
 
 	@Override
 	public void execute() {
 
-		double current = ArmPID.calculate(armSubsystem.getArmPitch());
+		double current = armPID.calculate(armSubsystem.getArmPitch());
 
 		armSubsystem.setArmPivot(current);
 
 	}
 
 	public boolean isFinished() {
-		return ArmPID.atGoal();
+		return armPID.atGoal();
 	}
 
 	public void end() {

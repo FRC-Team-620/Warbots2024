@@ -41,4 +41,9 @@ public class CompControl implements ControlBoard {
         return this.driver.rightBumper();
     }
 
+    public Trigger presetHigh() {
+        // TODO Auto-generated method stub
+        return this.operator.y();
+    }
+
 }
