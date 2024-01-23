@@ -45,7 +45,7 @@ public class RobotContainer {
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
-		SmartDashboard.putData("BaseLineAuto", new DriveTimeCommand(19, 0.2, this.driveSubsystem));
+		SmartDashboard.putData("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
