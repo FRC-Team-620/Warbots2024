@@ -22,8 +22,10 @@ import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
+import monologue.Annotations.Log;
 
-public class DriveSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase implements Logged {
 	// Create MAXSwerveModules
 	// Test
 	private ISwerveModule m_frontLeft;
@@ -39,6 +41,8 @@ public class DriveSubsystem extends SubsystemBase {
 
 	// Create RevSwerveDrive
 	private final RevSwerveDrive swerveDrive;
+	@Log.File
+	private Pose2d pose2d = new Pose2d();
 
 	/** Creates a new DriveSubsystem. */
 	public DriveSubsystem() {
@@ -73,6 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
 	public void periodic() {
 		// Update the odometry in the periodic block
 		swerveDrive.updateOdometry();
+		pose2d = swerveDrive.getPose();
 	}
 
 	public void drive(ChassisSpeeds chassisSpeeds) {
