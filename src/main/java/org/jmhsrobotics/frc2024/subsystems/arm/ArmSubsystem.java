@@ -1,13 +1,10 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.CANSparkBase;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAnalogSensor;
-import com.revrobotics.SparkMaxAnalogSensor;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
-import com.revrobotics.;
 
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -22,7 +19,6 @@ public class ArmSubsystem extends SubsystemBase {
 	private CANSparkMax armPivot = new CANSparkMax(9, MotorType.kBrushless);
 	private AbsoluteEncoder pitchEncoder;
 	private Mechanism2d mech;
-	
 
 	public ArmSubsystem() {
 		pitchEncoder = armPivot.getAbsoluteEncoder(Type.kDutyCycle);
@@ -61,6 +57,6 @@ public class ArmSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
 		SmartDashboard.putString("ArmSubsystem/encoder", pitchEncoder.toString());
 
-	} 
+	}
 
 }
