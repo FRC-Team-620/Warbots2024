@@ -21,6 +21,8 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/ArmCommand": "Command",
+      "/SmartDashboard/ArmPID": "ProfiledPIDController",
       "/SmartDashboard/ArmSubsystem/armSIM": "Mechanism2d",
       "/SmartDashboard/Auto Chooser": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
@@ -31,6 +33,11 @@
       "/SmartDashboard/VisionSystemSim-main/Sim Field": "Field2d"
     },
     "windows": {
+      "/SmartDashboard/ArmCommand": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/ArmSubsystem/armSIM": {
         "window": {
           "visible": true
@@ -63,6 +70,18 @@
     },
     "transitory": {
       "SmartDashboard": {
+        "ArmCommand": {
+          "data": {
+            "open": true
+          },
+          "open": true
+        },
+        "ArmSubsystem": {
+          "data": {
+            "open": true
+          },
+          "open": true
+        },
         "Intakecommand": {
           "open": true
         },

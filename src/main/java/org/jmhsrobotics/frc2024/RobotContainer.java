@@ -8,6 +8,8 @@ import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmClosedCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -47,7 +49,10 @@ public class RobotContainer {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
+		this.armSubsystem.setDefaultCommand(new ArmClosedCommand(armSubsystem, this.control));
+
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
+		SmartDashboard.putData("ArmCommand", new ArmCommand(0.6, this.armSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
@@ -75,6 +80,9 @@ public class RobotContainer {
 	}
 
 	private void configureBindings() {
+		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
+		this.control.presetLow().onTrue(new ArmCommand(0, this.armSubsystem));
+
 	}
 
 	public Command getAutonomousCommand() {
