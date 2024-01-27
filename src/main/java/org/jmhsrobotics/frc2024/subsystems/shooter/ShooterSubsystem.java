@@ -22,7 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	public ShooterSubsystem() {
 		// Initializes motor(s)
 		initializeMotors();
-		if(RobotBase.isSimulation()){
+		if (RobotBase.isSimulation()) {
 			initSim();
 		}
 	}
@@ -49,14 +49,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	FlywheelSim flywheelSim;
 	RevEncoderSimWrapper encSim;
-	public void initSim(){
+	public void initSim() {
 		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 1);
 		encSim = RevEncoderSimWrapper.create(motor1);
 	}
 
 	@Override
 	public void simulationPeriodic() {
-		double motorVolts = motor1.get()*12;
+		double motorVolts = motor1.get() * 12;
 		flywheelSim.setInputVoltage(motorVolts);
 		flywheelSim.update(0.2);
 		encSim.setVelocity(flywheelSim.getAngularVelocityRPM());
