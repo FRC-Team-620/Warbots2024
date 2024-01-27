@@ -48,6 +48,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	private DriveSubsystem drive;
 
 	private double[] flucialIDs;
+	List<PhotonTrackedTarget> targets;
 
 	public VisionSubsystem(DriveSubsystem drive) {
 		this.cam = new PhotonCamera("Sechenov");
@@ -60,7 +61,6 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		try {
 			layout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
 		} catch (IOException e) {
-			// TODO: error handling
 			System.out.println(e);
 			DriverStation.reportError("Fail to load the april tag map", e.getStackTrace());
 		}
@@ -75,7 +75,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	public void periodic() {
 		PhotonPipelineResult results = this.cam.getLatestResult();
 
-		List<PhotonTrackedTarget> targets = results.getTargets();
+		targets = results.getTargets();
 
 		SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
 		int len = targets.size();
@@ -105,6 +105,14 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		return this.estimator.update();
 	}
 
+	public PhotonTrackedTarget getTarget(double fiducialID) {
+		for (PhotonTrackedTarget i : targets) {
+			if (i.getFiducialId() == fiducialID) {
+				return i;
+			}
+		}
+		return null;
+	}
 	VisionSystemSim visionSim = new VisionSystemSim("main");
 	PhotonCameraSim cameraSim;
 
