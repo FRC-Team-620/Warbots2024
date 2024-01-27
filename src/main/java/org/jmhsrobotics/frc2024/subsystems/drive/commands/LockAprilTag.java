@@ -24,7 +24,7 @@ public class LockAprilTag extends Command {
 	public LockAprilTag(double fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.001, 0, 0);
+		this.lockPID = new PIDController(0.01, 0, 0);
 
 		this.fiducialID = fiducialID;
 
