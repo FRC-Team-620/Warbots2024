@@ -10,7 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
-import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -31,13 +31,14 @@ import monologue.Logged;
 
 public class RobotContainer implements Logged {
 
-	private ControlBoard control = new CompControl();
+	public ControlBoard control = new CompControl();
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
 	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
 
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
@@ -62,7 +63,6 @@ public class RobotContainer implements Logged {
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
 						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
-		NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
 	}
 
