@@ -62,16 +62,17 @@ public class ArmSubsystem extends SubsystemBase {
 	}
 	SingleJointedArmSim armSim;
 	public void initSim() {
-		double armGearRatio = 1;
-		double moi = 1;
-		armSim = new SingleJointedArmSim(DCMotor.getNEO(2), armGearRatio, moi, Units.inchesToMeters(23), 0,
-				Units.degreesToRadians(180), false, 0);
+		double armGearRatio = 183.33;
+		double moi = 0.399649199419221;
+		armSim = new SingleJointedArmSim(DCMotor.getNEO(1), armGearRatio, moi, Units.inchesToMeters(23), 0,
+				Units.degreesToRadians(180), true, 0);
 		// simEncoder = new RevEncoderSimWrapper(null, null);
 	}
 	@Override
 	public void simulationPeriodic() {
 		double armVolts = armPivot.get() * 12;
 		armSim.setInputVoltage(armVolts);
+		armSim.update(0.2);
 		pitchEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
 	}
 
