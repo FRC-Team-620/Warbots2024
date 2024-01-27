@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024;
 import java.util.List;
 
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.warcore.util.BuildDataLogger;
 
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
@@ -15,13 +16,18 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import monologue.Logged;
+import monologue.Monologue;
 
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot implements Logged {
 	private Command autonomousCommand;
 
 	private RobotContainer m_robotContainer;
@@ -30,10 +36,28 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_robotContainer = new RobotContainer();
 		SmartDashboard.putData("IntakeCommand", new IntakeCommand(this.m_robotContainer.getDriveSubsystem(), 5));
-
+		setupLogs();
 	}
+
+	public void setupLogs() {
+		if (Robot.isSimulation()) {
+			// Filesystem.getOperatingDirectory().getAbsolutePath().
+			DataLogManager.start(Filesystem.getOperatingDirectory().getAbsolutePath() + "/logs");
+		} else {
+			DataLogManager.start();
+		}
+		DataLogManager.logNetworkTables(true);
+		DriverStation.startDataLog(DataLogManager.getLog());
+		BuildDataLogger.LogToNetworkTables(BuildConstants.class);
+		BuildDataLogger.LogToWpiLib(DataLogManager.getLog(), BuildConstants.class);
+		boolean fileOnly = false;
+		boolean lazyLogging = false;
+		Monologue.setupMonologue(this, "Robot", fileOnly, lazyLogging);
+	}
+
 	@Override
 	public void robotPeriodic() {
+		Monologue.updateAll();
 		CommandScheduler.getInstance().run();
 	}
 
@@ -111,6 +135,7 @@ public class Robot extends TimedRobot {
 	@Override
 	public void testExit() {
 	}
+
 	@Override
 	public void simulationInit() {
 		DriverStationSim.setEnabled(true);

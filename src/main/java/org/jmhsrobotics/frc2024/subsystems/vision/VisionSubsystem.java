@@ -28,8 +28,9 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class VisionSubsystem extends SubsystemBase {
+public class VisionSubsystem extends SubsystemBase implements Logged {
 	// load the apriltag field layout
 	AprilTagFieldLayout layout;
 
@@ -47,7 +48,7 @@ public class VisionSubsystem extends SubsystemBase {
 	DriveSubsystem drive;
 
 	public VisionSubsystem(DriveSubsystem drive) {
-		this.cam = new PhotonCamera("clarance");
+		this.cam = new PhotonCamera("Sechenov");
 		this.estimator = new PhotonPoseEstimator(this.layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this.cam,
 				this.camOnRobot);
 		this.drive = drive;
