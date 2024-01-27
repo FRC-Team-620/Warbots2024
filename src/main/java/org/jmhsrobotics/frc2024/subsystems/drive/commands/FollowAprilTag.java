@@ -10,21 +10,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 //TODO: move all hardcoded numbers to constants file
-public class LockAprilTag extends Command {
+public class FollowAprilTag extends Command {
 	private DriveSubsystem drive;
 	private VisionSubsystem vision;
 
-	private PIDController lockPID;
+	private PIDController followPID;
 	private double currentYaw;
 
 	private double fiducialID;
 
 	private double angleGoal;
 
-	public LockAprilTag(double fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
+	public FollowAprilTag(double fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.001, 0, 0);
+		this.followPID = new PIDController(0.01, 0, 0);
 
 		this.fiducialID = fiducialID;
 
@@ -32,13 +32,13 @@ public class LockAprilTag extends Command {
 
 		// this.angleGoal = this.target.getYaw();
 
-		SmartDashboard.putData("LockPID", this.lockPID);
+		SmartDashboard.putData("followPID", this.followPID);
 		addRequirements(this.drive, this.vision);
 	}
 
 	@Override
 	public void initialize() {
-		this.lockPID.setSetpoint(this.angleGoal);
+		this.followPID.setSetpoint(5);
 		// our goal should be 0 degrees if the camera is in the center of the robot
 		// Right now we are not accounting for the camera angle and cordnate sys
 
@@ -49,21 +49,21 @@ public class LockAprilTag extends Command {
 	public void execute() {
 		PhotonTrackedTarget aprilTag = this.vision.getTarget(this.fiducialID);
 		if (aprilTag != null) {
-			var rawOutput = this.lockPID.calculate(-aprilTag.getYaw());
-			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
+			var rawOutput = this.followPID.calculate(aprilTag.getBestCameraToTarget().getX());
+			double output = MathUtil.clamp(rawOutput, -0.1, 0.1);
 
-			this.drive.drive(0, 0, output, true, true);
+			this.drive.drive(output, 0, 0, true, true);
 
-			SmartDashboard.putNumber("LockPID/PositionError", this.lockPID.getPositionError());
-			SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
-			SmartDashboard.putNumber("LockPID/output", output);
-			SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
+			SmartDashboard.putNumber("followPID/PositionError", this.followPID.getPositionError());
+			SmartDashboard.putNumber("followPID/VelocityError", this.followPID.getVelocityError());
+			SmartDashboard.putNumber("followPID/output", output);
+			SmartDashboard.putNumber("followPID/currentYaw", currentYaw);
 		}
 	}
 
 	@Override
 	public boolean isFinished() {
-		return this.lockPID.atSetpoint();
+		return this.followPID.atSetpoint();
 	}
 
 	@Override
