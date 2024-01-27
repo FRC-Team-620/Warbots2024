@@ -32,20 +32,22 @@ import monologue.Logged;
 
 public class VisionSubsystem extends SubsystemBase implements Logged {
 	// load the apriltag field layout
-	AprilTagFieldLayout layout;
+	private AprilTagFieldLayout layout;
 
 	// declare the camera
-	PhotonCamera cam;
+	private PhotonCamera cam;
 
 	// get the camera position on the robot
-	Transform3d camOnRobot = new Transform3d(
+	private Transform3d camOnRobot = new Transform3d(
 			new Translation3d(Units.inchesToMeters(9.5), Units.inchesToMeters(-3.5), Units.inchesToMeters(7)),
 			new Rotation3d());
 
 	// construct a photonPoseEstimator
-	PhotonPoseEstimator estimator;
+	private PhotonPoseEstimator estimator;
 
-	DriveSubsystem drive;
+	private DriveSubsystem drive;
+
+	private double[] flucialIDs;
 
 	public VisionSubsystem(DriveSubsystem drive) {
 		this.cam = new PhotonCamera("clarance");
@@ -54,6 +56,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		this.drive = drive;
 
 		System.out.println(Filesystem.getDeployDirectory().getAbsolutePath());
+
 		try {
 			layout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
 		} catch (IOException e) {
@@ -61,6 +64,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			System.out.println(e);
 			DriverStation.reportError("Fail to load the april tag map", e.getStackTrace());
 		}
+
 		estimator.setFieldTags(layout);
 
 		// Simulation
@@ -76,7 +80,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
-		double[] flucialIDs = new double[len];
+		flucialIDs = new double[len];
 		for (int i = 0; i < len; i++) {
 			Pose3d robotPose3d = new Pose3d(this.drive.getPose());
 			Transform3d targetTransFromCam = targets.get(i).getBestCameraToTarget();
