@@ -38,7 +38,7 @@ public class FollowAprilTag extends Command {
 
 	@Override
 	public void initialize() {
-		this.followPID.setSetpoint(5);
+		this.followPID.setSetpoint(10);
 		// our goal should be 0 degrees if the camera is in the center of the robot
 		// Right now we are not accounting for the camera angle and cordnate sys
 
@@ -50,7 +50,7 @@ public class FollowAprilTag extends Command {
 		PhotonTrackedTarget aprilTag = this.vision.getTarget(this.fiducialID);
 		if (aprilTag != null) {
 			var rawOutput = this.followPID.calculate(aprilTag.getBestCameraToTarget().getX());
-			double output = MathUtil.clamp(rawOutput, -0.1, 0.1);
+			double output = MathUtil.clamp(rawOutput, -0.2, 0.2);
 
 			this.drive.drive(output, 0, 0, true, true);
 
@@ -58,12 +58,15 @@ public class FollowAprilTag extends Command {
 			SmartDashboard.putNumber("followPID/VelocityError", this.followPID.getVelocityError());
 			SmartDashboard.putNumber("followPID/output", output);
 			SmartDashboard.putNumber("followPID/currentYaw", currentYaw);
+		} else {
+			this.drive.drive(0, 0, 0, true, true);
 		}
 	}
 
 	@Override
 	public boolean isFinished() {
-		return this.followPID.atSetpoint();
+		// return this.followPID.atSetpoint();
+		return false;
 	}
 
 	@Override

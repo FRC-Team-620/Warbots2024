@@ -24,7 +24,7 @@ public class LockAprilTag extends Command {
 	public LockAprilTag(double fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.001, 0, 0);
+		this.lockPID = new PIDController(0.01, 0, 0);
 
 		this.fiducialID = fiducialID;
 
@@ -38,7 +38,9 @@ public class LockAprilTag extends Command {
 
 	@Override
 	public void initialize() {
+		this.lockPID.reset();
 		this.lockPID.setSetpoint(this.angleGoal);
+		this.lockPID.setTolerance(2, 1);
 		// our goal should be 0 degrees if the camera is in the center of the robot
 		// Right now we are not accounting for the camera angle and cordnate sys
 
@@ -49,7 +51,7 @@ public class LockAprilTag extends Command {
 	public void execute() {
 		PhotonTrackedTarget aprilTag = this.vision.getTarget(this.fiducialID);
 		if (aprilTag != null) {
-			var rawOutput = this.lockPID.calculate(-aprilTag.getYaw());
+			var rawOutput = this.lockPID.calculate(aprilTag.getYaw());
 			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
 
 			this.drive.drive(0, 0, output, true, true);
@@ -58,12 +60,15 @@ public class LockAprilTag extends Command {
 			SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
 			SmartDashboard.putNumber("LockPID/output", output);
 			SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
+		} else {
+			this.drive.drive(0, 0, 0, true, true);
 		}
 	}
 
 	@Override
 	public boolean isFinished() {
-		return this.lockPID.atSetpoint();
+		// return this.lockPID.atSetpoint();
+		return false;
 	}
 
 	@Override
