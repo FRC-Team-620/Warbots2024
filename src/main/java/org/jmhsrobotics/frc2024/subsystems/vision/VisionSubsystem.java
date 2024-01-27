@@ -106,13 +106,16 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public PhotonTrackedTarget getTarget(double fiducialID) {
-		for (PhotonTrackedTarget i : targets) {
-			if (i.getFiducialId() == fiducialID) {
-				return i;
+		if (targets != null) {
+			for (PhotonTrackedTarget i : targets) {
+				if (i.getFiducialId() == fiducialID) {
+					return i;
+				}
 			}
 		}
 		return null;
 	}
+
 	VisionSystemSim visionSim = new VisionSystemSim("main");
 	PhotonCameraSim cameraSim;
 

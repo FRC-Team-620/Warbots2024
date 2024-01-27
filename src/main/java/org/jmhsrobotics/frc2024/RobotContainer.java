@@ -48,7 +48,7 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
-		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(this.driveSubsystem, this.visionSubsystem, 4));
+		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.

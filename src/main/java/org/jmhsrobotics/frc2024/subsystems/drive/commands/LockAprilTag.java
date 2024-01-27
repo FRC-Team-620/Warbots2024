@@ -5,10 +5,8 @@ import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -17,28 +15,23 @@ public class LockAprilTag extends Command {
 	private DriveSubsystem drive;
 	private VisionSubsystem vision;
 
-	private ProfiledPIDController lockPID;
-	private Constraints lockPIdConstraints;
-	private Pose2d currentPose;
+	private PIDController lockPID;
 	private double currentYaw;
 
 	private double fiducialID;
 
-	private PhotonTrackedTarget target;
-
 	private double angleGoal;
 
-	public LockAprilTag(DriveSubsystem drive, VisionSubsystem vision, double fiducialID) {
+	public LockAprilTag(double fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-
-		this.lockPIdConstraints = new Constraints(0.3, 5);
-		this.lockPID = new ProfiledPIDController(0.3, 0, 0, this.lockPIdConstraints);
+		this.lockPID = new PIDController(0.001, 0, 0);
 
 		this.fiducialID = fiducialID;
-		this.target = this.vision.getTarget(this.fiducialID);
 
-		this.angleGoal = this.target.getYaw();
+		this.angleGoal = 0;
+
+		// this.angleGoal = this.target.getYaw();
 
 		SmartDashboard.putData("LockPID", this.lockPID);
 		addRequirements(this.drive, this.vision);
@@ -46,28 +39,22 @@ public class LockAprilTag extends Command {
 
 	@Override
 	public void initialize() {
-		this.lockPID.reset(new State(this.angleGoal, 0));
-		this.lockPID.setGoal(this.angleGoal);
-		this.lockPID.setTolerance(1, 1);
+		this.lockPID.setSetpoint(this.angleGoal);
+		// our goal should be 0 degrees if the camera is in the center of the robot
+		// Right now we are not accounting for the camera angle and cordnate sys
 
 		this.drive.stopDrive();
 	}
 
 	@Override
 	public void execute() {
-		if (this.vision.getTarget(this.fiducialID) != null) {
-			this.currentPose = this.drive.getPose();
-			this.currentYaw = this.drive.getPose().getRotation().getDegrees();
-
-			this.lockPID.setConstraints(this.lockPIdConstraints);
-
-			var rawOutput = this.lockPID.calculate(this.currentYaw);
+		PhotonTrackedTarget aprilTag = this.vision.getTarget(this.fiducialID);
+		if (aprilTag != null) {
+			var rawOutput = this.lockPID.calculate(-aprilTag.getYaw());
 			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
 
-			this.drive.drive(0, 0, output, true, false);
+			this.drive.drive(0, 0, output, true, true);
 
-			SmartDashboard.putNumber("LockPID/macAcc", this.lockPIdConstraints.maxAcceleration);
-			SmartDashboard.putNumber("LockPID/maxVel", this.lockPIdConstraints.maxVelocity);
 			SmartDashboard.putNumber("LockPID/PositionError", this.lockPID.getPositionError());
 			SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
 			SmartDashboard.putNumber("LockPID/output", output);
@@ -77,7 +64,7 @@ public class LockAprilTag extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return this.lockPID.atGoal();
+		return this.lockPID.atSetpoint();
 	}
 
 	@Override
