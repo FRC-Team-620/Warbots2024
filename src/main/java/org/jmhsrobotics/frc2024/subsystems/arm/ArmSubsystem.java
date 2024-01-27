@@ -1,11 +1,13 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkAnalogSensor;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -17,15 +19,17 @@ public class ArmSubsystem extends SubsystemBase {
 
 	private MechanismLigament2d m_arm;
 	private CANSparkMax armPivot = new CANSparkMax(9, MotorType.kBrushless);
-	private AbsoluteEncoder pitchEncoder;
+	private SimableAbsoluteEncoder pitchEncoder;
 	private Mechanism2d mech;
 
 	public ArmSubsystem() {
-		pitchEncoder = armPivot.getAbsoluteEncoder(Type.kDutyCycle);
+		pitchEncoder = new SimableAbsoluteEncoder(armPivot.getAbsoluteEncoder(Type.kDutyCycle));
 		armPivot.setSmartCurrentLimit(40);
-
 		armPivot.setIdleMode(IdleMode.kBrake);
 		init2d();
+		if (RobotBase.isSimulation()) {
+			initSim();
+		}
 	}
 
 	public void setArmPivot(double amount) {
@@ -36,8 +40,6 @@ public class ArmSubsystem extends SubsystemBase {
 	public double getArmPitch() {
 		return this.pitchEncoder.getPosition();
 	}
-
-	private SparkAnalogSensor pitchencsim;
 
 	public void init2d() {
 		// TODO: finish sim
@@ -55,8 +57,22 @@ public class ArmSubsystem extends SubsystemBase {
 		m_arm.setAngle(getArmPitch());
 		SmartDashboard.putData("ArmSubsystem/armSIM", mech);
 		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
-		SmartDashboard.putString("ArmSubsystem/encoder", pitchEncoder.toString());
+		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
 
+	}
+	SingleJointedArmSim armSim;
+	public void initSim() {
+		double armGearRatio = 1;
+		double moi = 1;
+		armSim = new SingleJointedArmSim(DCMotor.getNEO(2), armGearRatio, moi, Units.inchesToMeters(23), 0,
+				Units.degreesToRadians(180), false, 0);
+		// simEncoder = new RevEncoderSimWrapper(null, null);
+	}
+	@Override
+	public void simulationPeriodic() {
+		double armVolts = armPivot.get() * 12;
+		armSim.setInputVoltage(armVolts);
+		pitchEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
 	}
 
 }
