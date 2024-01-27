@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
@@ -35,7 +36,7 @@ public class RobotContainer implements Logged {
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
+	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -47,6 +48,7 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
+		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
