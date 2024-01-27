@@ -6,7 +6,8 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
-import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
+import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
@@ -28,8 +29,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import monologue.Logged;
 
-public class RobotContainer {
+public class RobotContainer implements Logged {
 
 	private ControlBoard control = new CompControl();
 	// Subsystems
@@ -38,12 +40,14 @@ public class RobotContainer {
 	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
 
 	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
 		configureBindings();
 
@@ -61,7 +65,7 @@ public class RobotContainer {
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
-						DriveConstants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
+						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
 		NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
