@@ -55,23 +55,24 @@ public class LockAprilTag extends Command {
 
 	@Override
 	public void execute() {
-		this.currentPose = this.drive.getPose();
-		this.currentYaw = this.drive.getPose().getRotation().getDegrees();
+		if(this.vision.getTarget(this.fiducialID) != null){
+			this.currentPose = this.drive.getPose();
+			this.currentYaw = this.drive.getPose().getRotation().getDegrees();
 
-		this.lockPID.setConstraints(this.lockPIdConstraints);
+			this.lockPID.setConstraints(this.lockPIdConstraints);
 
-		var rawOutput = this.lockPID.calculate(this.currentYaw);
-		double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
+			var rawOutput = this.lockPID.calculate(this.currentYaw);
+			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
 
-		this.drive.drive(0, 0, output, true, false);
+			this.drive.drive(0, 0, output, true, false);
 
-		SmartDashboard.putNumber("LockPID/macAcc", this.lockPIdConstraints.maxAcceleration);
-		SmartDashboard.putNumber("LockPID/maxVel", this.lockPIdConstraints.maxVelocity);
-		SmartDashboard.putNumber("LockPID/PositionError", this.lockPID.getPositionError());
-		SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
-		SmartDashboard.putNumber("LockPID/output", output);
-		SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
-
+			SmartDashboard.putNumber("LockPID/macAcc", this.lockPIdConstraints.maxAcceleration);
+			SmartDashboard.putNumber("LockPID/maxVel", this.lockPIdConstraints.maxVelocity);
+			SmartDashboard.putNumber("LockPID/PositionError", this.lockPID.getPositionError());
+			SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
+			SmartDashboard.putNumber("LockPID/output", output);
+			SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
+		}
 	}
 
 	@Override
