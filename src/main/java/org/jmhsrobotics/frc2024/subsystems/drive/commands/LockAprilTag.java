@@ -55,7 +55,7 @@ public class LockAprilTag extends Command {
 
 	@Override
 	public void execute() {
-		if(this.vision.getTarget(this.fiducialID) != null){
+		if (this.vision.getTarget(this.fiducialID) != null) {
 			this.currentPose = this.drive.getPose();
 			this.currentYaw = this.drive.getPose().getRotation().getDegrees();
 
