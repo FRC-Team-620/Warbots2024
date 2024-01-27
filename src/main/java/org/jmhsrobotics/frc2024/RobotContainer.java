@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -30,13 +31,14 @@ import monologue.Logged;
 
 public class RobotContainer implements Logged {
 
-	private ControlBoard control = new CompControl();
+	public ControlBoard control = new CompControl();
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
 	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
 
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
