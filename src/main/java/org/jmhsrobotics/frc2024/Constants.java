@@ -13,6 +13,7 @@ public class Constants {
 	 */
 	public static class CAN {
 		public static final int kIntakeId = 32;
+		public static final int kClimberId = 33;
 
 	};
 	/**
