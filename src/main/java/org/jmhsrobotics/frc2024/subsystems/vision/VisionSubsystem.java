@@ -50,7 +50,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	private double[] flucialIDs;
 
 	public VisionSubsystem(DriveSubsystem drive) {
-		this.cam = new PhotonCamera("clarance");
+		this.cam = new PhotonCamera("Sechenov");
 		this.estimator = new PhotonPoseEstimator(this.layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this.cam,
 				this.camOnRobot);
 		this.drive = drive;
