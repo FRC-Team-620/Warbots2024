@@ -1,12 +1,16 @@
 package org.jmhsrobotics.frc2024.subsystems.shooter;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
-	private CANSparkMax motor1;
-	private CANSparkMax motor2;
+	private CANSparkMax motor1 = new CANSparkMax(7, MotorType.kBrushless);
+	private CANSparkMax motor2 = new CANSparkMax(8, MotorType.kBrushless);;
+	private RelativeEncoder encoder;
 
 	// private double speed;
 
@@ -24,6 +28,11 @@ public class ShooterSubsystem extends SubsystemBase {
 		motor2.setOpenLoopRampRate(20);
 
 		motor2.follow(motor1);
+	}
+
+	public double getRPM() {
+		encoder = motor1.getEncoder();
+		return encoder.getVelocity();
 	}
 
 	public void setSpeed(double speed) {

@@ -10,6 +10,8 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveConstants;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.shooterCommands.ShooterCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -35,6 +37,8 @@ public class RobotContainer {
 
 	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
 
+	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
@@ -47,6 +51,8 @@ public class RobotContainer {
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
+		SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {
