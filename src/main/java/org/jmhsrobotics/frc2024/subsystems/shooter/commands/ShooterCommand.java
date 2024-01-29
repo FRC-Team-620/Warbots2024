@@ -1,4 +1,4 @@
-package org.jmhsrobotics.frc2024.subsystems.shooter.shooterCommands;
+package org.jmhsrobotics.frc2024.subsystems.shooter.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 
