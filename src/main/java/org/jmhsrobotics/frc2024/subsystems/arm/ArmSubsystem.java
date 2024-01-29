@@ -1,9 +1,14 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
+import org.jmhsrobotics.warcore.nt.NT4Util;
+
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -13,7 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkBase.IdleMode;
 
 public class ArmSubsystem extends SubsystemBase {
 
@@ -58,6 +62,8 @@ public class ArmSubsystem extends SubsystemBase {
 		SmartDashboard.putData("ArmSubsystem/armSIM", mech);
 		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
 		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
+		NT4Util.putPose3d("ArmSubsystem/armpose3d",
+				new Pose3d(0.2, 0, 0.28, new Rotation3d(0, Units.degreesToRadians(getArmPitch()), 0)));
 
 	}
 	SingleJointedArmSim armSim;
