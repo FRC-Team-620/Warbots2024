@@ -31,17 +31,17 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	private void initializeMotors() {
-		topFlywheel.setIdleMode(IdleMode.kCoast);
-		topFlywheel.setSmartCurrentLimit(20);
-		topFlywheel.setOpenLoopRampRate(20);
-		topEncoder = topFlywheel.getEncoder();
+		this.topFlywheel.setIdleMode(IdleMode.kCoast);
+		this.topFlywheel.setSmartCurrentLimit(20);
+		this.topFlywheel.setOpenLoopRampRate(20);
+		this.topEncoder = topFlywheel.getEncoder();
 
-		bottomFlywheel.setIdleMode(IdleMode.kCoast);
-		bottomFlywheel.setSmartCurrentLimit(20);
-		bottomFlywheel.setOpenLoopRampRate(20);
-		bottomEncoder = bottomFlywheel.getEncoder();
+		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
+		this.bottomFlywheel.setSmartCurrentLimit(20);
+		this.bottomFlywheel.setOpenLoopRampRate(20);
+		this.bottomEncoder = bottomFlywheel.getEncoder();
 
-		bottomFlywheel.follow(topFlywheel);
+		this.bottomFlywheel.follow(topFlywheel);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public void setSpeed(double speed) {
-		topFlywheel.set(speed);
+		this.topFlywheel.set(speed);
 	}
 
 	FlywheelSim flywheelSim;

@@ -13,15 +13,15 @@ public class ShooterCommand extends Command {
 	public ShooterCommand(double targetRPM, ShooterSubsystem shooterSubsystem) {
 		this.shooter = shooterSubsystem;
 		this.targetRPM = targetRPM;
-		pid = new PIDController(.1, 0, 0);
+		this.pid = new PIDController(.1, 0, 0);
 
 		addRequirements(this.shooter);
 	}
 
 	@Override
 	public void initialize() {
-		pid.reset();
-		pid.setSetpoint(targetRPM);
+		this.pid.reset();
+		this.pid.setSetpoint(targetRPM);
 	}
 
 	@Override
@@ -31,12 +31,12 @@ public class ShooterCommand extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		shooter.setSpeed(0);
+		this.shooter.setSpeed(0);
 	}
 
 	@Override
 	public void execute() {
 		double motorSpeed = pid.calculate(shooter.getRPM(), targetRPM);
-		shooter.setSpeed(motorSpeed);
+		this.shooter.setSpeed(motorSpeed);
 	}
 }
