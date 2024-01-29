@@ -13,7 +13,8 @@ import org.jmhsrobotics.frc2024.subsystems.arm.ArmCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
-import org.jmhsrobotics.frc2024.subsystems.drive.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
+import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -34,13 +35,14 @@ import monologue.Logged;
 
 public class RobotContainer implements Logged {
 
-	private ControlBoard control = new CompControl();
+	public ControlBoard control = new CompControl();
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-	private final VisionSubsystem vision = new VisionSubsystem(this.driveSubsystem);
+	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
@@ -54,6 +56,7 @@ public class RobotContainer implements Logged {
 
 		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
 		SmartDashboard.putData("ArmCommand", new ArmCommand(0.6, this.armSubsystem));
+		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
@@ -70,7 +73,6 @@ public class RobotContainer implements Logged {
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
 						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
-		NamedCommands.registerCommand("Intake", new IntakeCommand(driveSubsystem, 5));
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
 	}
 
