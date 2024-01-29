@@ -7,6 +7,26 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
+
+	/**
+	 * CAN id assignments
+	 */
+	public static class CAN {
+		public static final int kIntakeId = 32;
+
+	};
+	/**
+	 * Digital IO ports
+	 */
+	public static class DIO {
+		public static final int kIntakeSwitch = 2;
+	}
+	/**
+	 * PWM output ports
+	 */
+	public static class PWM {
+		public static final int kLedStrip = 9;
+	}
 	public static class SwerveConstants {
 		// SPARK MAX CAN IDs
 		public static final int kFrontLeftDrivingCanId = 10;
