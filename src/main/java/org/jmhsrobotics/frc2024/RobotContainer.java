@@ -45,13 +45,13 @@ public class RobotContainer implements Logged {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
-		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
-		SmartDashboard.putData("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
+		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
+		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 	}
 
@@ -79,6 +79,7 @@ public class RobotContainer implements Logged {
 	public Command getAutonomousCommand() {
 		Command picked = autoChooser.getSelected();
 		if (picked == null) {
+			DriverStation.reportError("WARNING: No auto command detected, defaulting to baseline auto.", false);
 			return new DriveTimeCommand(1.535, 0.3, driveSubsystem);
 		} else {
 			return picked;
