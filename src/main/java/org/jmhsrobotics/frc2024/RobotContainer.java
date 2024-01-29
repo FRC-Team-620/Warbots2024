@@ -12,6 +12,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
@@ -28,7 +29,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import monologue.Logged;
 
@@ -50,13 +50,14 @@ public class RobotContainer implements Logged {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
-		SmartDashboard.putData("Schedular", CommandScheduler.getInstance());
+		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
+		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		SmartDashboard.putData("Shooter Command", shooterCommand);
@@ -85,7 +86,8 @@ public class RobotContainer implements Logged {
 	public Command getAutonomousCommand() {
 		Command picked = autoChooser.getSelected();
 		if (picked == null) {
-			return Commands.print("No autonomous command configured");
+			DriverStation.reportError("WARNING: No auto command detected, defaulting to baseline auto.", false);
+			return new DriveTimeCommand(1.535, 0.3, driveSubsystem);
 		} else {
 			return picked;
 		}
