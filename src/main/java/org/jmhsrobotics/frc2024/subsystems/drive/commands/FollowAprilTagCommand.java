@@ -77,45 +77,67 @@ public class FollowAprilTagCommand extends Command {
 		// double x = aprilTag.getBestCameraToTarget().getX();
 		// double x =
 		// testing.getObject("target").getPose().minus(this.drive.getPose()).getX();
-		Transform2d transform = this.drive.getPose().minus(testing.getObject("target").getPose());
-		double x = transform.getX();
-		SmartDashboard.putNumber("FollowAprilTag/X", x);
 
-		double y = transform.getY();
-		SmartDashboard.putNumber("FollowAprilTag/Y", y);
+		// if(aprilTag != null){
 
-		double theta = transform.getRotation().getDegrees();
-		SmartDashboard.putNumber("FollowAprilTag/theta", theta);
-
-		// double y = aprilTag.getBestCameraToTarget().getY();
-
-		// if (aprilTag != null) {
-		// var rawXOutput = this.xPID.calculate(x);
-		// double xOutput = MathUtil.clamp(rawXOutput, 0.2, 0.2);
-
-		// this.drive.drive(xOutput, 0, 0, false, true);
-
-		// SmartDashboard.putNumber("LockPID/PositionError",
-		// this.thetaPID.getPositionError());
-		// SmartDashboard.putNumber("LockPID/VelocityError",
-		// this.thetaPID.getVelocityError());
-		// // SmartDashboard.putNumber("LockPID/output", thetaOutput);
-		// } else {
-		// this.drive.drive(0, 0, 0, false, true);
 		// }
 
-		var rawXOutput = this.xPID.calculate(x);
-		double xOutput = MathUtil.clamp(rawXOutput, -0.2, 0.2);
+		// Transform2d transform =
+		// this.drive.getPose().minus(testing.getObject("target").getPose());
+		// double x = transform.getX();
+		// SmartDashboard.putNumber("FollowAprilTag/X", x);
 
-		var rawYOutput = this.yPID.calculate(y);
-		double yOutPut = MathUtil.clamp(rawYOutput, -0.2, 0.2);
+		// double y = transform.getY();
+		// SmartDashboard.putNumber("FollowAprilTag/Y", y);
 
-		var rawThetaOutput = this.thetaPID.calculate(theta);
-		double thetaOutput = MathUtil.clamp(rawThetaOutput, -0.4, 0.4);
+		// double theta = transform.getRotation().getDegrees();
+		// SmartDashboard.putNumber("FollowAprilTag/theta", theta);
 
-		this.drive.drive(xOutput, yOutPut, thetaOutput, false, true);
-		SmartDashboard.putNumber("LockPID/PositionError", this.thetaPID.getPositionError());
-		SmartDashboard.putNumber("LockPID/VelocityError", this.thetaPID.getVelocityError());
+		if (aprilTag != null) {
+			Transform2d trans = this.drive.getPose()
+					.minus(new Pose2d(aprilTag.getBestCameraToTarget().getTranslation().toTranslation2d(),
+							aprilTag.getBestCameraToTarget().getRotation().toRotation2d()));
+			double x = trans.getX();
+			SmartDashboard.putNumber("FollowAprilTag/X", x);
+
+			double y = trans.getY();
+			SmartDashboard.putNumber("FollowAprilTag/Y", y);
+
+			double theta = trans.getRotation().getDegrees();
+			SmartDashboard.putNumber("FollowAprilTag/theta", theta);
+
+			// double y = aprilTag.getBestCameraToTarget().getY();
+
+			// if (aprilTag != null) {
+			// var rawXOutput = this.xPID.calculate(x);
+			// double xOutput = MathUtil.clamp(rawXOutput, 0.2, 0.2);
+
+			// this.drive.drive(xOutput, 0, 0, false, true);
+
+			// SmartDashboard.putNumber("LockPID/PositionError",
+			// this.thetaPID.getPositionError());
+			// SmartDashboard.putNumber("LockPID/VelocityError",
+			// this.thetaPID.getVelocityError());
+			// // SmartDashboard.putNumber("LockPID/output", thetaOutput);
+			// } else {
+			// this.drive.drive(0, 0, 0, false, true);
+			// }
+
+			var rawXOutput = this.xPID.calculate(x);
+			double xOutput = MathUtil.clamp(rawXOutput, -0.2, 0.2);
+
+			var rawYOutput = this.yPID.calculate(y);
+			double yOutPut = MathUtil.clamp(rawYOutput, -0.2, 0.2);
+
+			var rawThetaOutput = this.thetaPID.calculate(theta);
+			double thetaOutput = MathUtil.clamp(rawThetaOutput, -0.4, 0.4);
+
+			this.drive.drive(xOutput, yOutPut, thetaOutput, false, true);
+			SmartDashboard.putNumber("LockPID/PositionError", this.thetaPID.getPositionError());
+			SmartDashboard.putNumber("LockPID/VelocityError", this.thetaPID.getVelocityError());
+		} else {
+			this.drive.drive(0, 0, 0, false, true);
+		}
 	}
 
 	@Override
