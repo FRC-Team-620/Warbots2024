@@ -7,7 +7,6 @@ import org.jmhsrobotics.warcore.math.TuneableProfiledPIDController;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ArmCommand extends Command {
@@ -29,7 +28,7 @@ public class ArmCommand extends Command {
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		
+
 		// armPID.reset(new State(0, 0));
 		armPID.setGoal(angle);
 		armPID.setTolerance(1, 3);
