@@ -4,12 +4,12 @@ import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ArmClosedCommand extends Command {
+public class ArmOpenLoopControlCommand extends Command {
 
 	ArmSubsystem armSubsystem;
 	ControlBoard control;
 
-	public ArmClosedCommand(ArmSubsystem armSubsystem, ControlBoard control) {
+	public ArmOpenLoopControlCommand(ArmSubsystem armSubsystem, ControlBoard control) {
 		this.armSubsystem = armSubsystem;
 		this.control = control;
 		addRequirements(armSubsystem);
