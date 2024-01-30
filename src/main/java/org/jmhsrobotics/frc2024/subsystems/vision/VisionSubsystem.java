@@ -35,7 +35,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	private AprilTagFieldLayout layout;
 
 	// declare the camera
-	private PhotonCamera cam;
+	public PhotonCamera cam;
 
 	// get the camera position on the robot
 	private Transform3d camOnRobot = new Transform3d(
@@ -106,7 +106,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public PhotonTrackedTarget getTarget(double fiducialID) {
-		if (targets != null) {
+		if (targets == this.cam.getLatestResult().getBestTarget()) {
 			for (PhotonTrackedTarget i : targets) {
 				if (i.getFiducialId() == fiducialID) {
 					return i;

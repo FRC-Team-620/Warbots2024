@@ -13,7 +13,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.FollowAprilTagCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
-import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+// import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -40,7 +40,7 @@ public class RobotContainer implements Logged {
 	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+	// private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 

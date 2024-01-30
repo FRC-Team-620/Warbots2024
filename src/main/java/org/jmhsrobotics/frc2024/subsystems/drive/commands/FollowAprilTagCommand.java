@@ -32,13 +32,13 @@ public class FollowAprilTagCommand extends Command {
 		this.drive = drive;
 		this.vision = vision;
 
-		this.xPID = new PIDController(0.01, 0, 0);
-		this.yPID = new PIDController(0.01, 0, 0);
-		this.thetaPID = new PIDController(0.0001, 0, 0);
+		this.xPID = new PIDController(0.1, 0, 0);
+		this.yPID = new PIDController(0.1, 0, 0);
+		this.thetaPID = new PIDController(0.01, 0, 0);
 
 		this.fiducialID = fiducialID;
 
-		this.thetaGoal = -163.06;
+		this.thetaGoal = 175;
 		this.xGoal = 2;
 		this.yGoal = 0;
 		// this.angleGoal = this.target.getYaw();
@@ -62,6 +62,7 @@ public class FollowAprilTagCommand extends Command {
 		this.thetaPID.reset();
 		this.thetaPID.setSetpoint(this.thetaGoal);
 		this.thetaPID.setTolerance(3, 1);
+		this.thetaPID.enableContinuousInput(-180, 180);
 		// our goal should be 0 degrees if the camera is in the center of the robot
 		// Right now we are not accounting for the camera angle and cordnate sys
 
@@ -71,10 +72,12 @@ public class FollowAprilTagCommand extends Command {
 	@Override
 	public void execute() {
 		testing.setRobotPose(drive.getPose());
-		PhotonTrackedTarget aprilTag = this.vision.getTarget(this.fiducialID);
+		// PhotonTrackedTarget aprilTag = this.vision.getTarget(this.fiducialID);
+		PhotonTrackedTarget aprilTag = this.vision.cam.getLatestResult().getBestTarget();
+		// SmartDashboard.putString("Apriltag", aprilTag.toString());
 
-
-		// Transform2d transform = this.drive.getPose().minus(testing.getObject("target").getPose());
+		// Transform2d transform =
+		// this.drive.getPose().minus(testing.getObject("target").getPose());
 		// double x = transform.getX();
 		// SmartDashboard.putNumber("FollowAprilTag/X", x);
 
@@ -84,10 +87,10 @@ public class FollowAprilTagCommand extends Command {
 		// double theta = transform.getRotation().getDegrees();
 		// SmartDashboard.putNumber("FollowAprilTag/theta", theta);
 
-		if(aprilTag != null) {
+		if (aprilTag != null) {
 
 			Transform2d trans = new Transform2d(aprilTag.getBestCameraToTarget().getTranslation().toTranslation2d(),
-			aprilTag.getBestCameraToTarget().getRotation().toRotation2d());
+					aprilTag.getBestCameraToTarget().getRotation().toRotation2d());
 
 			double x = trans.getX();
 			SmartDashboard.putNumber("FollowAprilTag/X", x);
@@ -99,15 +102,15 @@ public class FollowAprilTagCommand extends Command {
 			SmartDashboard.putNumber("FollowAprilTag/theta", theta);
 
 			var rawXOutput = this.xPID.calculate(x);
-			double xOutput = MathUtil.clamp(rawXOutput, -0.2, 0.2);
+			double xOutput = MathUtil.clamp(rawXOutput, -0.3, 0.3);
 
 			var rawYOutput = this.yPID.calculate(y);
-			double yOutPut = MathUtil.clamp(rawYOutput, -0.2, 0.2);
+			double yOutPut = MathUtil.clamp(rawYOutput, -0.3, 0.3);
 
 			var rawThetaOutput = this.thetaPID.calculate(theta);
 			double thetaOutput = MathUtil.clamp(rawThetaOutput, -0.1, 0.1);
 
-			this.drive.drive(-xOutput, -yOutPut, thetaOutput, false, true);
+			this.drive.drive(-xOutput, -yOutPut, -thetaOutput, false, true);
 			SmartDashboard.putNumber("LockPID/PositionError", this.thetaPID.getPositionError());
 			SmartDashboard.putNumber("LockPID/VelocityError", this.thetaPID.getVelocityError());
 		} else {
