@@ -8,9 +8,9 @@ import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.ArmOpenLoopControlCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.ArmCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
@@ -52,11 +52,10 @@ public class RobotContainer implements Logged {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
-		this.armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(armSubsystem, this.control));
 
-		SmartDashboard.putData("ArmCommand", new ArmCommand(90, this.armSubsystem));
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
+		SmartDashboard.putData("ArmCommand", new ArmCommand(90, this.armSubsystem));
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
