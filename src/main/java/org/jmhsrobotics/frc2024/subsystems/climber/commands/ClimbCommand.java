@@ -1,4 +1,6 @@
-package org.jmhsrobotics.frc2024.subsystems.climber;
+package org.jmhsrobotics.frc2024.subsystems.climber.commands;
+
+import org.jmhsrobotics.frc2024.subsystems.climber.ClimbSubsystem;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
@@ -15,8 +17,8 @@ public class ClimbCommand extends Command {
 		this.length = length;
 		addRequirements(climbSubsystem);
 
-		lengthPIDController = climbSubsystem.getMotor().getPIDController();
-		lengthPIDController.setFeedbackDevice(climbSubsystem.getEncoder());
+		this.lengthPIDController = climbSubsystem.getMotor().getPIDController();
+		this.lengthPIDController.setFeedbackDevice(climbSubsystem.getEncoder());
 
 		// TODO: tune vals
 		lengthPIDController.setP(.1);

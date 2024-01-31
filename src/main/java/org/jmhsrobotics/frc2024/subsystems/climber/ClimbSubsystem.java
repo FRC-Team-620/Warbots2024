@@ -20,9 +20,9 @@ public class ClimbSubsystem extends SubsystemBase {
 	private RelativeEncoder climbEncoder = climbMotor.getEncoder();
 
 	public ClimbSubsystem() {
-		climbEncoder.setPosition(0);
-		climbMotor.setIdleMode(IdleMode.kBrake);
-		climbMotor.setSmartCurrentLimit(40);
+		this.climbEncoder.setPosition(0);
+		this.climbMotor.setIdleMode(IdleMode.kBrake);
+		this.climbMotor.setSmartCurrentLimit(40);
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}
@@ -35,23 +35,23 @@ public class ClimbSubsystem extends SubsystemBase {
 	}
 
 	public CANSparkMax getMotor() {
-		return climbMotor;
+		return this.climbMotor;
 	}
 
 	public void setMotor(double amount) {
-		climbMotor.set(amount);
+		this.climbMotor.set(amount);
 	}
 
 	public double getClimbPosition() {
-		return climbEncoder.getPosition();
+		return this.climbEncoder.getPosition();
 	}
 
 	public void setEncoder(double amount) {
-		climbEncoder.setPosition(amount);
+		this.climbEncoder.setPosition(amount);
 	}
 
 	public RelativeEncoder getEncoder() {
-		return climbEncoder;
+		return this.climbEncoder;
 	}
 
 	// private ElevatorSim climbSim;
