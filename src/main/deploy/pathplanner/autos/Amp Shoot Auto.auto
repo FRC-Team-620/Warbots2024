@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 1.0
+      "x": 0.42,
+      "y": 7.0
     },
     "rotation": 0
   },
@@ -12,15 +12,27 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "unstow"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "Hallway Testing"
+            "pathName": "Amp Start"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "shoot"
           }
         }
       ]
