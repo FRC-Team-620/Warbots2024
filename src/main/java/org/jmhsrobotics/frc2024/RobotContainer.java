@@ -10,7 +10,6 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
