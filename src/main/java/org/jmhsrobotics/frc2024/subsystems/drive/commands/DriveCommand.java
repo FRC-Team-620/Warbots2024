@@ -58,9 +58,9 @@ public class DriveCommand extends Command {
 
 		// control.brake() returns a trigger value(not a boolean), so use .getAsBoolean
 		// to convert it to a boolean(same for setZeroHeading)
-		if (this.control.brake().getAsBoolean()) {
+		if (this.control.brake()) {
 			this.driveSubsystem.brake();
-		} else if (this.control.setZeroHeading().getAsBoolean()) {
+		} else if (this.control.setZeroHeading()) {
 			// zero heading is a method in driveSubsystem that "redefine" forward for the
 			// robot
 			this.driveSubsystem.zeroHeading();
