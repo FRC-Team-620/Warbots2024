@@ -7,6 +7,8 @@ public interface ControlBoard {
 	// =============Operator Controls=============
 
 	public double shooterInput();
+	public Trigger presetHigh();
+	public Trigger presetLow();
 
 	// =============Driver Controls=============
 	public Trigger brake();
@@ -18,5 +20,7 @@ public interface ControlBoard {
 	public double yInput();
 
 	public double rotationalInput();
+
+	public double pitchInput();
 
 }

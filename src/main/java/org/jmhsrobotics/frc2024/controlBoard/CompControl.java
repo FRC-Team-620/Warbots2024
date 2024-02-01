@@ -29,6 +29,18 @@ public class CompControl implements ControlBoard {
 		return this.driver.getRightX();
 	}
 
+	public double pitchInput() {
+		return this.driver.getRightY();
+	}
+
+	public Trigger presetHigh() {
+		return this.driver.y();
+	}
+
+	public Trigger presetLow() {
+		return this.driver.a();
+	}
+
 	@Override
 	public Trigger brake() {
 		return this.driver.leftBumper();

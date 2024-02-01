@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -68,9 +69,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	@Override
 	public void simulationPeriodic() {
-		double motorVolts = topFlywheel.get() * 12;
+		double motorVolts = MathUtil.clamp(topFlywheel.get() * 12,-12,12);
 		flywheelSim.setInputVoltage(motorVolts);
-		flywheelSim.update(0.2);
+		flywheelSim.update(Constants.ksimDtSec);
 		encSim.setVelocity(flywheelSim.getAngularVelocityRPM());
 	}
 }
