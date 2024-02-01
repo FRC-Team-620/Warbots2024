@@ -61,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
 	public void simulationPeriodic() {
 		double intakeVolts = intakeMotor.get() * 12;
 		intakeSim.setInput(intakeVolts);
-		intakeSim.update(0.2);
+		intakeSim.update(Constants.ksimDtSec);
 		intakeSwitchSim.setValue(true); // TODO placeholder.
 		intakeEncSim.setDistance(intakeSim.getAngularPositionRotations());
 		intakeEncSim.setVelocity(intakeSim.getAngularVelocityRPM());
