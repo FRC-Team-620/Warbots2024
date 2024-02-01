@@ -60,7 +60,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
 	@Override
 	public void simulationPeriodic() {
-		double intakeVolts =  MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
+		double intakeVolts = MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
 		intakeSim.setInput(intakeVolts);
 		intakeSim.update(Constants.ksimDtSec);
 		intakeSwitchSim.setValue(true); // TODO placeholder.
