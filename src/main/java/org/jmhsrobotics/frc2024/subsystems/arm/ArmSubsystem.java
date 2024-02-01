@@ -1,5 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.warcore.nt.NT4Util;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -79,7 +80,7 @@ public class ArmSubsystem extends SubsystemBase {
 	public void simulationPeriodic() {
 		double armVolts = MathUtil.clamp(armPivot.get() * 12, -12, 12);
 		armSim.setInputVoltage(armVolts);
-		armSim.update(0.02);
+		armSim.update(Constants.ksimDtSec);
 		pitchEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
 	}
 
