@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	@Override
 	public void simulationPeriodic() {
-		double motorVolts = MathUtil.clamp(topFlywheel.get() * 12,-12,12);
+		double motorVolts = MathUtil.clamp(topFlywheel.get() * 12, -12, 12);
 		flywheelSim.setInputVoltage(motorVolts);
 		flywheelSim.update(Constants.ksimDtSec);
 		encSim.setVelocity(flywheelSim.getAngularVelocityRPM());
