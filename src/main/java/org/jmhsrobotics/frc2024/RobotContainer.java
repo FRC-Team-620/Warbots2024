@@ -8,8 +8,13 @@ import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
@@ -38,8 +43,11 @@ public class RobotContainer implements Logged {
 
 	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
+	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
+	private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
@@ -47,15 +55,19 @@ public class RobotContainer implements Logged {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
+
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
+		SmartDashboard.putData("ArmCommand", new ArmCommand(90, this.armSubsystem));
 		configureBindings();
-
+		armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(armSubsystem, control));
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
+		SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {
@@ -76,6 +88,9 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
+		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
+		this.control.presetLow().onTrue(new ArmCommand(0, this.armSubsystem));
+
 	}
 
 	public Command getAutonomousCommand() {
