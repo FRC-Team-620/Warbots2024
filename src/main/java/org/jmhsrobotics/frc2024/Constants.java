@@ -163,4 +163,5 @@ public class Constants {
 		public static final int LEDLength = 60;
 		public static final int rainbowSpeed = 3;
 	}
+	public static final double ksimDtSec = 0.02;
 }
