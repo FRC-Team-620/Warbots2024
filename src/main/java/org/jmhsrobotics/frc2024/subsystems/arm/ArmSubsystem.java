@@ -64,14 +64,14 @@ public class ArmSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
 		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
 		NT4Util.putPose3d("ArmSubsystem/armpose3d",
-				new Pose3d(0.2, 0, 0.28, new Rotation3d(0, Units.degreesToRadians(getArmPitch()), 0)));
+				new Pose3d(0.2, 0, 0.283, new Rotation3d(0, Units.degreesToRadians(getArmPitch()), 0)));
 
 	}
 	SingleJointedArmSim armSim;
 	public void initSim() {
 		double armGearRatio = 183.33;
 		double moi = 0.399649199419221;
-		armSim = new SingleJointedArmSim(DCMotor.getNEO(1), armGearRatio, moi, Units.inchesToMeters(23), 0,
+		armSim = new SingleJointedArmSim(DCMotor.getNEO(2), armGearRatio, moi, Units.inchesToMeters(23), 0,
 				Units.degreesToRadians(180), true, 0);
 		// simEncoder = new RevEncoderSimWrapper(null, null);
 	}
@@ -79,7 +79,7 @@ public class ArmSubsystem extends SubsystemBase {
 	public void simulationPeriodic() {
 		double armVolts = MathUtil.clamp(armPivot.get() * 12, -12, 12);
 		armSim.setInputVoltage(armVolts);
-		armSim.update(0.2);
+		armSim.update(0.02);
 		pitchEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
 	}
 

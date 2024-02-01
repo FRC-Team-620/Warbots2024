@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
@@ -56,7 +57,7 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
 		SmartDashboard.putData("ArmCommand", new ArmCommand(90, this.armSubsystem));
 		configureBindings();
-
+		armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(armSubsystem, control));
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
