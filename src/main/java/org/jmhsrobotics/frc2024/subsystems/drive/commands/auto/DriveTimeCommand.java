@@ -20,6 +20,7 @@ public class DriveTimeCommand extends Command {
 		drivePower = power;
 
 		drive = subsystem;
+		addRequirements(subsystem);
 
 	}
 

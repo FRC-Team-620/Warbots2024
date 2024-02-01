@@ -160,10 +160,10 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 	public void simulationPeriodic() {
 		var prevPos = new SwerveDriveWheelPositions(new SwerveModulePosition[]{m_frontLeft.getPosition(),
 				m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}).copy();
-		m_frontLeft.update(0.2);
-		m_frontRight.update(0.2);
-		m_rearLeft.update(0.2);
-		m_rearRight.update(0.2);
+		m_frontLeft.update(Constants.ksimDtSec);
+		m_frontRight.update(Constants.ksimDtSec);
+		m_rearLeft.update(Constants.ksimDtSec);
+		m_rearRight.update(Constants.ksimDtSec);
 		var currpos = new SwerveDriveWheelPositions(new SwerveModulePosition[]{m_frontLeft.getPosition(),
 				m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}).copy();
 		var twist = SwerveConstants.kDriveKinematics.toTwist2d(prevPos, currpos);
