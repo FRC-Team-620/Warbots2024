@@ -4,17 +4,22 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public interface ControlBoard {
 
-    // =============Operator Controls=============
+	// =============Operator Controls=============
 
-    // =============Driver Controls=============
-    public Trigger brake();
+	public Trigger presetHigh();
+	public Trigger presetLow();
 
-    public Trigger setZeroHeading();
+	// =============Driver Controls=============
+	public Trigger brake();
 
-    public double xInput();
+	public Trigger setZeroHeading();
 
-    public double yInput();
+	public double xInput();
 
-    public double rotationalInput();
+	public double yInput();
+
+	public double rotationalInput();
+
+	public double pitchInput();
 
 }
