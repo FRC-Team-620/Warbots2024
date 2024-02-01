@@ -13,6 +13,8 @@ import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
@@ -41,6 +43,7 @@ public class RobotContainer implements Logged {
 
 	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
+	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
@@ -63,6 +66,8 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
+		SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {

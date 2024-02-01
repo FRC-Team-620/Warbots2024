@@ -6,6 +6,7 @@ public interface ControlBoard {
 
 	// =============Operator Controls=============
 
+	public double shooterInput();
 	public Trigger presetHigh();
 	public Trigger presetLow();
 

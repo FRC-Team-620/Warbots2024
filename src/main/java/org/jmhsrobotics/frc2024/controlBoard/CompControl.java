@@ -9,6 +9,9 @@ public class CompControl implements ControlBoard {
 
 	// TODO: Implement operator controls in the future
 	// =============Operator Controls=============
+	public double shooterInput() {
+		return this.operator.getRightTriggerAxis();
+	}
 
 	// =============Driver Controls=============
 	@Override
