@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -59,7 +60,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
 	@Override
 	public void simulationPeriodic() {
-		double intakeVolts = intakeMotor.get() * 12;
+		double intakeVolts =  MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
 		intakeSim.setInput(intakeVolts);
 		intakeSim.update(Constants.ksimDtSec);
 		intakeSwitchSim.setValue(true); // TODO placeholder.
