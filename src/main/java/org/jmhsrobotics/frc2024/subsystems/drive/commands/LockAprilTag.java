@@ -33,7 +33,7 @@ public class LockAprilTag extends Command {
 
 		this.fiducialID = fiducialID;
 
-		this.angleGoal = 0;
+		this.angleGoal = 180;
 
 		// this.angleGoal = this.target.getYaw();
 		var potentialAprilTag = this.vision.getAprilTagLayout().getTagPose(this.fiducialID);

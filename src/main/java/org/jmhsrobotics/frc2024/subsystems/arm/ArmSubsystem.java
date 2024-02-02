@@ -69,7 +69,7 @@ public class ArmSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
 		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
 		NT4Util.putPose3d("ArmSubsystem/armpose3d",
-		new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, Units.degreesToRadians(getArmPitch()), 0)));
+				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
 
 	}
 	SingleJointedArmSim armSim;
