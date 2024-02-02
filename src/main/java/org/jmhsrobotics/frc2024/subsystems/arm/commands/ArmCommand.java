@@ -30,7 +30,7 @@ public class ArmCommand extends Command {
 	public void initialize() {
 		// TODO Auto-generated method stub
 
-		armPID.reset(new State(0, 0));
+		armPID.reset(new State(this.armSubsystem.getArmPitch(), this.armSubsystem.getArmVelocity()));
 		armPID.setGoal(this.angle);
 		armPID.setTolerance(1, 3);
 	}
@@ -49,8 +49,8 @@ public class ArmCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return false;
-		// return armPID.atGoal();
+		// return false;
+		return armPID.atGoal();
 	}
 
 	@Override

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.42,
-      "y": 7.0
+      "x": 1.47,
+      "y": 7.33
     },
-    "rotation": 0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "unstow"
+            "name": "turnAndShoot"
           }
         },
         {
@@ -32,7 +32,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot"
+            "name": "turnAndShoot"
           }
         }
       ]

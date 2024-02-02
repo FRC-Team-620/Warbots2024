@@ -12,15 +12,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp Score Start"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Score Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "scoreAmp"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "scoreAmp"
+            "name": "Extake"
           }
         },
         {

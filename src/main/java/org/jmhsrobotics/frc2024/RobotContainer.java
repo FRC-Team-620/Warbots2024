@@ -4,6 +4,7 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
@@ -18,6 +19,8 @@ import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -57,7 +60,7 @@ public class RobotContainer implements Logged {
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));
+		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem));
 		SmartDashboard.putData("ArmCommand", new ArmCommand(90, this.armSubsystem));
 		configureBindings();
 		armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(armSubsystem, control));
@@ -78,7 +81,15 @@ public class RobotContainer implements Logged {
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
 						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
+
+		// TODO: fix command names in pathplanner and code
+
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
+		NamedCommands.registerCommand("scoreAmp", new ArmCommand(60, this.armSubsystem));
+		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
+		NamedCommands.registerCommand("turnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
+				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+		NamedCommands.registerCommand("Intake", new IntakeCommand(1, this.intakeSubsystem).withTimeout(1));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
