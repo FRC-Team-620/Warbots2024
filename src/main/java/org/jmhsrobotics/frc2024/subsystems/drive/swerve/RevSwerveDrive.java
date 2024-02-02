@@ -26,7 +26,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 	private final Pigeon2 m_gyro;
 	private final PIDController headingController;
-	
+
 	// Slew rate filter variables for controlling lateral acceleration
 	private double m_currentRotation = 0.0;
 	private double m_currentTranslationDir = 0.0;
@@ -42,7 +42,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 	private SwerveDriveOdometry m_odometry;
 
 	public RevSwerveDrive(ISwerveModule frontLeft, ISwerveModule frontRight, ISwerveModule rearLeft,
-	ISwerveModule rearRight, Pigeon2 gyro) {
+			ISwerveModule rearRight, Pigeon2 gyro) {
 
 		this.m_frontLeft = frontLeft;
 		this.m_frontRight = frontRight;
@@ -119,10 +119,10 @@ public class RevSwerveDrive extends RobotDriveBase {
 			m_currentRotation = rot;
 		}
 		if (fieldRelative) {
-            double headingError = calculateHeadingError();
-            double headingCorrection = headingController.calculate(headingError);
-            m_currentRotation += headingCorrection;
-        }
+			double headingError = calculateHeadingError();
+			double headingCorrection = headingController.calculate(headingError);
+			m_currentRotation += headingCorrection;
+		}
 		// Convert the commanded speeds into the correct units for the drivetrain
 		double xSpeedDelivered = xSpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
 		double ySpeedDelivered = ySpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
@@ -255,12 +255,12 @@ public class RevSwerveDrive extends RobotDriveBase {
 				m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, pose);
 	}
 	/**
-     * Returns the heading error for the PID controller.
-     *
-     * @return The heading error in degrees.
-     */
-    private double calculateHeadingError() {
-        double currentHeading = getHeading();
-        return SwerveUtils.AngleDifference(0, currentHeading);
-    }
+	 * Returns the heading error for the PID controller.
+	 *
+	 * @return The heading error in degrees.
+	 */
+	private double calculateHeadingError() {
+		double currentHeading = getHeading();
+		return SwerveUtils.AngleDifference(0, currentHeading);
+	}
 }
