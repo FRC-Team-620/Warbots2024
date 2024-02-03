@@ -34,7 +34,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -83,7 +82,6 @@ public class RobotContainer implements Logged {
 
 		// TODO: fix command names in pathplanner and code
 
-		NamedCommands.registerCommand("Wait", new WaitCommand(30));
 		NamedCommands.registerCommand("ScoreAmp", new ArmCommand(86, this.armSubsystem));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
