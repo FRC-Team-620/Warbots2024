@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "turnAndShoot"
+            "name": null
           }
         },
         {
@@ -26,13 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake"
+            "name": null
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "turnAndShoot"
+            "name": null
           }
         }
       ]

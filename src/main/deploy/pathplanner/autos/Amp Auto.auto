@@ -24,7 +24,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "scoreAmp"
+                  "name": null
                 }
               }
             ]
@@ -33,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Extake"
+            "name": null
           }
         },
         {
