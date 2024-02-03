@@ -12,57 +12,31 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreSpeaker"
-                }
-              }
-            ]
+            "name": "TurnAndShoot"
           }
         },
         {
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreSpeaker"
-                }
-              },
               {
                 "type": "named",
                 "data": {
                   "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Load Middle Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "ArmPickup"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Load Middle Note"
                 }
               }
             ]
@@ -71,51 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Intake"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Score Second Note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreSpeaker"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ScoreSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
+            "name": "TurnAndShoot"
           }
         }
       ]

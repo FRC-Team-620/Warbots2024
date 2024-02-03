@@ -11,7 +11,6 @@ import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
@@ -61,9 +60,9 @@ public class RobotContainer implements Logged {
 
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem));
-		SmartDashboard.putData("ArmCommand", new ArmCommand(90, this.armSubsystem));
+		// SmartDashboard.putData("ArmCommand", new ArmCommand(0, this.armSubsystem));
 		configureBindings();
-		armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(armSubsystem, control));
+
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
@@ -85,7 +84,7 @@ public class RobotContainer implements Logged {
 		// TODO: fix command names in pathplanner and code
 
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
-		NamedCommands.registerCommand("ScoreAmp", new ArmCommand(60, this.armSubsystem));
+		NamedCommands.registerCommand("ScoreAmp", new ArmCommand(86, this.armSubsystem));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));

@@ -37,25 +37,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ScoreSpeaker"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
                   "name": "ArmPickup"
                 }
               },
