@@ -84,7 +84,6 @@ public class RobotContainer implements Logged {
 
 		// TODO: fix command names in pathplanner and code
 
-		NamedCommands.registerCommand("Wait", new WaitCommand(30));
 		NamedCommands.registerCommand("ScoreAmp", new ArmCommand(60, this.armSubsystem));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
