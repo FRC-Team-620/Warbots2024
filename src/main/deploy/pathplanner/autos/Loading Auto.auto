@@ -14,19 +14,68 @@
         {
           "type": "named",
           "data": {
-            "name": "unstow"
+            "name": "turnAndShoot"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Loading Start"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Loading Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "armPickup"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Loading Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "turnAndShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Loading Collect"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Loading Far Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "turnAndShoot"
           }
         }
       ]
