@@ -14,13 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "unstow"
+            "name": null
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "shoot"
+            "name": null
           }
         },
         {
@@ -36,7 +36,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": null
                 }
               }
             ]
@@ -45,7 +45,7 @@
         {
           "type": "named",
           "data": {
-            "name": "shoot"
+            "name": null
           }
         }
       ]
