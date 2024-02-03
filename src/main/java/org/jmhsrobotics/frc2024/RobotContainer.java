@@ -85,12 +85,12 @@ public class RobotContainer implements Logged {
 		// TODO: fix command names in pathplanner and code
 
 		NamedCommands.registerCommand("Wait", new WaitCommand(30));
-		NamedCommands.registerCommand("scoreAmp", new ArmCommand(60, this.armSubsystem));
+		NamedCommands.registerCommand("ScoreAmp", new ArmCommand(60, this.armSubsystem));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("turnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake", new IntakeCommand(1, this.intakeSubsystem).withTimeout(1));
-		NamedCommands.registerCommand("armPickup", new ArmCommand(0, this.armSubsystem));
+		NamedCommands.registerCommand("ArmPickup", new ArmCommand(0, this.armSubsystem));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
