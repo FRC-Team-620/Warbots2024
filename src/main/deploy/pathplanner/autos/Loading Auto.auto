@@ -30,7 +30,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "armPickup"
+                  "name": "ArmPickup"
                 }
               }
             ]
@@ -39,7 +39,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "Intake"
           }
         },
         {
@@ -55,9 +55,22 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Loading Collect"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Loading Collect"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              }
+            ]
           }
         },
         {

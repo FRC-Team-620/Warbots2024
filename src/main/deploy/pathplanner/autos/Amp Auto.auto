@@ -20,12 +20,6 @@
                 "data": {
                   "pathName": "Amp Score Start"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": null
-                }
               }
             ]
           }
@@ -33,13 +27,45 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "ScoreAmp"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp Cross Line"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ScoreSpeaker"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Cross Line"
+                }
+              }
+            ]
           }
         }
       ]

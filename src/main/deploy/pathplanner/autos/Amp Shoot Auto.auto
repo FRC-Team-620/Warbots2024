@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "TurnAndShoot"
           }
         },
         {
@@ -26,13 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "ArmPickup"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": null
+            "name": "Intake"
           }
         }
       ]
