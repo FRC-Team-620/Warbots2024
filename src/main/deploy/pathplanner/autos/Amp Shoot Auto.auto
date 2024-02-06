@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 0.0
+      "x": 1.47,
+      "y": 7.33
     },
     "rotation": 0.0
   },
@@ -12,9 +12,21 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "TurnAndShoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "test1"
+            "pathName": "Amp Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmPickup"
           }
         },
         {
@@ -24,19 +36,14 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "New Path"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "newcommanddfsdf"
+            "name": "TurnAndShoot"
           }
         }
       ]
     }
   },
-  "folder": null
+  "folder": null,
+  "choreoAuto": false
 }

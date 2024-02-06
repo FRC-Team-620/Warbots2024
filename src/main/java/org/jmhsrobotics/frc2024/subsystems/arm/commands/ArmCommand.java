@@ -14,14 +14,12 @@ public class ArmCommand extends Command {
 
 	private ArmSubsystem armSubsystem;
 	private double angle;
-	private static ProfiledPIDController armPID;
-	private static int num = 0;
+	private ProfiledPIDController armPID;
 	public ArmCommand(double angle, ArmSubsystem armSubsystem) {
 		this.armSubsystem = armSubsystem;
 		this.angle = angle;
 		// TODO: tune Values;
 		armPID = new ProfiledPIDController(0.01, 0, 0, new Constraints(180, 180));
-		SmartDashboard.putData("ArmPID2", this.armPID);
 		addRequirements(this.armSubsystem);
 
 	}
@@ -30,7 +28,7 @@ public class ArmCommand extends Command {
 	public void initialize() {
 		// TODO Auto-generated method stub
 
-		armPID.reset(new State(0, 0));
+		armPID.reset(new State(this.armSubsystem.getArmPitch(), 0));
 		armPID.setGoal(this.angle);
 		armPID.setTolerance(1, 3);
 	}
@@ -49,8 +47,8 @@ public class ArmCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return false;
-		// return armPID.atGoal();
+		// return false;
+		return this.armPID.atGoal();
 	}
 
 	@Override
