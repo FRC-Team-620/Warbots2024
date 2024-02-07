@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -99,8 +100,8 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
-		// this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
-		// this.control.presetLow().onTrue(new ArmCommand(0, this.armSubsystem));
+		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
+		this.control.presetLow().onTrue(new ArmCommand(30, this.armSubsystem));
 		this.control.intakeInput().whileTrue(new IntakeCommand(5, this.intakeSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-5, this.intakeSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));

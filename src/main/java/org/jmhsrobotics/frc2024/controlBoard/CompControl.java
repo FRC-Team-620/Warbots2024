@@ -30,7 +30,7 @@ public class CompControl implements ControlBoard {
 	}
 
 	public double pitchInput() {
-		return this.operator.getRightY();
+		return this.driver.getRightY();
 	}
 
 	public Trigger presetHigh() {

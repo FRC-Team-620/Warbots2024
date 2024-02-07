@@ -4,6 +4,7 @@ import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.warcore.nt.NT4Util;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
@@ -36,23 +37,27 @@ public class ArmSubsystem extends SubsystemBase {
 		armPivot.restoreFactoryDefaults();
 		armHelper.restoreFactoryDefaults();
 		// armHelper.setInverted(true);
-		// armPivot.setInverted(false);
+		armPivot.setInverted(true);
 
 		pitchEncoder = new SimableAbsoluteEncoder(armPivot.getAbsoluteEncoder(Type.kDutyCycle));
 		armPivot.setSmartCurrentLimit(40);
 		armPivot.setIdleMode(IdleMode.kBrake);
+		armHelper.setIdleMode(IdleMode.kBrake);
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket
-		armPivot.getEncoder().setPositionConversionFactor((1.0 / 25.0) * (9.0 / 66.0));
+		// armPivot.getEncoder().setPositionConversionFactor(1 / ((1.0 / 25.0) * (9.0 /
+		// 66.0)));
+		// so its the ratio, 25:1 * 66:9 format, divided by 100 for some weird reason
+		armPivot.getEncoder().setPositionConversionFactor(1.833333333);
 
 		armHelper.follow(armPivot, true);
-		pitchEncoder.setPositionConversionFactor(Units.radiansToDegrees(1));
+		pitchEncoder.setPositionConversionFactor(360);
 		armPivot.getEncoder().setPosition(getArmPitch());
 
-		// armPivot.setSoftLimit(SoftLimitDirection.kReverse, 0);
-		// armPivot.setSoftLimit(SoftLimitDirection.kForward, 180);
-		// armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
-		// armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 10);
+		armPivot.setSoftLimit(SoftLimitDirection.kForward, 110);
+		armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
+		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
 		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
@@ -69,7 +74,7 @@ public class ArmSubsystem extends SubsystemBase {
 	}
 
 	public void setArmPivot(double amount) {
-		armPivot.set(amount * .3);
+		armPivot.set(amount);
 		// SmartDashboard.putNumber("ArmSubsystem/data/ArmPivotSpeed", amount);
 	}
 
@@ -80,6 +85,7 @@ public class ArmSubsystem extends SubsystemBase {
 	public double getArmVelocity() {
 		return this.pitchEncoder.getVelocity();
 	}
+
 	public void init2d() {
 		// TODO: finish sim
 		mech = new Mechanism2d(3, 3);
@@ -97,6 +103,7 @@ public class ArmSubsystem extends SubsystemBase {
 		SmartDashboard.putData("ArmSubsystem/armSIM", mech);
 		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
 		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
+		SmartDashboard.putNumber("ArmSubsystem/relativeAngle", armPivot.getEncoder().getPosition());
 		NT4Util.putPose3d("ArmSubsystem/armpose3d",
 				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
 

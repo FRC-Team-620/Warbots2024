@@ -23,7 +23,7 @@ public class ArmOpenLoopControlCommand extends Command {
 	}
 	@Override
 	public void execute() {
-		armSubsystem.setArmPivot(control.pitchInput());
+		armSubsystem.setArmPivot(control.pitchInput() * 0.15);
 	}
 
 	@Override

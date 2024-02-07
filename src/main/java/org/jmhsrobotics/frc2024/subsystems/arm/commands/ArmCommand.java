@@ -30,7 +30,7 @@ public class ArmCommand extends Command {
 
 		armPID.reset(new State(this.armSubsystem.getArmPitch(), 0));
 		armPID.setGoal(this.angle);
-		armPID.setTolerance(1, 3);
+		armPID.setTolerance(.5, 3);
 	}
 
 	@Override
