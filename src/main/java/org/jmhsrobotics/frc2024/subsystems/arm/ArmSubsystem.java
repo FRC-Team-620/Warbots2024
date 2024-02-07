@@ -35,6 +35,8 @@ public class ArmSubsystem extends SubsystemBase {
 	public ArmSubsystem() {
 		armPivot.restoreFactoryDefaults();
 		armHelper.restoreFactoryDefaults();
+		// armHelper.setInverted(true);
+		// armPivot.setInverted(false);
 
 		pitchEncoder = new SimableAbsoluteEncoder(armPivot.getAbsoluteEncoder(Type.kDutyCycle));
 		armPivot.setSmartCurrentLimit(40);
@@ -43,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket
 		armPivot.getEncoder().setPositionConversionFactor((1.0 / 25.0) * (9.0 / 66.0));
 
-		armHelper.follow(armPivot);
+		armHelper.follow(armPivot, true);
 		pitchEncoder.setPositionConversionFactor(Units.radiansToDegrees(1));
 		armPivot.getEncoder().setPosition(getArmPitch());
 
@@ -67,7 +69,7 @@ public class ArmSubsystem extends SubsystemBase {
 	}
 
 	public void setArmPivot(double amount) {
-		armPivot.set(amount);
+		armPivot.set(amount * .3);
 		// SmartDashboard.putNumber("ArmSubsystem/data/ArmPivotSpeed", amount);
 	}
 
@@ -78,7 +80,6 @@ public class ArmSubsystem extends SubsystemBase {
 	public double getArmVelocity() {
 		return this.pitchEncoder.getVelocity();
 	}
-
 	public void init2d() {
 		// TODO: finish sim
 		mech = new Mechanism2d(3, 3);

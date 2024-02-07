@@ -26,4 +26,9 @@ public class ArmOpenLoopControlCommand extends Command {
 		armSubsystem.setArmPivot(control.pitchInput());
 	}
 
+	@Override
+	public void end(boolean interrupted) {
+		// TODO Auto-generated method stub
+		armSubsystem.setArmPivot(0);
+	}
 }

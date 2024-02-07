@@ -41,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
 	}
 
 	public void set(double speed) {
-		intakeMotor.set(speed);
+		intakeMotor.set(-speed);
 	}
 
 	public boolean hasNote() {

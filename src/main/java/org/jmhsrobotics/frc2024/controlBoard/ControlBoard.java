@@ -6,7 +6,7 @@ public interface ControlBoard {
 
 	// =============Operator Controls=============
 
-	public double shooterInput();
+	// public double shooterInput();
 	public Trigger presetHigh();
 	public Trigger presetLow();
 
@@ -22,5 +22,11 @@ public interface ControlBoard {
 	public double rotationalInput();
 
 	public double pitchInput();
+
+	public Trigger intakeInput();
+
+	public Trigger shooterInput();
+
+	public Trigger extakeInput();
 
 }

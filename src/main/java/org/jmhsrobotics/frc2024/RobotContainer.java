@@ -6,9 +6,15 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -32,17 +38,18 @@ public class RobotContainer implements Logged {
 	// private final VisionSubsystem visionSubsystem = new
 	// VisionSubsystem(this.driveSubsystem);
 
-	// private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-	// private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-	// private final ArmSubsystem armSubsystem = new ArmSubsystem();
+	private final ArmSubsystem armSubsystem = new ArmSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+		this.armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(this.armSubsystem, this.control));
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
@@ -94,7 +101,9 @@ public class RobotContainer implements Logged {
 	private void configureBindings() {
 		// this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
 		// this.control.presetLow().onTrue(new ArmCommand(0, this.armSubsystem));
-
+		this.control.intakeInput().whileTrue(new IntakeCommand(5, this.intakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-5, this.intakeSubsystem));
+		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
 	}
 
 	public Command getAutonomousCommand() {

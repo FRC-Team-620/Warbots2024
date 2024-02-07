@@ -9,9 +9,9 @@ public class CompControl implements ControlBoard {
 
 	// TODO: Implement operator controls in the future
 	// =============Operator Controls=============
-	public double shooterInput() {
-		return this.operator.getRightTriggerAxis();
-	}
+	// public double shooterInput() {
+	// return this.operator.getRightTriggerAxis();
+	// }
 
 	// =============Driver Controls=============
 	@Override
@@ -30,7 +30,7 @@ public class CompControl implements ControlBoard {
 	}
 
 	public double pitchInput() {
-		return this.driver.getRightY();
+		return this.operator.getRightY();
 	}
 
 	public Trigger presetHigh() {
@@ -49,6 +49,21 @@ public class CompControl implements ControlBoard {
 	@Override
 	public Trigger setZeroHeading() {
 		return this.driver.rightBumper();
+	}
+
+	@Override
+	public Trigger intakeInput() {
+		return this.operator.leftTrigger();
+	}
+
+	@Override
+	public Trigger shooterInput() {
+		return this.operator.rightTrigger();
+	}
+
+	@Override
+	public Trigger extakeInput() {
+		return this.operator.povDown();
 	}
 
 }

@@ -12,9 +12,9 @@ public class Constants {
 	 * CAN id assignments
 	 */
 	public static class CAN {
-		public static final int kIntakeId = 32;
-		public static final int kShooterTopId = 33;
-		public static final int kShooterBottomId = 34;
+		public static final int kIntakeId = 40;
+		public static final int kShooterTopId = 30;
+		public static final int kShooterBottomId = 31;
 		public static final int kArmPivotRightID = 50;
 		public static final int kArmPivotFollowerID = 51;
 	};
