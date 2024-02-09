@@ -45,7 +45,7 @@ public class RobotContainer implements Logged {
 
 	public RobotContainer() {
 
-		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control, null));
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(4, this.driveSubsystem, this.visionSubsystem));

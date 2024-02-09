@@ -7,7 +7,6 @@ import org.jmhsrobotics.warcore.swerve.SwerveVisualizer;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,7 +24,6 @@ public class RevSwerveDrive extends RobotDriveBase {
 	private ISwerveModule m_frontLeft, m_frontRight, m_rearLeft, m_rearRight;
 
 	private final Pigeon2 m_gyro;
-	private final PIDController headingController;
 
 	// Slew rate filter variables for controlling lateral acceleration
 	private double m_currentRotation = 0.0;
@@ -51,8 +49,6 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 		this.m_gyro = gyro;
 
-		this.headingController = new PIDController(0.001, 0, 0);
-		headingController.setSetpoint(getHeading());
 		this.m_odometry = new SwerveDriveOdometry(Constants.SwerveConstants.kDriveKinematics, getCurrentYaw(),
 				new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
 						m_rearLeft.getPosition(), m_rearRight.getPosition()});
@@ -117,11 +113,6 @@ public class RevSwerveDrive extends RobotDriveBase {
 			xSpeedCommanded = xSpeed;
 			ySpeedCommanded = ySpeed;
 			m_currentRotation = rot;
-		}
-		if (fieldRelative) {
-			double headingError = calculateHeadingError();
-			double headingCorrection = headingController.calculate(headingError);
-			m_currentRotation += headingCorrection;
 		}
 		// Convert the commanded speeds into the correct units for the drivetrain
 		double xSpeedDelivered = xSpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
@@ -259,8 +250,4 @@ public class RevSwerveDrive extends RobotDriveBase {
 	 *
 	 * @return The heading error in degrees.
 	 */
-	private double calculateHeadingError() {
-		double currentHeading = getHeading();
-		return SwerveUtils.AngleDifference(0, currentHeading);
-	}
 }
