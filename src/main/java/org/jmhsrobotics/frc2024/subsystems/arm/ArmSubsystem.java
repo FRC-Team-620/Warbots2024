@@ -56,8 +56,8 @@ public class ArmSubsystem extends SubsystemBase {
 
 		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 10);
 		armPivot.setSoftLimit(SoftLimitDirection.kForward, 110);
-		armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
-		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+		// armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
+		// armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
 		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);

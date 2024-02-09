@@ -29,4 +29,7 @@ public interface ControlBoard {
 
 	public Trigger extakeInput();
 
+	public Trigger climberExtend();
+
+	public Trigger climberRetract();
 }

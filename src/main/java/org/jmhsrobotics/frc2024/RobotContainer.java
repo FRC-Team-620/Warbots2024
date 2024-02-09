@@ -9,6 +9,7 @@ import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
+import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -44,6 +46,8 @@ public class RobotContainer implements Logged {
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	private final ArmSubsystem armSubsystem = new ArmSubsystem();
+
+	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
@@ -105,6 +109,12 @@ public class RobotContainer implements Logged {
 		this.control.intakeInput().whileTrue(new IntakeCommand(5, this.intakeSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-5, this.intakeSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
+
+		// temp climber controls
+		this.control.climberExtend().whileTrue(new InstantCommand(climberSubsystem::extend));
+		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().whileTrue(new InstantCommand(climberSubsystem::retract));
+		this.control.climberRetract().onFalse(new InstantCommand(climberSubsystem::stop));
 	}
 
 	public Command getAutonomousCommand() {

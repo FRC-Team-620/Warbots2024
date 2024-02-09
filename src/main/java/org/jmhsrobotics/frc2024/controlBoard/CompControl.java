@@ -66,4 +66,13 @@ public class CompControl implements ControlBoard {
 		return this.operator.povDown();
 	}
 
+	@Override
+	public Trigger climberExtend() {
+		return this.operator.y();
+	}
+
+	@Override
+	public Trigger climberRetract() {
+		return this.operator.a();
+	}
 }
