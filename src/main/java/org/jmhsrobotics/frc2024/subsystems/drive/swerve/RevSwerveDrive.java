@@ -114,7 +114,6 @@ public class RevSwerveDrive extends RobotDriveBase {
 			ySpeedCommanded = ySpeed;
 			m_currentRotation = rot;
 		}
-
 		// Convert the commanded speeds into the correct units for the drivetrain
 		double xSpeedDelivered = xSpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
 		double ySpeedDelivered = ySpeedCommanded * Constants.SwerveConstants.kMaxSpeedMetersPerSecond;
@@ -246,5 +245,9 @@ public class RevSwerveDrive extends RobotDriveBase {
 		m_odometry.resetPosition(getCurrentYaw(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
 				m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, pose);
 	}
-
+	/**
+	 * Returns the heading error for the PID controller.
+	 *
+	 * @return The heading error in degrees.
+	 */
 }

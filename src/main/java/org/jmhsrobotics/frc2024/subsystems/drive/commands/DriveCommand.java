@@ -10,19 +10,22 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.controller.PIDController;
 
 public class DriveCommand extends Command {
 	/** Creates a new DriveCommand. */
 	private DriveSubsystem driveSubsystem;
 	// TODO: Update this control to a control board style input
 	private ControlBoard control;
-
-	public DriveCommand(DriveSubsystem driveSubsystem, ControlBoard control) {
+	private PIDController headingController;
+	public DriveCommand(DriveSubsystem driveSubsystem, ControlBoard control, PIDController headingController) {
 		// Use addRequirements() here to declare subsystem dependencies.
 
 		this.driveSubsystem = driveSubsystem;
 		this.control = control;
-
+		this.headingController = new PIDController(0.001, 0, 0);
+		this.headingController.enableContinuousInput(-180, 180);
+		headingController.setSetpoint(getHeading());
 		addRequirements(this.driveSubsystem);
 	}
 
@@ -50,6 +53,14 @@ public class DriveCommand extends Command {
 		SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
 		SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);
 		SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", rotationSpeed);
+		if (Math.abs(rotationSpeed) > 0.05) {
+			headingController.setSetpoint(getHeading());
+		} else {
+			double output = headingController.calculate(getHeading());
+			output = MathUtil.clamp(output, -1, 1);
+			rotationSpeed += output;
+			headingController.reset();
+		}
 		this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed, Constants.SwerveConstants.kFieldRelative,
 				Constants.SwerveConstants.kRateLimit);
 
@@ -64,6 +75,7 @@ public class DriveCommand extends Command {
 			// zero heading is a method in driveSubsystem that "redefine" forward for the
 			// robot
 			this.driveSubsystem.zeroHeading();
+			headingController.setSetpoint(getHeading());
 		}
 	}
 
@@ -84,4 +96,8 @@ public class DriveCommand extends Command {
 		return Math.pow(input, 2) * Math.signum(input);
 	}
 
+	private double getHeading() {
+		double currentHeading = driveSubsystem.getPose().getRotation().getDegrees();
+		return currentHeading;
+	}
 }
