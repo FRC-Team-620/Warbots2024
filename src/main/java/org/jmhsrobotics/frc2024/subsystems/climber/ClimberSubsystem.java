@@ -30,8 +30,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		// climber.enableSoftLimit(SoftLimitDirection.kForward, true);
 		// climber.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
-		climber.setInverted(true);
-		helper.follow(climber);
+		// climber.setInverted(true);
+		helper.follow(climber, true);
 	}
 
 	@Override

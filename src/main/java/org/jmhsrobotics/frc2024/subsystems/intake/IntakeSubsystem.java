@@ -25,6 +25,9 @@ public class IntakeSubsystem extends SubsystemBase {
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
 		intakeMotor.setSmartCurrentLimit(35);
+		// diable hard limit
+		this.lowSwitch().enableLimitSwitch(false);
+		this.highSwitch().enableLimitSwitch(false);
 
 		if (RobotBase.isSimulation()) {
 			simInit();
@@ -35,6 +38,8 @@ public class IntakeSubsystem extends SubsystemBase {
 	public void periodic() {
 		SmartDashboard.putNumber("intake/velocityRPM", intakeMotor.getEncoder().getVelocity());
 		SmartDashboard.putNumber("intake/currentDrawAmps", intakeMotor.getOutputCurrent());
+		SmartDashboard.putBoolean("Intake/highSwitchState", this.highSwitch().isPressed());
+		SmartDashboard.putBoolean("Intake/lowSwitchState", this.lowSwitch().isPressed());
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 	}
 

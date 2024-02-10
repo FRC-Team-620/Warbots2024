@@ -56,7 +56,7 @@ public class RobotContainer implements Logged {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(this.armSubsystem, this.control));
-		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem));
+		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
 		// DefaultIntakeCommand(this.intakeSubsystem));
 		// DefaultIntakeCommand(this.intakeSubsystem));
 		// this.ledSubsystem.setDefaultCommand(new
@@ -110,8 +110,8 @@ public class RobotContainer implements Logged {
 	private void configureBindings() {
 		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
 		this.control.presetLow().onTrue(new ArmCommand(30, this.armSubsystem));
-		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem));
+		this.control.intakeInput().whileTrue(new IntakeCommand(0.5, this.intakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-0.5, this.intakeSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
 
 		// temp climber controls

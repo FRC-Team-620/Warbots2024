@@ -33,13 +33,12 @@ public class CompControl implements ControlBoard {
 		return this.driver.rightBumper();
 	}
 
-
-    // =============Operator Controls=============
-    public double pitchInput() {
+	// =============Operator Controls=============
+	public double pitchInput() {
 		return this.operator.getRightY();
 	}
 
-    public Trigger presetHigh() {
+	public Trigger presetHigh() {
 		return this.operator.y();
 	}
 
@@ -52,7 +51,7 @@ public class CompControl implements ControlBoard {
 		return this.operator.rightTrigger();
 	}
 
-    @Override
+	@Override
 	public Trigger extakeInput() {
 		return this.operator.leftTrigger();
 	}
