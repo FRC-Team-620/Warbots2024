@@ -23,7 +23,7 @@ public class ClimberSubsystem extends SubsystemBase {
 		helper.setSmartCurrentLimit(40);
 		climber.setIdleMode(IdleMode.kBrake);
 		helper.setIdleMode(IdleMode.kBrake);
-		encoder.setPositionConversionFactor((5 * 4) / 100); // 20:1 gear reduction
+		encoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 
 		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
 		// climber.setSoftLimit(SoftLimitDirection.kForward, 40);

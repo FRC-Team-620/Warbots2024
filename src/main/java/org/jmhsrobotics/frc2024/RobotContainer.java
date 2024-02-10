@@ -14,6 +14,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
@@ -55,6 +56,9 @@ public class RobotContainer implements Logged {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 		this.armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(this.armSubsystem, this.control));
+		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem));
+		// DefaultIntakeCommand(this.intakeSubsystem));
+		// DefaultIntakeCommand(this.intakeSubsystem));
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
@@ -106,8 +110,8 @@ public class RobotContainer implements Logged {
 	private void configureBindings() {
 		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
 		this.control.presetLow().onTrue(new ArmCommand(30, this.armSubsystem));
-		this.control.intakeInput().whileTrue(new IntakeCommand(5, this.intakeSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-5, this.intakeSubsystem));
+		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
 
 		// temp climber controls

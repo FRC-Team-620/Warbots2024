@@ -6,10 +6,10 @@ import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
 	private CANSparkMax intakeMotor;
-	private DigitalInput intakeSwitch;
 
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
@@ -27,7 +26,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
 		intakeMotor.setSmartCurrentLimit(35);
 
-		intakeSwitch = new DigitalInput(Constants.DIO.kIntakeSwitch);
 		if (RobotBase.isSimulation()) {
 			simInit();
 		}
@@ -37,15 +35,19 @@ public class IntakeSubsystem extends SubsystemBase {
 	public void periodic() {
 		SmartDashboard.putNumber("intake/velocityRPM", intakeMotor.getEncoder().getVelocity());
 		SmartDashboard.putNumber("intake/currentDrawAmps", intakeMotor.getOutputCurrent());
-		SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
+		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 	}
 
 	public void set(double speed) {
 		intakeMotor.set(-speed);
 	}
 
-	public boolean hasNote() {
-		return intakeSwitch.get();
+	public SparkLimitSwitch lowSwitch() {
+		return this.intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+	}
+
+	public SparkLimitSwitch highSwitch() {
+		return this.intakeMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 	}
 
 	private DIOSim intakeSwitchSim;
