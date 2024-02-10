@@ -18,18 +18,39 @@ public class Constants {
 		public static final int kArmPivotRightID = 50;
 		public static final int kArmPivotFollowerID = 51;
 	};
+
 	/**
 	 * Digital IO ports
 	 */
 	public static class DIO {
 		public static final int kIntakeSwitch = 2;
 	}
+
 	/**
 	 * PWM output ports
 	 */
 	public static class PWM {
 		public static final int kLedStrip = 9;
 	}
+
+	public static class Arm {
+		public static double pickupSetpoint = 5;
+		public static double shootingSetpoint = 30;
+		public static double ampSetpoint = 100;
+	}
+
+	public static enum ArmSetpoint {
+		PICKUP(Arm.pickupSetpoint),
+		SHOOT(Arm.shootingSetpoint),
+		AMP(Arm.ampSetpoint);
+
+		public final double value;
+
+		private ArmSetpoint(double value) {
+			this.value = value;
+		}
+	}
+
 	public static class SwerveConstants {
 		// SPARK MAX CAN IDs
 		public static final int kFrontLeftDrivingCanId = 10;
@@ -166,5 +187,6 @@ public class Constants {
 		public static final int LEDLength = 60;
 		public static final int rainbowSpeed = 3;
 	}
+
 	public static final double ksimDtSec = 0.02;
 }

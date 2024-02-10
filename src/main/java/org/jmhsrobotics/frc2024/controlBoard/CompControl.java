@@ -42,6 +42,11 @@ public class CompControl implements ControlBoard {
 		return this.operator.y();
 	}
 
+	@Override
+	public Trigger presetMid() {
+		return this.operator.b();
+	}
+	
 	public Trigger presetLow() {
 		return this.operator.a();
 	}

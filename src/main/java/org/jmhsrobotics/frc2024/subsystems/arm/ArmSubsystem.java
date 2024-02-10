@@ -73,8 +73,8 @@ public class ArmSubsystem extends SubsystemBase {
 		}
 	}
 
-	public void setArmPivot(double amount) {
-		armPivot.set(amount);
+	public void setArmSpeed(double speed) {
+		armPivot.set(speed);
 		// SmartDashboard.putNumber("ArmSubsystem/data/ArmPivotSpeed", amount);
 	}
 

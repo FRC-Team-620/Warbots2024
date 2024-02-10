@@ -8,6 +8,7 @@ public interface ControlBoard {
 
 	// public double shooterInput();
 	public Trigger presetHigh();
+	public Trigger presetMid();
 	public Trigger presetLow();
 
 	// =============Driver Controls=============

@@ -6,9 +6,10 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
-import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmOpenLoopControlCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetAmpCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetPickupCommand;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -46,7 +47,7 @@ public class RobotContainer implements Logged {
 	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-	private final ArmSubsystem armSubsystem = new ArmSubsystem();
+	private final ArmPIDSubsystem armSubsystem = new ArmPIDSubsystem();
 
 	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -55,7 +56,8 @@ public class RobotContainer implements Logged {
 	public RobotContainer() {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
-		this.armSubsystem.setDefaultCommand(new ArmOpenLoopControlCommand(this.armSubsystem, this.control));
+		// this.armSubsystem.setDefaultCommand(new
+		// ArmOpenLoopControlCommand(this.armSubsystem, this.control));
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
 		// DefaultIntakeCommand(this.intakeSubsystem));
 		// DefaultIntakeCommand(this.intakeSubsystem));
@@ -108,8 +110,9 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
-		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
-		this.control.presetLow().onTrue(new ArmCommand(30, this.armSubsystem));
+		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
+		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
+		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
 		this.control.intakeInput().whileTrue(new IntakeCommand(0.5, this.intakeSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-0.5, this.intakeSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
