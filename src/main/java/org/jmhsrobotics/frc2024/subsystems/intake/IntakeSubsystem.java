@@ -43,11 +43,11 @@ public class IntakeSubsystem extends SubsystemBase {
 	}
 
 	public SparkLimitSwitch lowSwitch() {
-		return this.intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		return this.intakeMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 	}
 
 	public SparkLimitSwitch highSwitch() {
-		return this.intakeMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		return this.intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 	}
 
 	private DIOSim intakeSwitchSim;
