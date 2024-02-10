@@ -7,12 +7,6 @@ public class CompControl implements ControlBoard {
 	private CommandXboxController driver = new CommandXboxController(0);
 	private CommandXboxController operator = new CommandXboxController(1);
 
-	// TODO: Implement operator controls in the future
-	// =============Operator Controls=============
-	// public double shooterInput() {
-	// return this.operator.getRightTriggerAxis();
-	// }
-
 	// =============Driver Controls=============
 	@Override
 	public double xInput() {
@@ -29,18 +23,6 @@ public class CompControl implements ControlBoard {
 		return this.driver.getRightX();
 	}
 
-	public double pitchInput() {
-		return this.operator.getRightY();
-	}
-
-	public Trigger presetHigh() {
-		return this.driver.y();
-	}
-
-	public Trigger presetLow() {
-		return this.driver.a();
-	}
-
 	@Override
 	public Trigger brake() {
 		return this.driver.leftBumper();
@@ -51,28 +33,42 @@ public class CompControl implements ControlBoard {
 		return this.driver.rightBumper();
 	}
 
+
+    // =============Operator Controls=============
+    public double pitchInput() {
+		return this.operator.getRightY();
+	}
+
+    public Trigger presetHigh() {
+		return this.operator.y();
+	}
+
+	public Trigger presetLow() {
+		return this.operator.a();
+	}
+
 	@Override
 	public Trigger intakeInput() {
+		return this.operator.rightTrigger();
+	}
+
+    @Override
+	public Trigger extakeInput() {
 		return this.operator.leftTrigger();
 	}
 
 	@Override
 	public Trigger shooterInput() {
-		return this.operator.rightTrigger();
-	}
-
-	@Override
-	public Trigger extakeInput() {
-		return this.operator.povDown();
+		return this.operator.rightBumper();
 	}
 
 	@Override
 	public Trigger climberExtend() {
-		return this.operator.y();
+		return this.operator.povUp();
 	}
 
 	@Override
 	public Trigger climberRetract() {
-		return this.operator.a();
+		return this.operator.povDown();
 	}
 }
