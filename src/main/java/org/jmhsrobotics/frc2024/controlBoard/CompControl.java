@@ -46,7 +46,7 @@ public class CompControl implements ControlBoard {
 	public Trigger presetMid() {
 		return this.operator.b();
 	}
-	
+
 	public Trigger presetLow() {
 		return this.operator.a();
 	}

@@ -34,15 +34,13 @@ public class Constants {
 	}
 
 	public static class Arm {
-		public static double pickupSetpoint = 5;
+		public static double pickupSetpoint = 3;
 		public static double shootingSetpoint = 30;
-		public static double ampSetpoint = 100;
+		public static double ampSetpoint = 90;
 	}
 
 	public static enum ArmSetpoint {
-		PICKUP(Arm.pickupSetpoint),
-		SHOOT(Arm.shootingSetpoint),
-		AMP(Arm.ampSetpoint);
+		PICKUP(Arm.pickupSetpoint), SHOOT(Arm.shootingSetpoint), AMP(Arm.ampSetpoint);
 
 		public final double value;
 
@@ -68,9 +66,9 @@ public class Constants {
 
 		public static final double dtOffset = 0.02;
 
-		public static final double kMaxXSpeed = 0.8;
-		public static final double kMaxYSpeed = 0.8;
-		public static final double kMaxRotationSpeed = 0.8;
+		public static final double kMaxXSpeed = 1;
+		public static final double kMaxYSpeed = 1;
+		public static final double kMaxRotationSpeed = 1;
 		public static final boolean kFieldRelative = true;
 		public static final boolean kRateLimit = false;
 

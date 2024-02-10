@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.autoCommands;
 
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;

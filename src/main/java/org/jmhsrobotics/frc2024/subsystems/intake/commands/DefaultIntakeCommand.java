@@ -41,8 +41,8 @@ public class DefaultIntakeCommand extends Command {
 		boolean hasNote = lowSwitch.isPressed();
 
 		if (noteTooHigh && hasNote) {
-			intakeSubsystem.set(-.3);
-			this.shooterSubsystem.setSpeed(-0.15);
+			intakeSubsystem.set(-.1);
+			this.shooterSubsystem.setSpeed(-0.05);
 		} else {
 			intakeSubsystem.set(0);
 			this.shooterSubsystem.setSpeed(0);
