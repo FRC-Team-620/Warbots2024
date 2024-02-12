@@ -48,7 +48,7 @@ public class ArmSubsystem extends SubsystemBase {
 		// armPivot.getEncoder().setPositionConversionFactor(1 / ((1.0 / 25.0) * (9.0 /
 		// 66.0)));
 		// so its the ratio, 25:1 * 66:9 format, divided by 100 for some weird reason
-		armPivot.getEncoder().setPositionConversionFactor(((1 / 25) * (9 / 66)) * 360);
+		armPivot.getEncoder().setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
 
 		armHelper.follow(armPivot, true);
 		pitchEncoder.setPositionConversionFactor(360);
