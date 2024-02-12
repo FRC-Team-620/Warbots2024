@@ -35,7 +35,6 @@ public class ArmPIDSubsystem extends SubsystemBase {
 	private Mechanism2d mech;
 	private SparkLimitSwitch pitchSwitchF;
 	private SparkLimitSwitch pitchSwitchR;
-
 	// PID vars
 	private double angle;
 	private ProfiledPIDController armPID;
@@ -53,7 +52,8 @@ public class ArmPIDSubsystem extends SubsystemBase {
 		armHelper.setIdleMode(IdleMode.kBrake);
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket, times 360 degrees
-		armPivot.getEncoder().setPositionConversionFactor(((1 / 25) * (9 / 66)) * 360);
+		
+		armPivot.getEncoder().setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
 
 		armHelper.follow(armPivot, true);
 		pitchEncoder.setPositionConversionFactor(360);
@@ -101,7 +101,7 @@ public class ArmPIDSubsystem extends SubsystemBase {
 		armPID.setTolerance(.5, 3);
 	}
 
-	public void setArmSpeed(double speed) {
+	private void setArmSpeed(double speed) {
 		armPivot.set(speed);
 		// SmartDashboard.putNumber("ArmSubsystem/data/ArmPivotSpeed", amount);
 	}
