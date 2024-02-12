@@ -36,6 +36,7 @@ public class LockAprilTag extends Command {
 		this.angleGoal = 180;
 
 		// this.angleGoal = this.target.getYaw();
+		// TODO: FIXME: move to the initialize method, lastApriltag is not reset between command runs and could cause issues when running the command more then one time.
 		var potentialAprilTag = this.vision.getAprilTagLayout().getTagPose(this.fiducialID);
 		if (potentialAprilTag.isPresent()) {
 			Pose3d estimatedLocation = potentialAprilTag.get();
