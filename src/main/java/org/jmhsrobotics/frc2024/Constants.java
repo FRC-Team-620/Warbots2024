@@ -35,8 +35,8 @@ public class Constants {
 
 	public static class Arm {
 		public static double pickupSetpoint = 3;
-		public static double shootingSetpoint = 30;
-		public static double ampSetpoint = 90;
+		public static double shootingSetpoint = 10;
+		public static double ampSetpoint = 95;
 	}
 
 	public static enum ArmSetpoint {
@@ -76,7 +76,8 @@ public class Constants {
 		public static final double kDeadBand = 0.05;
 		// Driving Parameters - Note that these are not the maximum capable speeds of
 		// the robot, rather the allowed maximum speeds
-		public static final double kMaxSpeedMetersPerSecond = 4.2;
+		// public static final double kMaxSpeedMetersPerSecond = 4.2;
+		public static final double kMaxSpeedMetersPerSecond = 2; // testing speed - roughly 6ft/s
 		public static final double kMaxAngularSpeed = Math.PI; // radians per second
 
 		public static final double kDirectionSlewRate = 1.4; // radians per second

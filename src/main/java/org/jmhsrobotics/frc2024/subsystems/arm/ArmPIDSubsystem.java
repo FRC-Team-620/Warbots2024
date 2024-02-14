@@ -52,7 +52,7 @@ public class ArmPIDSubsystem extends SubsystemBase {
 		armHelper.setIdleMode(IdleMode.kBrake);
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket, times 360 degrees
-		
+
 		armPivot.getEncoder().setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
 
 		armHelper.follow(armPivot, true);
