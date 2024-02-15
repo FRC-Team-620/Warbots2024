@@ -18,12 +18,17 @@ public class ArmOpenLoopControlCommand extends Command {
 
 	@Override
 	public void initialize() {
-		this.armSubsystem.setArmPivot(0);
+		this.armSubsystem.setArmSpeed(0);
 
 	}
 	@Override
 	public void execute() {
-		armSubsystem.setArmPivot(control.pitchInput());
+		armSubsystem.setArmSpeed(control.pitchInput() * 0.15);
 	}
 
+	@Override
+	public void end(boolean interrupted) {
+		// TODO Auto-generated method stub
+		armSubsystem.setArmSpeed(0);
+	}
 }

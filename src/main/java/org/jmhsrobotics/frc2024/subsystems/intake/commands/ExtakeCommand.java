@@ -29,7 +29,7 @@ public class ExtakeCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return !this.intakeSubsystem.hasNote();
+		return !this.intakeSubsystem.lowSwitch().isPressed() && !this.intakeSubsystem.highSwitch().isPressed();
 	}
 
 	@Override

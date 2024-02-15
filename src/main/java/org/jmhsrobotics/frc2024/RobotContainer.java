@@ -4,26 +4,23 @@
 
 package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
-import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetAmpCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetPickupCommand;
+import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
-import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -34,6 +31,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -42,23 +40,33 @@ public class RobotContainer implements Logged {
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
+	// private final VisionSubsystem visionSubsystem = new
+	// VisionSubsystem(this.driveSubsystem);
 
 	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-	private final ArmSubsystem armSubsystem = new ArmSubsystem();
+	private final ArmPIDSubsystem armSubsystem = new ArmPIDSubsystem();
+
+	private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
-		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
+		// this.armSubsystem.setDefaultCommand(new
+		// ArmOpenLoopControlCommand(this.armSubsystem, this.control));
+		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
+		// DefaultIntakeCommand(this.intakeSubsystem));
+		// DefaultIntakeCommand(this.intakeSubsystem));
+		// this.ledSubsystem.setDefaultCommand(new
+		// RainbowLEDCommand(this.ledSubsystem));
 
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem));
+		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
+		// this.driveSubsystem, this.visionSubsystem));
 		// SmartDashboard.putData("ArmCommand", new ArmCommand(0, this.armSubsystem));
 		configureBindings();
 
@@ -67,8 +75,8 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
-		ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
-		SmartDashboard.putData("Shooter Command", shooterCommand);
+		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
+		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {
@@ -82,12 +90,17 @@ public class RobotContainer implements Logged {
 
 		// TODO: fix command names in pathplanner and code
 
-		NamedCommands.registerCommand("ScoreAmp", new ArmCommand(86, this.armSubsystem));
-		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
-		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
-				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
-		NamedCommands.registerCommand("Intake", new IntakeCommand(1, this.intakeSubsystem).withTimeout(1));
-		NamedCommands.registerCommand("ArmPickup", new ArmCommand(0, this.armSubsystem));
+		// NamedCommands.registerCommand("ScoreAmp", new ArmCommand(86,
+		// this.armSubsystem));
+		// NamedCommands.registerCommand("Extake", new
+		// ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
+		// NamedCommands.registerCommand("TurnAndShoot", new
+		// TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
+		// this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+		// NamedCommands.registerCommand("Intake", new IntakeCommand(1,
+		// this.intakeSubsystem).withTimeout(1));
+		// NamedCommands.registerCommand("ArmPickup", new ArmCommand(0,
+		// this.armSubsystem));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
@@ -97,9 +110,18 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
-		this.control.presetHigh().onTrue(new ArmCommand(100, this.armSubsystem));
-		this.control.presetLow().onTrue(new ArmCommand(0, this.armSubsystem));
+		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
+		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
+		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
+		this.control.intakeInput().whileTrue(new IntakeCommand(0.5, this.intakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-0.5, this.intakeSubsystem));
+		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
 
+		// temp climber controls
+		this.control.climberExtend().whileTrue(new InstantCommand(climberSubsystem::extend));
+		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().whileTrue(new InstantCommand(climberSubsystem::retract));
+		this.control.climberRetract().onFalse(new InstantCommand(climberSubsystem::stop));
 	}
 
 	public Command getAutonomousCommand() {

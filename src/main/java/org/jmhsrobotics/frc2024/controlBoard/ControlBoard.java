@@ -6,8 +6,9 @@ public interface ControlBoard {
 
 	// =============Operator Controls=============
 
-	public double shooterInput();
+	// public double shooterInput();
 	public Trigger presetHigh();
+	public Trigger presetMid();
 	public Trigger presetLow();
 
 	// =============Driver Controls=============
@@ -23,4 +24,13 @@ public interface ControlBoard {
 
 	public double pitchInput();
 
+	public Trigger intakeInput();
+
+	public Trigger shooterInput();
+
+	public Trigger extakeInput();
+
+	public Trigger climberExtend();
+
+	public Trigger climberRetract();
 }

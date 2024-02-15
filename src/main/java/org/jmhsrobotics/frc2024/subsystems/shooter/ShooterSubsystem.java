@@ -34,12 +34,12 @@ public class ShooterSubsystem extends SubsystemBase {
 	private void initializeMotors() {
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
 		this.topFlywheel.setSmartCurrentLimit(20);
-		this.topFlywheel.setOpenLoopRampRate(20);
+		this.topFlywheel.setOpenLoopRampRate(.5);
 		this.topEncoder = topFlywheel.getEncoder();
 
 		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
 		this.bottomFlywheel.setSmartCurrentLimit(20);
-		this.bottomFlywheel.setOpenLoopRampRate(20);
+		this.bottomFlywheel.setOpenLoopRampRate(.5);
 		this.bottomEncoder = bottomFlywheel.getEncoder();
 
 		this.bottomFlywheel.follow(topFlywheel);

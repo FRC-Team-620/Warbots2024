@@ -1,7 +1,7 @@
 package org.jmhsrobotics.frc2024.autoCommands;
 
-import org.jmhsrobotics.frc2024.subsystems.arm.ArmSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
@@ -15,12 +15,12 @@ public class TurnAndShootCommand extends SequentialCommandGroup {
 
 	private VisionSubsystem visionSubsystem;
 	private DriveSubsystem driveSubsystem;
-	private ArmSubsystem armSubsystem;
+	private ArmPIDSubsystem armSubsystem;
 	private ShooterSubsystem shooterSubsystem;
 	private IntakeSubsystem intakeSubsystem;
 
 	public TurnAndShootCommand(VisionSubsystem visionSubsystem, DriveSubsystem driveSubsystem,
-			ArmSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
+			ArmPIDSubsystem armSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem) {
 		// TODO: rename the folder name
 		this.visionSubsystem = visionSubsystem;
 		this.driveSubsystem = driveSubsystem;
@@ -29,7 +29,7 @@ public class TurnAndShootCommand extends SequentialCommandGroup {
 		this.intakeSubsystem = intakeSubsystem;
 
 		addCommands(new ParallelCommandGroup(new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem),
-				new ArmCommand(10, this.armSubsystem)).withTimeout(5));
+				new ArmSetShootCommand(this.armSubsystem)).withTimeout(5));
 		// new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
 		addRequirements(this.visionSubsystem, this.armSubsystem, this.driveSubsystem, this.shooterSubsystem,
 				this.intakeSubsystem);

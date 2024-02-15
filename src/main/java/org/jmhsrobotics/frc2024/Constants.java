@@ -12,24 +12,43 @@ public class Constants {
 	 * CAN id assignments
 	 */
 	public static class CAN {
-		public static final int kIntakeId = 32;
-		public static final int kShooterTopId = 33;
-		public static final int kShooterBottomId = 34;
+		public static final int kIntakeId = 40;
+		public static final int kShooterTopId = 30;
+		public static final int kShooterBottomId = 31;
 		public static final int kArmPivotRightID = 50;
 		public static final int kArmPivotFollowerID = 51;
 	};
+
 	/**
 	 * Digital IO ports
 	 */
 	public static class DIO {
 		public static final int kIntakeSwitch = 2;
 	}
+
 	/**
 	 * PWM output ports
 	 */
 	public static class PWM {
 		public static final int kLedStrip = 9;
 	}
+
+	public static class Arm {
+		public static double pickupSetpoint = 3;
+		public static double shootingSetpoint = 10;
+		public static double ampSetpoint = 95;
+	}
+
+	public static enum ArmSetpoint {
+		PICKUP(Arm.pickupSetpoint), SHOOT(Arm.shootingSetpoint), AMP(Arm.ampSetpoint);
+
+		public final double value;
+
+		private ArmSetpoint(double value) {
+			this.value = value;
+		}
+	}
+
 	public static class SwerveConstants {
 		// SPARK MAX CAN IDs
 		public static final int kFrontLeftDrivingCanId = 10;
@@ -47,9 +66,9 @@ public class Constants {
 
 		public static final double dtOffset = 0.02;
 
-		public static final double kMaxXSpeed = 0.8;
-		public static final double kMaxYSpeed = 0.8;
-		public static final double kMaxRotationSpeed = 0.8;
+		public static final double kMaxXSpeed = 1;
+		public static final double kMaxYSpeed = 1;
+		public static final double kMaxRotationSpeed = 1;
 		public static final boolean kFieldRelative = true;
 		public static final boolean kRateLimit = false;
 
@@ -57,7 +76,8 @@ public class Constants {
 		public static final double kDeadBand = 0.05;
 		// Driving Parameters - Note that these are not the maximum capable speeds of
 		// the robot, rather the allowed maximum speeds
-		public static final double kMaxSpeedMetersPerSecond = 4.2;
+		// public static final double kMaxSpeedMetersPerSecond = 4.2;
+		public static final double kMaxSpeedMetersPerSecond = 2; // testing speed - roughly 6ft/s
 		public static final double kMaxAngularSpeed = Math.PI; // radians per second
 
 		public static final double kDirectionSlewRate = 1.4; // radians per second
@@ -166,5 +186,6 @@ public class Constants {
 		public static final int LEDLength = 60;
 		public static final int rainbowSpeed = 3;
 	}
+
 	public static final double ksimDtSec = 0.02;
 }
