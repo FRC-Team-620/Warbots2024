@@ -38,24 +38,4 @@ public class RumbleStrongCommand extends Command {
 	public void end(boolean interrupted) {
 		controller.setRumble(RumbleType.kBothRumble, 0);
 	}
-	// public static void weakRumble()
-	// {
-	// controller.setRumble(RumbleType.kBothRumble, .1);
-	// }
-
-	// public static void strongRumble()
-	// {
-	// controller.setRumble(RumbleType.kBothRumble, 1);
-	// }
-
-	// public static void customRumble(int value)
-	// {
-	// controller.setRumble(RumbleType.kBothRumble, value);
-	// }
-
-	// // public static void mediumRumble(XboxController controller)
-	// // {
-	// // controller.setRumble(RumbleType.kBothRumble, .5);
-	// // }
-
 }
