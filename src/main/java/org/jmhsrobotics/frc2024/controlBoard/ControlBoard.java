@@ -1,24 +1,22 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public interface ControlBoard {
 
 	// =============Operator Controls=============
 
-    // =============Driver Controls=============
+	// =============Driver Controls=============
 
 	// public double shooterInput();
-	public Trigger presetHigh();
-	public Trigger presetMid();
-	public Trigger presetLow();
+	public boolean presetHigh();
+	public boolean presetMid();
+	public boolean presetLow();
 
 	// =============Driver Controls=============
-	public Trigger brake();
+	public boolean brake();
 
-	public Trigger setZeroHeading();
+	public boolean setZeroHeading();
 
 	public double xInput();
 
@@ -28,13 +26,17 @@ public interface ControlBoard {
 
 	public double pitchInput();
 
-	public Trigger intakeInput();
+	public double intakeInput();
 
-	public Trigger shooterInput();
+	public boolean shooterInput();
 
-	public Trigger extakeInput();
+	public double extakeInput();
 
-	public Trigger climberExtend();
+	public double climberExtend();
 
-	public Trigger climberRetract();
+	public double climberRetract();
+
+	public XboxController getDriverController();
+
+	public XboxController getOperatorController();
 }

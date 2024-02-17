@@ -1,56 +1,28 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class CompControl implements ControlBoard {
-    private XboxController driver = new XboxController(0);
-    private XboxController operator = new XboxController(1);
+	private XboxController driver = new XboxController(0);
+	private XboxController operator = new XboxController(1);
 
 	// =============Driver Controls=============
 	@Override
 	public double xInput() {
+
 		return this.driver.getLeftX();
 	}
 
-    // =============Driver Controls=============
-    @Override
-    public double xInput() {
+	// =============Utils=============
+	@Override
+	public XboxController getDriverController() {
+		return this.driver;
+	}
 
-        return this.driver.getLeftX();
-    }
-
-    @Override
-    public double yInput() {
-        return this.driver.getLeftY();
-    }
-
-    @Override
-    public double rotationalInput() {
-        return this.driver.getRightX();
-    }
-
-    @Override
-    public boolean brake() {
-        return this.driver.getLeftBumper();
-    }
-
-    @Override
-    public boolean setZeroHeading() {
-        return this.driver.getRightBumper();
-    }
-
-    // =============Utils=============
-    @Override
-    public XboxController getDriverController() {
-        return this.driver;
-    }
-
-    @Override
-    public XboxController getOperatorController() {
-        return this.operator;
-    }
+	@Override
+	public XboxController getOperatorController() {
+		return this.operator;
+	}
 	@Override
 	public double yInput() {
 		return this.driver.getLeftY();
@@ -62,13 +34,13 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
-	public Trigger brake() {
-		return this.driver.leftBumper();
+	public boolean brake() {
+		return this.driver.getRightBumper();
 	}
 
 	@Override
-	public Trigger setZeroHeading() {
-		return this.driver.rightBumper();
+	public boolean setZeroHeading() {
+		return this.driver.getLeftBumper();
 	}
 
 	// =============Operator Controls=============
@@ -76,41 +48,41 @@ public class CompControl implements ControlBoard {
 		return this.operator.getRightY();
 	}
 
-	public Trigger presetHigh() {
-		return this.operator.y();
+	public boolean presetHigh() {
+		return this.operator.getAButton();
 	}
 
 	@Override
-	public Trigger presetMid() {
-		return this.operator.b();
+	public boolean presetMid() {
+		return this.operator.getAButton();
 	}
 
-	public Trigger presetLow() {
-		return this.operator.a();
-	}
-
-	@Override
-	public Trigger intakeInput() {
-		return this.operator.rightTrigger();
+	public boolean presetLow() {
+		return this.operator.getAButton();
 	}
 
 	@Override
-	public Trigger extakeInput() {
-		return this.operator.leftTrigger();
+	public double intakeInput() {
+		return this.operator.getRightTriggerAxis();
 	}
 
 	@Override
-	public Trigger shooterInput() {
-		return this.operator.rightBumper();
+	public double extakeInput() {
+		return this.operator.getLeftTriggerAxis();
 	}
 
 	@Override
-	public Trigger climberExtend() {
-		return this.operator.povUp();
+	public boolean shooterInput() {
+		return this.operator.getRightBumper();
 	}
 
 	@Override
-	public Trigger climberRetract() {
-		return this.operator.povDown();
+	public double climberExtend() {
+		return this.operator.getRightTriggerAxis();
+	}
+
+	@Override
+	public double climberRetract() {
+		return this.operator.getRightTriggerAxis();
 	}
 }
