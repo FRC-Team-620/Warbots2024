@@ -27,15 +27,13 @@ public interface ControlBoard {
 
 	public double pitchInput();
 
-	public double intakeInput();
+	public Trigger intakeInput();
 
-	public boolean shooterInput();
+	public Trigger shooterInput();
 
-	public double extakeInput();
+	public Trigger extakeInput();
 
-	public double climberExtend();
-
-	public double climberRetract();
+	public Trigger climberExtend();
 
 	public XboxController getDriverController();
 

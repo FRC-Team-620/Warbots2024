@@ -14,16 +14,6 @@ public class CompControl implements ControlBoard {
 		return this.driver.getLeftX();
 	}
 
-	// =============Utils=============
-	@Override
-	public XboxController getDriverController() {
-		return this.driver;
-	}
-
-	@Override
-	public XboxController getOperatorController() {
-		return this.operator;
-	}
 	@Override
 	public double yInput() {
 		return this.driver.getLeftY();
@@ -63,27 +53,33 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
-	public double intakeInput() {
-		return this.operator.getRightTriggerAxis();
+	public Trigger intakeInput() {
+		return new JoystickButton(this.operator, XboxController.Axis.kRightTrigger.value);
 	}
 
 	@Override
-	public double extakeInput() {
-		return this.operator.getLeftTriggerAxis();
+	public Trigger extakeInput() {
+		return new JoystickButton(this.operator, XboxController.Axis.kLeftTrigger.value);
 	}
 
 	@Override
-	public boolean shooterInput() {
-		return this.operator.getRightBumper();
+	public Trigger shooterInput() {
+		return new JoystickButton(this.operator, XboxController.Button.kRightBumper.value);
 	}
 
 	@Override
-	public double climberExtend() {
-		return this.operator.getRightTriggerAxis();
+	public Trigger climberExtend() {
+		return new JoystickButton(this.operator, XboxController.Axis.kRightY.value);
+	}
+
+	// =============Utils=============
+	@Override
+	public XboxController getDriverController() {
+		return this.driver;
 	}
 
 	@Override
-	public double climberRetract() {
-		return this.operator.getRightTriggerAxis();
+	public XboxController getOperatorController() {
+		return this.operator;
 	}
 }
