@@ -1,10 +1,13 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public interface ControlBoard {
 
 	// =============Operator Controls=============
+
+	// =============Driver Controls=============
 
 	// public double shooterInput();
 	public Trigger presetHigh();
@@ -32,5 +35,7 @@ public interface ControlBoard {
 
 	public Trigger climberExtend();
 
-	public Trigger climberRetract();
+	public XboxController getDriverController();
+
+	public XboxController getOperatorController();
 }

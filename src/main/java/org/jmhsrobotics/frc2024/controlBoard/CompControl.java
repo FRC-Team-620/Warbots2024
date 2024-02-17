@@ -1,11 +1,12 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class CompControl implements ControlBoard {
-	private CommandXboxController driver = new CommandXboxController(0);
-	private CommandXboxController operator = new CommandXboxController(1);
+	private XboxController driver = new XboxController(0);
+	private XboxController operator = new XboxController(1);
 
 	// =============Driver Controls=============
 	@Override
@@ -25,12 +26,12 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger brake() {
-		return this.driver.leftBumper();
+		return new JoystickButton(this.driver, XboxController.Button.kLeftBumper.value);
 	}
 
 	@Override
 	public Trigger setZeroHeading() {
-		return this.driver.rightBumper();
+		return new JoystickButton(this.driver, XboxController.Button.kRightBumper.value);
 	}
 
 	// =============Operator Controls=============
@@ -39,40 +40,46 @@ public class CompControl implements ControlBoard {
 	}
 
 	public Trigger presetHigh() {
-		return this.operator.y();
+		return new JoystickButton(this.operator, XboxController.Button.kY.value);
 	}
 
 	@Override
 	public Trigger presetMid() {
-		return this.operator.b();
+		return new JoystickButton(this.operator, XboxController.Button.kB.value);
 	}
 
 	public Trigger presetLow() {
-		return this.operator.a();
+		return new JoystickButton(this.operator, XboxController.Button.kA.value);
 	}
 
 	@Override
 	public Trigger intakeInput() {
-		return this.operator.rightTrigger();
+		return new JoystickButton(this.operator, XboxController.Axis.kRightTrigger.value);
 	}
 
 	@Override
 	public Trigger extakeInput() {
-		return this.operator.leftTrigger();
+		return new JoystickButton(this.operator, XboxController.Axis.kLeftTrigger.value);
 	}
 
 	@Override
 	public Trigger shooterInput() {
-		return this.operator.rightBumper();
+		return new JoystickButton(this.operator, XboxController.Button.kRightBumper.value);
 	}
 
 	@Override
 	public Trigger climberExtend() {
-		return this.operator.povUp();
+		return new JoystickButton(this.operator, XboxController.Axis.kRightY.value);
+	}
+
+	// =============Utils=============
+	@Override
+	public XboxController getDriverController() {
+		return this.driver;
 	}
 
 	@Override
-	public Trigger climberRetract() {
-		return this.operator.povDown();
+	public XboxController getOperatorController() {
+		return this.operator;
 	}
 }
