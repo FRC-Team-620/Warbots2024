@@ -1,6 +1,8 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class CompControl implements ControlBoard {
 	private XboxController driver = new XboxController(0);
@@ -9,7 +11,6 @@ public class CompControl implements ControlBoard {
 	// =============Driver Controls=============
 	@Override
 	public double xInput() {
-
 		return this.driver.getLeftX();
 	}
 
@@ -34,13 +35,13 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
-	public boolean brake() {
-		return this.driver.getRightBumper();
+	public Trigger brake() {
+		return new JoystickButton(this.driver, XboxController.Button.kLeftBumper.value);
 	}
 
 	@Override
-	public boolean setZeroHeading() {
-		return this.driver.getLeftBumper();
+	public Trigger setZeroHeading() {
+		return new JoystickButton(this.driver, XboxController.Button.kRightBumper.value);
 	}
 
 	// =============Operator Controls=============
@@ -48,17 +49,17 @@ public class CompControl implements ControlBoard {
 		return this.operator.getRightY();
 	}
 
-	public boolean presetHigh() {
-		return this.operator.getAButton();
+	public Trigger presetHigh() {
+		return new JoystickButton(this.operator, XboxController.Button.kY.value);
 	}
 
 	@Override
-	public boolean presetMid() {
-		return this.operator.getAButton();
+	public Trigger presetMid() {
+		return new JoystickButton(this.operator, XboxController.Button.kB.value);
 	}
 
-	public boolean presetLow() {
-		return this.operator.getAButton();
+	public Trigger presetLow() {
+		return new JoystickButton(this.operator, XboxController.Button.kA.value);
 	}
 
 	@Override

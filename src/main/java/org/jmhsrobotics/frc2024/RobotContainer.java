@@ -105,10 +105,7 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
-		if (this.control.presetHigh()) {
-			new RumbleStrongCommand(this.control.getOperatorController()).schedule();
-		}
-		// this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
+		this.control.presetHigh().onTrue(new RumbleStrongCommand(this.control.getOperatorController()));
 		// this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
 		// this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
 		// this.control.intakeInput().whileTrue(new IntakeCommand(0.5,
