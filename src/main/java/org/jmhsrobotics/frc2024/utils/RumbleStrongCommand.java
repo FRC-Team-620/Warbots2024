@@ -15,31 +15,31 @@ public class RumbleStrongCommand extends Command {
 	 */
 
 	private XboxController controller;
-    private RumbleType type;
-    private double time, strength;
+	private RumbleType type;
+	private double time, strength;
 
-    private Timer timer;
+	private Timer timer;
 	public RumbleStrongCommand(XboxController controller, RumbleType type, double time, double strength) {
 		this.controller = controller;
-        this.type = type;
-        this.time = time;
-        this.strength = strength;
+		this.type = type;
+		this.time = time;
+		this.strength = strength;
 	}
 
 	@Override
 	public void initialize() {
 		controller.setRumble(this.type, 0);
-        this.timer.reset();
+		this.timer.reset();
 	}
 
 	@Override
 	public void execute() {
-        controller.setRumble(this.type, this.strength);
+		controller.setRumble(this.type, this.strength);
 	}
 
 	@Override
 	public boolean isFinished() {
-        return this.timer.hasElapsed(time);
+		return this.timer.hasElapsed(time);
 	}
 
 	@Override
