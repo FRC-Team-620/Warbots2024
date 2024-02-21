@@ -6,7 +6,6 @@ import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.SparkLimitSwitch;
 
-import edu.wpi.first.units.Time;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DefaultIntakeCommand extends Command {

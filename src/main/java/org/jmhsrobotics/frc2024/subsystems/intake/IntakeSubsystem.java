@@ -48,7 +48,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
 		SmartDashboard.putNumber("Intake/lowerSensorReading", this.lowerSensor.getRange());
 		SmartDashboard.putNumber("Intake/upperSensorReading", this.upperSeneor.getRange());
-		
 
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 	}
@@ -57,11 +56,11 @@ public class IntakeSubsystem extends SubsystemBase {
 		intakeMotor.set(-speed);
 	}
 
-	public TimeOfFlight lowerSensor(){
+	public TimeOfFlight lowerSensor() {
 		return this.lowerSensor;
 	}
 
-	public TimeOfFlight upperSensor(){
+	public TimeOfFlight upperSensor() {
 		return this.upperSeneor;
 	}
 
