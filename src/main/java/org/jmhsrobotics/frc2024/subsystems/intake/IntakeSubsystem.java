@@ -27,8 +27,8 @@ public class IntakeSubsystem extends SubsystemBase {
 		intakeMotor.setInverted(true);
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
-		this.lowerSensor = new TimeOfFlight(70);
-		this.upperSeneor = new TimeOfFlight(75);
+		this.lowerSensor = new TimeOfFlight(0);
+		this.upperSeneor = new TimeOfFlight(1);
 		intakeMotor.setSmartCurrentLimit(35);
 		// diable hard limit
 		this.lowSwitch().enableLimitSwitch(false);

@@ -4,6 +4,7 @@ import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 
 import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -33,6 +34,8 @@ public class DefaultIntakeCommand extends Command {
 
 	@Override
 	public void initialize() {
+		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
+		this.upperSensor.setRangingMode(RangingMode.Short, 24);
 	}
 
 	@Override
@@ -42,8 +45,8 @@ public class DefaultIntakeCommand extends Command {
 
 	@Override
 	public void execute() {
-		boolean hasNote = this.lowerSensor.getRange() < 25;
-		boolean noteTooHigh = this.upperSensor.getRange() < 25;
+		boolean hasNote = this.lowerSensor.getRange() < 100;
+		boolean noteTooHigh = this.upperSensor.getRange() < 100;
 
 		// boolean lowSwitchPressed = lowSwitch.isPressed();
 		// boolean noteTooHigh = highSwitch.isPressed();
