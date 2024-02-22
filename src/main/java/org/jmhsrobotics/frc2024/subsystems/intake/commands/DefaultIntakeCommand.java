@@ -28,15 +28,14 @@ public class DefaultIntakeCommand extends Command {
 
 		this.lowerSensor = this.intakeSubsystem.lowerSensor();
 		this.upperSensor = this.intakeSubsystem.upperSensor();
+		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
+		this.upperSensor.setRangingMode(RangingMode.Short, 24);
 
 		addRequirements(intakeSubsystem);
 	}
 
-	@Override
-	public void initialize() {
-		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
-		this.upperSensor.setRangingMode(RangingMode.Short, 24);
-	}
+	// @Override
+	// public void initialize() {}
 
 	@Override
 	public void end(boolean interrupted) {
@@ -46,15 +45,15 @@ public class DefaultIntakeCommand extends Command {
 	@Override
 	public void execute() {
 		boolean hasNote = this.lowerSensor.getRange() < 100;
-		boolean noteTooHigh = this.upperSensor.getRange() < 100;
+		boolean noteTooHigh = this.upperSensor.getRange() < 300;
 
 		// boolean lowSwitchPressed = lowSwitch.isPressed();
 		// boolean noteTooHigh = highSwitch.isPressed();
 		// boolean hasNote = lowSwitch.isPressed();
 
-		if (noteTooHigh && hasNote) {
-			intakeSubsystem.set(-.1);
-			this.shooterSubsystem.setSpeed(-0.05);
+		if (noteTooHigh) {
+			intakeSubsystem.set(-0.1);
+			this.shooterSubsystem.setSpeed(-0.1);
 		} else {
 			intakeSubsystem.set(0);
 			this.shooterSubsystem.setSpeed(0);

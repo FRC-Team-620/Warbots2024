@@ -21,14 +21,14 @@ public class IntakeSubsystem extends SubsystemBase {
 	private CANSparkMax intakeMotor;
 
 	private TimeOfFlight lowerSensor;
-	private TimeOfFlight upperSeneor;
+	private TimeOfFlight upperSensor;
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
-		this.lowerSensor = new TimeOfFlight(0);
-		this.upperSeneor = new TimeOfFlight(1);
+		this.lowerSensor = new TimeOfFlight(1);
+		this.upperSensor = new TimeOfFlight(0);
 		intakeMotor.setSmartCurrentLimit(35);
 		// diable hard limit
 		this.lowSwitch().enableLimitSwitch(false);
@@ -47,7 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
 		SmartDashboard.putBoolean("Intake/lowSwitchState", this.lowSwitch().isPressed());
 
 		SmartDashboard.putNumber("Intake/lowerSensorReading", this.lowerSensor.getRange());
-		SmartDashboard.putNumber("Intake/upperSensorReading", this.upperSeneor.getRange());
+		SmartDashboard.putNumber("Intake/upperSensorReading", this.upperSensor.getRange());
 
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 	}
@@ -61,7 +61,7 @@ public class IntakeSubsystem extends SubsystemBase {
 	}
 
 	public TimeOfFlight upperSensor() {
-		return this.upperSeneor;
+		return this.upperSensor;
 	}
 
 	public SparkLimitSwitch lowSwitch() {
