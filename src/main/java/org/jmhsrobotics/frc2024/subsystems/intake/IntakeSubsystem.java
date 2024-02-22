@@ -6,6 +6,7 @@ import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.playingwithfusion.TimeOfFlight;
+import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
 
@@ -30,9 +31,9 @@ public class IntakeSubsystem extends SubsystemBase {
 		this.lowerSensor = new TimeOfFlight(1);
 		this.upperSensor = new TimeOfFlight(0);
 		intakeMotor.setSmartCurrentLimit(35);
-		// diable hard limit
-		this.lowSwitch().enableLimitSwitch(false);
-		this.highSwitch().enableLimitSwitch(false);
+
+		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
+		this.upperSensor.setRangingMode(RangingMode.Short, 24);
 
 		if (RobotBase.isSimulation()) {
 			simInit();
@@ -72,6 +73,13 @@ public class IntakeSubsystem extends SubsystemBase {
 		return this.intakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 	}
 
+	public boolean hasNote() {
+		return this.lowerSensor.getRange() < 100;
+	}
+
+	public boolean noteTooHigh() {
+		return this.upperSensor.getRange() < 300;
+	}
 	private DIOSim intakeSwitchSim;
 	private DCMotorSim intakeSim;
 	private RevEncoderSimWrapper intakeEncSim;

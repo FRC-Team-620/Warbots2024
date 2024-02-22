@@ -13,23 +13,9 @@ public class DefaultIntakeCommand extends Command {
 	private IntakeSubsystem intakeSubsystem;
 	private ShooterSubsystem shooterSubsystem;
 
-	private SparkLimitSwitch lowSwitch;
-	private SparkLimitSwitch highSwitch;
-
-	private TimeOfFlight lowerSensor;
-	private TimeOfFlight upperSensor;
-
 	public DefaultIntakeCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
-
-		this.lowSwitch = intakeSubsystem.lowSwitch();
-		this.highSwitch = intakeSubsystem.highSwitch();
-
-		this.lowerSensor = this.intakeSubsystem.lowerSensor();
-		this.upperSensor = this.intakeSubsystem.upperSensor();
-		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
-		this.upperSensor.setRangingMode(RangingMode.Short, 24);
 
 		addRequirements(intakeSubsystem);
 	}
@@ -44,8 +30,8 @@ public class DefaultIntakeCommand extends Command {
 
 	@Override
 	public void execute() {
-		boolean hasNote = this.lowerSensor.getRange() < 100;
-		boolean noteTooHigh = this.upperSensor.getRange() < 300;
+		boolean hasNote = this.intakeSubsystem.hasNote();
+		boolean noteTooHigh = this.intakeSubsystem.noteTooHigh();
 
 		// boolean lowSwitchPressed = lowSwitch.isPressed();
 		// boolean noteTooHigh = highSwitch.isPressed();

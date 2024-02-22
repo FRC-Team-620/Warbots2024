@@ -19,6 +19,7 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
+import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -40,8 +41,7 @@ public class RobotContainer implements Logged {
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
-	// private final VisionSubsystem visionSubsystem = new
-	// VisionSubsystem(this.driveSubsystem);
+	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
 	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
