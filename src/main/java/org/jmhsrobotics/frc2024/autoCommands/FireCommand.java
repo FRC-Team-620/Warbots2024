@@ -14,7 +14,7 @@ public class FireCommand extends SequentialCommandGroup {
 	public FireCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
-		addCommands(new ShooterCommand(1, this.shooterSubsystem),
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(1));
+		addCommands(new ShooterCommand(1, this.shooterSubsystem).withTimeout(5),
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 	}
 }
