@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetAmpCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetPickupCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
@@ -109,6 +110,7 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
+		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
 		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
 		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
 		this.control.intakeInput().whileTrue(new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));

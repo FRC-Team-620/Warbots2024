@@ -5,6 +5,7 @@ import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
 
@@ -19,11 +20,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
 	private CANSparkMax intakeMotor;
 
+	private TimeOfFlight lowerSensor;
+	private TimeOfFlight upperSensor;
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
+		this.lowerSensor = new TimeOfFlight(1);
+		this.upperSensor = new TimeOfFlight(0);
 		intakeMotor.setSmartCurrentLimit(35);
 		// diable hard limit
 		this.lowSwitch().enableLimitSwitch(false);
@@ -40,11 +45,23 @@ public class IntakeSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("intake/currentDrawAmps", intakeMotor.getOutputCurrent());
 		SmartDashboard.putBoolean("Intake/highSwitchState", this.highSwitch().isPressed());
 		SmartDashboard.putBoolean("Intake/lowSwitchState", this.lowSwitch().isPressed());
+
+		SmartDashboard.putNumber("Intake/lowerSensorReading", this.lowerSensor.getRange());
+		SmartDashboard.putNumber("Intake/upperSensorReading", this.upperSensor.getRange());
+
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 	}
 
 	public void set(double speed) {
 		intakeMotor.set(-speed);
+	}
+
+	public TimeOfFlight lowerSensor() {
+		return this.lowerSensor;
+	}
+
+	public TimeOfFlight upperSensor() {
+		return this.upperSensor;
 	}
 
 	public SparkLimitSwitch lowSwitch() {
