@@ -42,7 +42,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		volt = SmartDashboard.getNumber("shooter/volt", 0);
 		if (this.getRPM() < goal) {
 			this.setVolt(volt);
-		}else{
+		} else {
 			this.atGoal = true;
 		}
 	}
@@ -60,11 +60,11 @@ public class ShooterSubsystem extends SubsystemBase {
 		this.topFlywheel.setVoltage(amount);
 	}
 
-	public void setGoal(double goal){
+	public void setGoal(double goal) {
 		this.goal = goal;
 	}
 
-	public boolean atGoal(){
+	public boolean atGoal() {
 		return this.atGoal;
 	}
 	private void initializeMotors() {
@@ -83,7 +83,6 @@ public class ShooterSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("shooter/goal", 0);
 		SmartDashboard.putNumber("shooter/volt", 5.5);
 	}
-
 
 	FlywheelSim flywheelSim;
 	RevEncoderSimWrapper encSim;
