@@ -68,6 +68,8 @@ public class RobotContainer implements Logged {
 		// RainbowLEDCommand(this.ledSubsystem));
 
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+		SmartDashboard.putData("AutoIntakeCommand",
+				new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));
 		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
 		// this.driveSubsystem, this.visionSubsystem));
 		// SmartDashboard.putData("ArmCommand", new ArmCommand(0, this.armSubsystem));
@@ -110,7 +112,7 @@ public class RobotContainer implements Logged {
 		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
 		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
 		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
-		this.control.intakeInput().whileTrue(new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));
+		this.control.intakeInput().onTrue(new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-0.5, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
 

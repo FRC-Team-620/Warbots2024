@@ -41,6 +41,7 @@ public class CompControl implements ControlBoard {
 
 	public Trigger presetHigh() {
 		return new JoystickButton(this.operator, XboxController.Button.kY.value);
+
 	}
 
 	@Override
