@@ -22,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	private RelativeEncoder bottomEncoder;
 	private double goal;
 	private double volt;
+	private boolean atGoal;
 
 	// private double speed;
 
@@ -33,6 +34,39 @@ public class ShooterSubsystem extends SubsystemBase {
 		}
 	}
 
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("shooter/topRPM", getRPM());
+		SmartDashboard.putNumber("shooter/bottomRPM", bottomEncoder.getVelocity());
+		goal = SmartDashboard.getNumber("shooter/goal", 0);
+		volt = SmartDashboard.getNumber("shooter/volt", 0);
+		if (this.getRPM() < goal) {
+			this.setVolt(volt);
+		}else{
+			this.atGoal = true;
+		}
+	}
+
+	public double getRPM() {
+
+		return topEncoder.getVelocity();
+	}
+
+	public void setSpeed(double speed) {
+		this.topFlywheel.set(speed);
+	}
+
+	public void setVolt(double amount) {
+		this.topFlywheel.setVoltage(amount);
+	}
+
+	public void setGoal(double goal){
+		this.goal = goal;
+	}
+
+	public boolean atGoal(){
+		return this.atGoal;
+	}
 	private void initializeMotors() {
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
 		this.topFlywheel.setSmartCurrentLimit(35);
@@ -50,29 +84,6 @@ public class ShooterSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("shooter/volt", 5.5);
 	}
 
-	@Override
-	public void periodic() {
-		SmartDashboard.putNumber("shooter/topRPM", getRPM());
-		SmartDashboard.putNumber("shooter/bottomRPM", bottomEncoder.getVelocity());
-		goal = SmartDashboard.getNumber("shooter/goal", 0);
-		volt = SmartDashboard.getNumber("shooter/volt", 0);
-		if (getRPM() < goal) {
-			setVolt(volt);
-		}
-	}
-
-	public double getRPM() {
-
-		return topEncoder.getVelocity();
-	}
-
-	public void setSpeed(double speed) {
-		this.topFlywheel.set(speed);
-	}
-
-	public void setVolt(double amount) {
-		this.topFlywheel.setVoltage(amount);
-	}
 
 	FlywheelSim flywheelSim;
 	RevEncoderSimWrapper encSim;
