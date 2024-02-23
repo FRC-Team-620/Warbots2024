@@ -4,6 +4,7 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
@@ -21,6 +22,7 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -68,8 +70,16 @@ public class RobotContainer implements Logged {
 		// RainbowLEDCommand(this.ledSubsystem));
 
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+
+		// TODO: test these two comamnds individually before test any autos
 		SmartDashboard.putData("AutoIntakeCommand",
 				new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));
+		SmartDashboard.putData("AutoShooterCommand", new ShooterAutoCommand(this.shooterSubsystem, 1));
+
+		// TODO: test this combo command after two commands above work as intended(lift
+		// the arm first)
+		SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+
 		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
 		// this.driveSubsystem, this.visionSubsystem));
 		// SmartDashboard.putData("ArmCommand", new ArmCommand(0, this.armSubsystem));
