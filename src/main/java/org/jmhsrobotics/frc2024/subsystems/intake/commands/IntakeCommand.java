@@ -28,12 +28,13 @@ public class IntakeCommand extends Command {
 	@Override
 	public void execute() {
 		this.intakeSubsystem.set(this.speed);
-		this.shooterSubsystem.setSpeed(-0.1);
+		this.shooterSubsystem.setSpeed(-.05);
 	}
 
 	@Override
 	public boolean isFinished() {
-		return this.intakeSubsystem.hasNote();
+		// return this.intakeSubsystem.hasNote();
+		return false;
 	}
 
 	@Override
