@@ -39,7 +39,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 	// get the camera position on the robot
 	private Transform3d camOnRobot = new Transform3d(
-			new Translation3d(Units.inchesToMeters(9.5), Units.inchesToMeters(-3.5), Units.inchesToMeters(7)),
+			new Translation3d(Units.inchesToMeters(13), Units.inchesToMeters(0), Units.inchesToMeters(10)),
 			new Rotation3d(0, 0, (Math.PI)));
 
 	// construct a photonPoseEstimator

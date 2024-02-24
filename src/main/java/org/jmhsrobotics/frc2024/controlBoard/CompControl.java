@@ -55,7 +55,8 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger intakeInput() {
-		return new JoystickButton(this.operator, XboxController.Axis.kRightTrigger.value);
+		// return new JoystickButton(this.operator, XboxController.Axis.kRightTrigger.value);
+		return new Trigger(this.operator.rightTrigger(null));
 	}
 
 	@Override

@@ -35,6 +35,7 @@ public class IntakeSubsystem extends SubsystemBase {
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
 		this.upperSensor.setRangingMode(RangingMode.Short, 24);
 
+
 		if (RobotBase.isSimulation()) {
 			simInit();
 		}
