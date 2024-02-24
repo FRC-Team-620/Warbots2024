@@ -17,6 +17,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
@@ -73,7 +74,7 @@ public class RobotContainer implements Logged {
 
 		// TODO: test these two comamnds individually before test any autos
 		SmartDashboard.putData("AutoIntakeCommand",
-				new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));
+				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 		SmartDashboard.putData("AutoShooterCommand", new ShooterAutoCommand(this.shooterSubsystem, 1));
 
 		// TODO: test this combo command after two commands above work as intended(lift
@@ -122,8 +123,8 @@ public class RobotContainer implements Logged {
 		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
 		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
 		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
-		this.control.intakeInput().whileTrue(new IntakeCommand(0.8, this.intakeSubsystem, this.shooterSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-0.8, this.intakeSubsystem, this.shooterSubsystem));
+		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
 
 		// temp climber controls
