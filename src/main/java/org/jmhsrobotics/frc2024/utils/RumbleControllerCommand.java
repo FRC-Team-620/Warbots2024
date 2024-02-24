@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class RumbleStrongCommand extends Command {
+public class RumbleControllerCommand extends Command {
 
 	/**
 	 * A weak rumble on both sides of the controller
@@ -19,7 +19,7 @@ public class RumbleStrongCommand extends Command {
 	private double time, strength;
 
 	private Timer timer;
-	public RumbleStrongCommand(XboxController controller, RumbleType type, double time, double strength) {
+	public RumbleControllerCommand(XboxController controller, RumbleType type, double time, double strength) {
 		this.controller = controller;
 		this.type = type;
 		this.time = time;
