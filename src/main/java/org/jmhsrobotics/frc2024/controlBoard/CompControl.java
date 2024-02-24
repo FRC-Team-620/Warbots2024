@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -55,13 +56,22 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger intakeInput() {
-		// return new JoystickButton(this.operator, XboxController.Axis.kRightTrigger.value);
-		return new Trigger(this.operator.rightTrigger(null));
+		// return new JoystickButton(this.operator,
+		// XboxController.Axis.kRightTrigger.value);
+		return new JoystickButton(this.operator, 0);
+	}
+
+	// idk wtf an EventLoop is to do this properly with operator.leftTrigger() but
+	// this should work
+	private boolean extakeInputSupplier() {
+		return operator.getLeftTriggerAxis() > 0.5;
 	}
 
 	@Override
 	public Trigger extakeInput() {
-		return new JoystickButton(this.operator, XboxController.Axis.kLeftTrigger.value);
+		// return new JoystickButton(this.operator, );
+		return new Trigger(this::extakeInputSupplier);
+
 	}
 
 	@Override

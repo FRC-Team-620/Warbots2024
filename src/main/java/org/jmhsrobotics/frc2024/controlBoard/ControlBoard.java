@@ -38,4 +38,5 @@ public interface ControlBoard {
 	public XboxController getDriverController();
 
 	public XboxController getOperatorController();
+
 }
