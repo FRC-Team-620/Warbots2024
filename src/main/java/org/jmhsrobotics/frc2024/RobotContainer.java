@@ -4,6 +4,7 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
@@ -80,6 +81,8 @@ public class RobotContainer implements Logged {
 		// TODO: test this combo command after two commands above work as intended(lift
 		// the arm first)
 		SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+		
+		SmartDashboard.putData("AmpHelper", new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 
 		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
 		// this.driveSubsystem, this.visionSubsystem));
