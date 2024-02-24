@@ -98,7 +98,7 @@ public class ArmPIDSubsystem extends SubsystemBase {
 		armPID.setGoal(this.angle);
 
 		// set tolerances
-		armPID.setTolerance(.5, 3);
+		armPID.setTolerance(2, 3);
 	}
 
 	private void setArmSpeed(double speed) {
