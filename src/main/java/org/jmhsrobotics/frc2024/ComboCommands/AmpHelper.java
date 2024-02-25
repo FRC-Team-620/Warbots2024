@@ -7,7 +7,6 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class AmpHelper extends SequentialCommandGroup {
@@ -21,7 +20,8 @@ public class AmpHelper extends SequentialCommandGroup {
 		this.shooterSubsystem = shooterSubsystem;
 		this.armPIDSubsystem = armPIDSubsystem;
 
-		addCommands(new ArmSetAmpCommand(this.armPIDSubsystem), new ShootOpenLoopCommand(1, this.shooterSubsystem).withTimeout(0.5),
-						new IntakeCommand(0.8, this.intakeSubsystem, this.shooterSubsystem));
+		addCommands(new ArmSetAmpCommand(this.armPIDSubsystem),
+				new ShootOpenLoopCommand(1, this.shooterSubsystem).withTimeout(0.5),
+				new IntakeCommand(0.8, this.intakeSubsystem, this.shooterSubsystem));
 	}
 }

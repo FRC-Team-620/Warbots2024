@@ -81,8 +81,9 @@ public class RobotContainer implements Logged {
 		// TODO: test this combo command after two commands above work as intended(lift
 		// the arm first)
 		SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
-		
-		SmartDashboard.putData("AmpHelper", new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+
+		SmartDashboard.putData("AmpHelper",
+				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 
 		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
 		// this.driveSubsystem, this.visionSubsystem));
