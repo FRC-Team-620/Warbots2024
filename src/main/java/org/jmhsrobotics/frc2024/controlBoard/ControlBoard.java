@@ -33,10 +33,13 @@ public interface ControlBoard {
 
 	public Trigger extakeInput();
 
+	public Trigger ampShooterInput();
+
 	public Trigger climberExtend();
+
+	public Trigger climberRetract();
 
 	public XboxController getDriverController();
 
 	public XboxController getOperatorController();
-
 }

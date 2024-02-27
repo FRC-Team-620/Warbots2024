@@ -55,26 +55,12 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger intakeInput() {
-		// return new JoystickButton(this.operator,
-		// XboxController.Axis.kRightTrigger.value);
-		return new Trigger(this::intakeInputSupplier);
-	}
-
-	// idk wtf an EventLoop is to do this properly with operator.leftTrigger() but
-	// this should work
-	private boolean extakeInputSupplier() {
-		return operator.getLeftTriggerAxis() > 0.5;
-	}
-
-	private boolean intakeInputSupplier() {
-		return this.operator.getRightTriggerAxis() > 0.5;
+		return new Trigger(() -> {return this.operator.getRightTriggerAxis() > 0.5;}); // Right Trigger
 	}
 
 	@Override
 	public Trigger extakeInput() {
-		// return new JoystickButton(this.operator, );
-		return new Trigger(this::extakeInputSupplier);
-
+		return new Trigger(() -> {return operator.getLeftTriggerAxis() > 0.5;}); // Left Trigger
 	}
 
 	@Override
@@ -83,8 +69,18 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
+	public Trigger ampShooterInput() {
+		return new JoystickButton(this.operator, XboxController.Button.kX.value);
+	}
+
+	@Override
 	public Trigger climberExtend() {
-		return new JoystickButton(this.operator, XboxController.Axis.kRightY.value);
+		return new Trigger(() -> {return this.operator.getPOV() == 0;}); // DPAD Up
+	}
+	
+	@Override
+	public Trigger climberRetract() {
+		return new Trigger(() -> {return this.operator.getPOV() == 180;}); // DPAD Down
 	}
 
 	// =============Utils=============

@@ -18,6 +18,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
@@ -130,10 +131,13 @@ public class RobotContainer implements Logged {
 		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
+		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
-		this.control.climberExtend().whileTrue(new InstantCommand(climberSubsystem::extend));
-
+		this.control.climberExtend().onTrue(new InstantCommand(climberSubsystem::extend));
+		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().onTrue(new InstantCommand(climberSubsystem::retract));
+		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
 	}
 
 	public Command getAutonomousCommand() {
