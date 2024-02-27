@@ -29,7 +29,7 @@ public class ShooterSubsystem extends SubsystemBase {
 	private boolean isOpenLoop;
 
 	private ControlType controlType = ControlType.BANG_BANG;
-	public enum ControlType{
+	public enum ControlType {
 		BANG_BANG, VOLTAGE
 	};
 
@@ -39,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
 		// Initializes motor(s)
 		this.bangBangController = new BangBangController();
 		this.bangBangController.setTolerance(100);
-		
+
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
@@ -53,20 +53,19 @@ public class ShooterSubsystem extends SubsystemBase {
 		// goal = SmartDashboard.getNumber("shooter/goal", 0);
 		// volt = SmartDashboard.getNumber("shooter/volt", 0);
 		// if (this.getRPM() < goal) {
-		// 	this.setVolt(volt);
+		// this.setVolt(volt);
 		// } else {
-		// 	this.atGoal = true;
+		// this.atGoal = true;
 		// }
 		switch (this.controlType) {
-			case BANG_BANG:
+			case BANG_BANG :
 				this.topFlywheel.set(this.bangBangController.calculate(this.getRPM(), this.reference));
 				break;
-		
-			case VOLTAGE:
+
+			case VOLTAGE :
 				this.topFlywheel.setVoltage(this.reference);
 				break;
 		}
-		
 
 	}
 
@@ -76,11 +75,11 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	// public void setSpeed(double speed) {
-	// 	this.topFlywheel.set(speed);
+	// this.topFlywheel.set(speed);
 	// }
 
 	// public void setVolt(double amount) {
-	// 	this.topFlywheel.setVoltage(amount);
+	// this.topFlywheel.setVoltage(amount);
 	// }
 
 	public void set(double goal, ControlType controlType) {

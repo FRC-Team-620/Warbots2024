@@ -4,10 +4,6 @@ import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
 
-import com.playingwithfusion.TimeOfFlight;
-import com.playingwithfusion.TimeOfFlight.RangingMode;
-import com.revrobotics.SparkLimitSwitch;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DefaultIntakeCommand extends Command {
