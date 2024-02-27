@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -20,14 +21,25 @@ public class ShooterSubsystem extends SubsystemBase {
 	private CANSparkMax bottomFlywheel = new CANSparkMax(Constants.CAN.kShooterBottomId, MotorType.kBrushless);;
 	private RelativeEncoder topEncoder;
 	private RelativeEncoder bottomEncoder;
-	private double goal;
+
+	private BangBangController bangBangController;
+	private double reference;
 	private double volt;
 	private boolean atGoal;
+	private boolean isOpenLoop;
+
+	private ControlType controlType = ControlType.BANG_BANG;
+	public enum ControlType{
+		BANG_BANG, VOLTAGE
+	};
 
 	// private double speed;
 
 	public ShooterSubsystem() {
 		// Initializes motor(s)
+		this.bangBangController = new BangBangController();
+		this.bangBangController.setTolerance(100);
+		
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
@@ -36,15 +48,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("shooter/topRPM", getRPM());
-		SmartDashboard.putNumber("shooter/bottomRPM", bottomEncoder.getVelocity());
-		goal = SmartDashboard.getNumber("shooter/goal", 0);
-		volt = SmartDashboard.getNumber("shooter/volt", 0);
-		if (this.getRPM() < goal) {
-			this.setVolt(volt);
-		} else {
-			this.atGoal = true;
+		// SmartDashboard.putNumber("shooter/topRPM", getRPM());
+		// SmartDashboard.putNumber("shooter/bottomRPM", bottomEncoder.getVelocity());
+		// goal = SmartDashboard.getNumber("shooter/goal", 0);
+		// volt = SmartDashboard.getNumber("shooter/volt", 0);
+		// if (this.getRPM() < goal) {
+		// 	this.setVolt(volt);
+		// } else {
+		// 	this.atGoal = true;
+		// }
+		switch (this.controlType) {
+			case BANG_BANG:
+				this.topFlywheel.set(this.bangBangController.calculate(this.getRPM(), this.reference));
+				break;
+		
+			case VOLTAGE:
+				this.topFlywheel.setVoltage(this.reference);
+				break;
 		}
+		
+
 	}
 
 	public double getRPM() {
@@ -52,20 +75,21 @@ public class ShooterSubsystem extends SubsystemBase {
 		return topEncoder.getVelocity();
 	}
 
-	public void setSpeed(double speed) {
-		this.topFlywheel.set(speed);
-	}
+	// public void setSpeed(double speed) {
+	// 	this.topFlywheel.set(speed);
+	// }
 
-	public void setVolt(double amount) {
-		this.topFlywheel.setVoltage(amount);
-	}
+	// public void setVolt(double amount) {
+	// 	this.topFlywheel.setVoltage(amount);
+	// }
 
-	public void setGoal(double goal) {
-		this.goal = goal;
+	public void set(double goal, ControlType controlType) {
+		this.reference = goal;
+		this.controlType = controlType;
 	}
 
 	public boolean atGoal() {
-		return this.atGoal;
+		return this.bangBangController.atSetpoint();
 	}
 	private void initializeMotors() {
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);

@@ -2,6 +2,7 @@ package org.jmhsrobotics.frc2024.subsystems.intake.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -28,7 +29,7 @@ public class AutoIntakeCommand extends Command {
 	@Override
 	public void execute() {
 		this.intakeSubsystem.set(this.speed);
-		this.shooterSubsystem.setSpeed(-.05);
+		this.shooterSubsystem.set(-.05, ControlType.VOLTAGE);
 	}
 
 	@Override

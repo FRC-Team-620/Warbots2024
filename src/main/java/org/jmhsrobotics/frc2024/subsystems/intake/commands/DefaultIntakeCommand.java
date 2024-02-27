@@ -2,6 +2,7 @@ package org.jmhsrobotics.frc2024.subsystems.intake.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
 
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
@@ -39,10 +40,10 @@ public class DefaultIntakeCommand extends Command {
 
 		if (noteTooHigh) {
 			intakeSubsystem.set(-0.1);
-			this.shooterSubsystem.setSpeed(-0.1);
+			this.shooterSubsystem.set(-0.1, ControlType.VOLTAGE);
 		} else {
 			intakeSubsystem.set(0);
-			this.shooterSubsystem.setSpeed(0);
+			this.shooterSubsystem.set(0, ControlType.VOLTAGE);
 		}
 	}
 }
