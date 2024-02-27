@@ -49,6 +49,15 @@ public class Constants {
 		}
 	}
 
+	public static class Shintake {
+		// TODO change these to accurate values
+		public static final double noNoteDistance = 300;
+		public static final double hasNoteDistance = 100;
+		public static final double intakeOrShootSpeed = 1;
+		public static final double ejectSpeed = -0.5;
+		public static final double shootRPM = 2000;
+	}
+
 	public static class SwerveConstants {
 		// SPARK MAX CAN IDs
 		public static final int kFrontLeftDrivingCanId = 10;

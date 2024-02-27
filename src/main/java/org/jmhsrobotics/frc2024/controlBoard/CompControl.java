@@ -84,7 +84,12 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger climberExtend() {
-		return new JoystickButton(this.operator, XboxController.Axis.kRightY.value);
+		return new JoystickButton(this.operator, XboxController.Button.kStart.value);
+	}
+
+	@Override
+	public Trigger climberRetract() {
+		return new JoystickButton(this.operator, XboxController.Button.kBack.value);
 	}
 
 	// =============Utils=============
