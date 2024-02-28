@@ -175,3 +175,5 @@ src/main/java/org/jmhsrobotics/frc2024/BuildConstants.java
 *.wpilog
 simgui-ds.json
 simgui.json
+networktables.json
+networktables.json.bck

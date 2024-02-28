@@ -7,8 +7,9 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class ClimberSubsystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase implements Logged {
 	private CANSparkMax climber, helper;
 	private RelativeEncoder encoder;
 

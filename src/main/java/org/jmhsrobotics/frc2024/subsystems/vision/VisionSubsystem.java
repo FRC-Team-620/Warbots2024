@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
-import org.jmhsrobotics.warcore.nt.NT4Util;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -26,7 +25,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -73,6 +71,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 	@Override
 	public void periodic() {
+
 		PhotonPipelineResult results = this.cam.getLatestResult();
 
 		targets = results.getTargets();
@@ -90,15 +89,18 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
 
-		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
-		NT4Util.putPose3d("Vision/poseList", posList);
+		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		log("flucialIDs", flucialIDs);
+		log("targets", posList);
+		log("cameraTransform", camOnRobot); // TODO: only log once
 
 		// Puting the estimated pose to the network table
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());
-		// if (estimatedPose.isPresent()) {
-		// NT4Util.putPose3d("Vision/EstimatedTarget",
-		// estimatedPose.get().estimatedPose);
-		// }
+		if (estimatedPose.isPresent()) {
+			// NT4Util.putPose3d("Vision/EstimatedTarget",
+			// estimatedPose.get().estimatedPose);
+			log("postEstimation", estimatedPose.get().estimatedPose);
+		}
 	}
 
 	public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevPose) {

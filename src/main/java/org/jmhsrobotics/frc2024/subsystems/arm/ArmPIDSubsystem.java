@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import org.jmhsrobotics.frc2024.Constants;
-import org.jmhsrobotics.warcore.nt.NT4Util;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
@@ -24,8 +23,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class ArmPIDSubsystem extends SubsystemBase {
+public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 	private MechanismLigament2d m_arm;
 	private CANSparkMax armPivot = new CANSparkMax(Constants.CAN.kArmPivotRightID, MotorType.kBrushless);
@@ -164,9 +164,9 @@ public class ArmPIDSubsystem extends SubsystemBase {
 		this.updateOdometry();
 
 		m_arm.setAngle(getArmPitch());
-
-		NT4Util.putPose3d("ArmSubsystem/armpose3d",
-				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
+		log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
+		log("armComponent_Goal",
+				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(armPID.getGoal().position), 0)));
 
 	}
 

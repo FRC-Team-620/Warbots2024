@@ -14,8 +14,9 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase implements Logged {
 	private CANSparkMax topFlywheel = new CANSparkMax(Constants.CAN.kShooterTopId, MotorType.kBrushless);
 	private CANSparkMax bottomFlywheel = new CANSparkMax(Constants.CAN.kShooterBottomId, MotorType.kBrushless);;
 	private RelativeEncoder topEncoder;
@@ -23,7 +24,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	private BangBangController bangBangController;
 	private double reference;
-
 	private ControlType controlType = ControlType.BANG_BANG;
 	public enum ControlType {
 		BANG_BANG, VOLTAGE

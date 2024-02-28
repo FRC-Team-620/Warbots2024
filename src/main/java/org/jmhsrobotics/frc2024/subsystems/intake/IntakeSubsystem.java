@@ -16,8 +16,9 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private CANSparkMax intakeMotor;
 
 	private TimeOfFlight lowerSensor;
@@ -56,6 +57,9 @@ public class IntakeSubsystem extends SubsystemBase {
 		// this.upperSensor.getRange());
 
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
+		log("intakeDutyCycle", intakeMotor.get());
+		log("hasNote", this.hasNote());
+		log("noteTooHigh", this.noteTooHigh());
 	}
 
 	public void set(double speed) {

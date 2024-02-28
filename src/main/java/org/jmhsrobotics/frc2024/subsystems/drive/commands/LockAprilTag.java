@@ -9,11 +9,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import monologue.Logged;
 
 //TODO: move all hardcoded numbers to constants file
-public class LockAprilTag extends Command {
+public class LockAprilTag extends Command implements Logged {
 	private DriveSubsystem drive;
 	private VisionSubsystem vision;
 
@@ -30,7 +30,7 @@ public class LockAprilTag extends Command {
 		this.drive = drive;
 		this.vision = vision;
 		this.lockPID = new PIDController(0.01, 0, 0);
-		SmartDashboard.putData(lockPID);
+		// SmartDashboard.putData(lockPID);
 		this.fiducialID = fiducialID;
 
 		this.angleGoal = 180;
@@ -41,7 +41,7 @@ public class LockAprilTag extends Command {
 		// time.
 
 		// SmartDashboard.putData("LockPID", this.lockPID);
-		addRequirements(this.drive); //TODO: Figure out how to deal with vision requirements
+		addRequirements(this.drive); // TODO: Figure out how to deal with vision requirements
 	}
 
 	@Override
@@ -78,13 +78,14 @@ public class LockAprilTag extends Command {
 
 			var rawOutput = this.lockPID.calculate(theta);
 			double output = MathUtil.clamp(rawOutput, -1, 1);
-			//TODO: Remove smart dashboard values
+			// TODO: Remove smart dashboard values
 
-			SmartDashboard.putNumber("Output", output);
-			SmartDashboard.putNumber("mes", theta);
+			// SmartDashboard.putNumber("Output", output);
+			// SmartDashboard.putNumber("mes", theta);
 
 			// TODO: flip the output sign
-			// Figured out the issue it appears that we had some values flipped and it was causing the pid loop not to output a continous output rather a stepped output
+			// Figured out the issue it appears that we had some values flipped and it was
+			// causing the pid loop not to output a continous output rather a stepped output
 			this.drive.drive(0, 0, -output, true, true);
 
 			// SmartDashboard.putNumber("LockPID/PositionError",

@@ -10,6 +10,8 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -18,8 +20,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class ArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends SubsystemBase implements Logged {
 
 	private MechanismLigament2d m_arm;
 	private CANSparkMax armPivot = new CANSparkMax(Constants.CAN.kArmPivotRightID, MotorType.kBrushless);
@@ -106,6 +109,8 @@ public class ArmSubsystem extends SubsystemBase {
 		// NT4Util.putPose3d("ArmSubsystem/armpose3d",
 		// new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
 		// -Units.degreesToRadians(getArmPitch()), 0)));
+
+		log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
 
 	}
 
