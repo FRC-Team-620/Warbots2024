@@ -39,6 +39,8 @@ public interface ControlBoard {
 
 	public Trigger climberRetract();
 
+	public Trigger AprilLockOn();
+
 	public XboxController getDriverController();
 
 	public XboxController getOperatorController();

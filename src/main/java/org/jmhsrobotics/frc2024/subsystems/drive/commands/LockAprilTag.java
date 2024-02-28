@@ -36,12 +36,9 @@ public class LockAprilTag extends Command {
 		this.angleGoal = 180;
 
 		// this.angleGoal = this.target.getYaw();
-		// TODO: FIXME: move to the initialize method, lastApriltag is not reset between command runs and could cause issues when running the command more then one time.
-		var potentialAprilTag = this.vision.getAprilTagLayout().getTagPose(this.fiducialID);
-		if (potentialAprilTag.isPresent()) {
-			Pose3d estimatedLocation = potentialAprilTag.get();
-			this.lastAprilTag = estimatedLocation.toPose2d();
-		}
+		// TODO: FIXME: move to the initialize method, lastApriltag is not reset between
+		// command runs and could cause issues when running the command more then one
+		// time.
 
 		SmartDashboard.putData("LockPID", this.lockPID);
 		addRequirements(this.drive, this.vision);
@@ -53,6 +50,12 @@ public class LockAprilTag extends Command {
 		this.lockPID.setSetpoint(this.angleGoal);
 		this.lockPID.setTolerance(3, 1);
 		this.lockPID.enableContinuousInput(-180, 180);
+		var potentialAprilTag = this.vision.getAprilTagLayout().getTagPose(this.fiducialID);
+		if (potentialAprilTag.isPresent()) {
+			Pose3d estimatedLocation = potentialAprilTag.get();
+			this.lastAprilTag = estimatedLocation.toPose2d();
+		}
+
 		// our goal should be 0 degrees if the camera is in the center of the robot
 		// Right now we are not accounting for the camera angle and cordnate sys
 

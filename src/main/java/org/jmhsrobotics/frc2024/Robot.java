@@ -106,6 +106,7 @@ public class Robot extends TimedRobot implements Logged {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		m_robotContainer.configureTeam();
 	}
 
 	@Override

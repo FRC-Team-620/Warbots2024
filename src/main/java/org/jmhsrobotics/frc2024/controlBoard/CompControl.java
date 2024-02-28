@@ -55,12 +55,16 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger intakeInput() {
-		return new Trigger(() -> {return this.operator.getRightTriggerAxis() > 0.5;}); // Right Trigger
+		return new Trigger(() -> {
+			return this.operator.getRightTriggerAxis() > 0.5;
+		}); // Right Trigger
 	}
 
 	@Override
 	public Trigger extakeInput() {
-		return new Trigger(() -> {return operator.getLeftTriggerAxis() > 0.5;}); // Left Trigger
+		return new Trigger(() -> {
+			return operator.getLeftTriggerAxis() > 0.5;
+		}); // Left Trigger
 	}
 
 	@Override
@@ -75,14 +79,22 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger climberExtend() {
-		return new Trigger(() -> {return this.operator.getPOV() == 0;}); // DPAD Up
-	}
-	
-	@Override
-	public Trigger climberRetract() {
-		return new Trigger(() -> {return this.operator.getPOV() == 180;}); // DPAD Down
+		return new Trigger(() -> {
+			return this.operator.getPOV() == 0;
+		}); // DPAD Up
 	}
 
+	@Override
+	public Trigger climberRetract() {
+		return new Trigger(() -> {
+			return this.operator.getPOV() == 180;
+		}); // DPAD Down
+	}
+
+	@Override
+	public Trigger AprilLockOn() {
+		return new Trigger(driver::getStartButton);
+	}
 	// =============Utils=============
 	@Override
 	public XboxController getDriverController() {

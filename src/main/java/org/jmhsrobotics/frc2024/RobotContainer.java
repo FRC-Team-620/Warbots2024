@@ -16,6 +16,7 @@ import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
@@ -138,6 +139,14 @@ public class RobotContainer implements Logged {
 		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
 		this.control.climberRetract().onTrue(new InstantCommand(climberSubsystem::retract));
 		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+	}
+
+	public void configureTeam() {
+		if (getAllianceFlipState()) {
+			this.control.AprilLockOn().whileTrue(new LockAprilTag(7, driveSubsystem, visionSubsystem));
+		} else {
+			this.control.AprilLockOn().whileTrue(new LockAprilTag(4, driveSubsystem, visionSubsystem));
+		}
 	}
 
 	public Command getAutonomousCommand() {

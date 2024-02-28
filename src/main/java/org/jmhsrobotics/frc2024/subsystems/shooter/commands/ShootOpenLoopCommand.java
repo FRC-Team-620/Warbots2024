@@ -11,7 +11,6 @@ public class ShootOpenLoopCommand extends Command {
 
 	private double speed;
 
-	
 	public ShootOpenLoopCommand(double speed, ShooterSubsystem shooterSubsystem) {
 		this.speed = speed;
 		this.shooterSubsystem = shooterSubsystem;
