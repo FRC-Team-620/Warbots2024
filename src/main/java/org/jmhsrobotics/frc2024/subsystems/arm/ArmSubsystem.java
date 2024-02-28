@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import org.jmhsrobotics.frc2024.Constants;
-import org.jmhsrobotics.warcore.nt.NT4Util;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
@@ -11,8 +10,6 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -20,7 +17,6 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmSubsystem extends SubsystemBase {
@@ -100,12 +96,16 @@ public class ArmSubsystem extends SubsystemBase {
 		// TODO Auto-generated method stub
 		super.periodic();
 		m_arm.setAngle(getArmPitch());
-		SmartDashboard.putData("ArmSubsystem/armSIM", mech);
-		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
-		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
-		SmartDashboard.putNumber("ArmSubsystem/relativeAngle", armPivot.getEncoder().getPosition());
-		NT4Util.putPose3d("ArmSubsystem/armpose3d",
-				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
+		// SmartDashboard.putData("ArmSubsystem/armSIM", mech); //TODO: This is very bad
+		// should not be sent every frame
+		// SmartDashboard.putNumber("ArmSubsystem/velocity",
+		// this.pitchEncoder.getVelocity());
+		// SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
+		// SmartDashboard.putNumber("ArmSubsystem/relativeAngle",
+		// armPivot.getEncoder().getPosition());
+		// NT4Util.putPose3d("ArmSubsystem/armpose3d",
+		// new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
+		// -Units.degreesToRadians(getArmPitch()), 0)));
 
 	}
 

@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import org.jmhsrobotics.frc2024.Constants;
-import org.jmhsrobotics.warcore.nt.NT4Util;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
@@ -12,8 +11,6 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
@@ -23,7 +20,6 @@ import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ArmPIDSubsystem extends SubsystemBase {
@@ -141,18 +137,21 @@ public class ArmPIDSubsystem extends SubsystemBase {
 		this.setArmSpeed(PIDOut);
 
 		// publish odometry
-		SmartDashboard.putNumber("ArmCommand/data/goal", this.angle);
-		SmartDashboard.putNumber("ArmCommand/data/setPoint", this.armPID.getSetpoint().position);
-		SmartDashboard.putNumber("ArmCommand/data/PIDOut", PIDOut);
-		SmartDashboard.putNumber("ArmCommand/data/Current", this.getArmPitch());
+		// SmartDashboard.putNumber("ArmCommand/data/goal", this.angle);
+		// SmartDashboard.putNumber("ArmCommand/data/setPoint",
+		// this.armPID.getSetpoint().position);
+		// SmartDashboard.putNumber("ArmCommand/data/PIDOut", PIDOut);
+		// SmartDashboard.putNumber("ArmCommand/data/Current", this.getArmPitch());
 	}
 
 	private void updateOdometry() {
 
-		SmartDashboard.putData("ArmSubsystem/armSIM", mech);
-		SmartDashboard.putNumber("ArmSubsystem/velocity", this.pitchEncoder.getVelocity());
-		SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
-		SmartDashboard.putNumber("ArmSubsystem/relativeAngle", armPivot.getEncoder().getPosition());
+		// SmartDashboard.putData("ArmSubsystem/armSIM", mech);
+		// SmartDashboard.putNumber("ArmSubsystem/velocity",
+		// this.pitchEncoder.getVelocity());
+		// SmartDashboard.putNumber("ArmSubsystem/encoder", pitchEncoder.getPosition());
+		// SmartDashboard.putNumber("ArmSubsystem/relativeAngle",
+		// armPivot.getEncoder().getPosition());
 	}
 
 	@Override
@@ -163,8 +162,9 @@ public class ArmPIDSubsystem extends SubsystemBase {
 
 		m_arm.setAngle(getArmPitch());
 
-		NT4Util.putPose3d("ArmSubsystem/armpose3d",
-				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
+		// NT4Util.putPose3d("ArmSubsystem/armpose3d",
+		// new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
+		// -Units.degreesToRadians(getArmPitch()), 0)));
 
 	}
 

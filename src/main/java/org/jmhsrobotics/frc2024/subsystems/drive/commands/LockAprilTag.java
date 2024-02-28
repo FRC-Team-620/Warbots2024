@@ -9,7 +9,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 //TODO: move all hardcoded numbers to constants file
@@ -40,7 +39,7 @@ public class LockAprilTag extends Command {
 		// command runs and could cause issues when running the command more then one
 		// time.
 
-		SmartDashboard.putData("LockPID", this.lockPID);
+		// SmartDashboard.putData("LockPID", this.lockPID);
 		addRequirements(this.drive, this.vision);
 	}
 
@@ -74,7 +73,7 @@ public class LockAprilTag extends Command {
 		if (this.lastAprilTag != null) {
 			Transform2d transform = this.lastAprilTag.minus(this.drive.getPose());
 			double theta = Math.toDegrees(Math.atan2(transform.getY(), transform.getX()));
-			SmartDashboard.putNumber("Theta", theta);
+			// SmartDashboard.putNumber("Theta", theta);
 
 			var rawOutput = this.lockPID.calculate(theta);
 			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
@@ -82,10 +81,12 @@ public class LockAprilTag extends Command {
 			// TODO: flip the output sign
 			this.drive.drive(0, 0, output, true, true);
 
-			SmartDashboard.putNumber("LockPID/PositionError", this.lockPID.getPositionError());
-			SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
-			SmartDashboard.putNumber("LockPID/output", output);
-			SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
+			// SmartDashboard.putNumber("LockPID/PositionError",
+			// this.lockPID.getPositionError());
+			// SmartDashboard.putNumber("LockPID/VelocityError",
+			// this.lockPID.getVelocityError());
+			// SmartDashboard.putNumber("LockPID/output", output);
+			// SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
 
 		} else {
 			this.drive.drive(0, 0, 0, true, true);

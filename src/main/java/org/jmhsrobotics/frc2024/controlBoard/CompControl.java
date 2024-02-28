@@ -95,14 +95,4 @@ public class CompControl implements ControlBoard {
 	public Trigger AprilLockOn() {
 		return new Trigger(driver::getStartButton);
 	}
-	// =============Utils=============
-	@Override
-	public XboxController getDriverController() {
-		return this.driver;
-	}
-
-	@Override
-	public XboxController getOperatorController() {
-		return this.operator;
-	}
 }

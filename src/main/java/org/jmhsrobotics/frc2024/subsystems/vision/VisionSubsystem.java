@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
-import org.jmhsrobotics.warcore.nt.NT4Util;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -26,7 +25,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -77,7 +75,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 		targets = results.getTargets();
 
-		SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
+		// SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
 		flucialIDs = new double[len];
@@ -90,14 +88,15 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
 
-		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
-		NT4Util.putPose3d("Vision/poseList", posList);
+		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		// NT4Util.putPose3d("Vision/poseList", posList);
 
 		// Puting the estimated pose to the network table
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());
-		if (estimatedPose.isPresent()) {
-			NT4Util.putPose3d("Vision/EstimatedTarget", estimatedPose.get().estimatedPose);
-		}
+		// if (estimatedPose.isPresent()) {
+		// NT4Util.putPose3d("Vision/EstimatedTarget",
+		// estimatedPose.get().estimatedPose);
+		// }
 	}
 
 	public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevPose) {
@@ -147,13 +146,14 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		// // The average and standard deviation in milliseconds of image data latency.
 		// cameraProp.setAvgLatencyMs(35);
 		// cameraProp.setLatencyStdDevMs(5);
-		SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
-		cameraSim.enableRawStream(true);
-		cameraSim.enableProcessedStream(true);
+		// SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
+		// cameraSim.enableRawStream(true);
+		// cameraSim.enableProcessedStream(true);
 
-		// Enable drawing a wireframe visualization of the field to the camera streams.
-		// This is extremely resource-intensive and is disabled by default.
-		cameraSim.enableDrawWireframe(true);
+		// // Enable drawing a wireframe visualization of the field to the camera
+		// streams.
+		// // This is extremely resource-intensive and is disabled by default.
+		// cameraSim.enableDrawWireframe(true);
 	}
 
 	@Override

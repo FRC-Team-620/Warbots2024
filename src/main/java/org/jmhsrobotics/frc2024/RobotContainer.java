@@ -70,7 +70,7 @@ public class RobotContainer implements Logged {
 		// RainbowLEDCommand(this.ledSubsystem));
 
 		// configureSmartDashboard();
-		
+
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
@@ -123,7 +123,7 @@ public class RobotContainer implements Logged {
 		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
 	}
 
-	public void configureSmartDashboard(){
+	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
 		SmartDashboard.putData("AutoIntakeCommand",
@@ -136,10 +136,9 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData("AmpHelper",
 				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 
-		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
-		this.driveSubsystem, this.visionSubsystem));
+		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem));
 	}
-	
+
 	public void configureTeam() {
 		// if (getAllianceFlipState()) {
 		// this.control.AprilLockOn().whileTrue(new LockAprilTag(4, driveSubsystem,
