@@ -69,12 +69,12 @@ public class ShooterSubsystem extends SubsystemBase {
 	}
 
 	public boolean atGoal() {
-		if(controlType == ControlType.VOLTAGE){
+		if (controlType == ControlType.VOLTAGE) {
 			return false;
-		}else{
+		} else {
 			return this.bangBangController.atSetpoint();
 		}
-		
+
 	}
 	private void initializeMotors() {
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);

@@ -29,9 +29,11 @@ public class TurnAndShootCommand extends SequentialCommandGroup {
 		this.shooterSubsystem = shooterSubsystem;
 		this.intakeSubsystem = intakeSubsystem;
 
-		addCommands(
-				new ParallelCommandGroup(new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem), // TODO: Remove hardcoded id
-						new CommandArm(this.armSubsystem,Constants.ArmSetpoint.SHOOT.value)),
+		addCommands(new ParallelCommandGroup(new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem), // TODO:
+																												// Remove
+																												// hardcoded
+																												// id
+				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value)),
 				new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
 
 		addRequirements(this.visionSubsystem, this.armSubsystem, this.driveSubsystem, this.shooterSubsystem,

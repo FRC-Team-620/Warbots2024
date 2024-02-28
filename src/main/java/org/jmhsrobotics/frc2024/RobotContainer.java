@@ -114,7 +114,8 @@ public class RobotContainer implements Logged {
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
 				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(1));
-		NamedCommands.registerCommand("ArmPickup", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
+		NamedCommands.registerCommand("ArmPickup",
+				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
