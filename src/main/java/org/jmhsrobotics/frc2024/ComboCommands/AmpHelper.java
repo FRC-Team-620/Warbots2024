@@ -14,7 +14,7 @@ public class AmpHelper extends SequentialCommandGroup {
 	private ShooterSubsystem shooterSubsystem;
 	private IntakeSubsystem intakeSubsystem;
 
-	public AmpHelper(ArmPIDSubsystem armPIDSubsystemm, ShooterSubsystem shooterSubsystem,
+	public AmpHelper(ArmPIDSubsystem armPIDSubsystem, ShooterSubsystem shooterSubsystem,
 			IntakeSubsystem intakeSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
