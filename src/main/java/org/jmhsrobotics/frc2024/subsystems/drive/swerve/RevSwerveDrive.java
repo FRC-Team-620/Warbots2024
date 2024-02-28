@@ -77,8 +77,11 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 	@Override
 	public void stopMotor() {
-		// throw new UnsupportedOperationException("Unimplemented method 'stopMotor'");
-		drive(0, 0, 0, false, false);
+		// TODO: Fix stop hack
+		m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+		m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+		m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+		m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
 	}
 
 	@Override
@@ -147,6 +150,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 		// Set the desired module states
 		mapDesiredModuleStates(swerveModuleStates, rotDelivered);
 
+		feedWatchdog(); // Make motor MotorSafety.feed() Happy
 		// Update visualizer
 		m_visualizer.update(m_frontLeft.getState().angle, m_frontRight.getState().angle, m_rearLeft.getState().angle,
 				m_rearRight.getState().angle, getPose());
@@ -156,10 +160,12 @@ public class RevSwerveDrive extends RobotDriveBase {
 	 * Sets the wheels into an X formation to prevent movement.
 	 */
 	public void setX() {
+
 		m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
 		m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
 		m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
 		m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+		feedWatchdog(); // Make motor MotorSafety.feed() Happy
 	}
 
 	private double getXRateLimit() {
