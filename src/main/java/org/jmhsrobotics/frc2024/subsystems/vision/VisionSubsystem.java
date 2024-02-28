@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
+import org.jmhsrobotics.warcore.nt.NT4Util;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -25,6 +26,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -88,8 +90,8 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
 
-		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
-		// NT4Util.putPose3d("Vision/poseList", posList);
+		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		NT4Util.putPose3d("Vision/poseList", posList);
 
 		// Puting the estimated pose to the network table
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());

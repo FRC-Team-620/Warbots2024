@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
@@ -81,6 +82,7 @@ public class RobotContainer implements Logged {
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
