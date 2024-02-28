@@ -54,6 +54,11 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 				this.topFlywheel.setVoltage(this.reference);
 				break;
 		}
+		log("controlType", this.controlType.toString());
+		log("reference", this.reference);
+		log("topFlywheelDutyCycle", topFlywheel.get());
+		log("topflywheelSpeed", getRPM());
+		log("bottomflywheelSpeed", bottomEncoder.getVelocity());
 
 	}
 
