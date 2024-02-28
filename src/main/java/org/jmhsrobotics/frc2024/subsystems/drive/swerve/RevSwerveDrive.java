@@ -77,12 +77,15 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 	@Override
 	public void stopMotor() {
-		throw new UnsupportedOperationException("Unimplemented method 'stopMotor'");
+		// throw new UnsupportedOperationException("Unimplemented method 'stopMotor'");
+		drive(0, 0, 0, false, false);
 	}
 
 	@Override
 	public String getDescription() {
-		throw new UnsupportedOperationException("Unimplemented method 'getDescription'");
+		// throw new UnsupportedOperationException("Unimplemented method
+		// 'getDescription'");
+		return "swerve";
 	}
 
 	/**
