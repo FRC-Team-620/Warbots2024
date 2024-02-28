@@ -61,9 +61,10 @@ public class RobotContainer implements Logged {
 
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
-		if (Robot.isSimulation()) { // Switch to single control in sim
-			swboard.setControlBoard(new SingleControl());
-		}
+		// if (Robot.isSimulation()) { // Switch to single control in sim
+		// swboard.setControlBoard(new SingleControl());
+		// }
+		swboard.setControlBoard(new SingleControl());
 		this.control = swboard;
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 
