@@ -1,7 +1,8 @@
 package org.jmhsrobotics.frc2024.autoCommands;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
@@ -29,8 +30,8 @@ public class TurnAndShootCommand extends SequentialCommandGroup {
 		this.intakeSubsystem = intakeSubsystem;
 
 		addCommands(
-				new ParallelCommandGroup(new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem),
-						new ArmSetShootCommand(this.armSubsystem)),
+				new ParallelCommandGroup(new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem), // TODO: Remove hardcoded id
+						new CommandArm(this.armSubsystem,Constants.ArmSetpoint.SHOOT.value)),
 				new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
 
 		addRequirements(this.visionSubsystem, this.armSubsystem, this.driveSubsystem, this.shooterSubsystem,

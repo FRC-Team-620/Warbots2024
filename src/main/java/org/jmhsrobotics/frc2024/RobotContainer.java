@@ -10,9 +10,7 @@ import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetAmpCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetPickupCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
@@ -110,13 +108,13 @@ public class RobotContainer implements Logged {
 						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
 
-		NamedCommands.registerCommand("ArmAmp", new ArmSetAmpCommand(this.armSubsystem));
+		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
 				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(1));
-		NamedCommands.registerCommand("ArmPickup", new ArmSetPickupCommand(this.armSubsystem));
+		NamedCommands.registerCommand("ArmPickup", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
@@ -126,9 +124,9 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
-		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
-		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
-		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
+		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
+		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+		this.control.presetLow().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));

@@ -24,9 +24,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	private BangBangController bangBangController;
 	private double reference;
-	private double volt;
-	private boolean atGoal;
-	private boolean isOpenLoop;
 
 	private ControlType controlType = ControlType.BANG_BANG;
 	public enum ControlType {
@@ -48,15 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// SmartDashboard.putNumber("shooter/topRPM", getRPM());
-		// SmartDashboard.putNumber("shooter/bottomRPM", bottomEncoder.getVelocity());
-		// goal = SmartDashboard.getNumber("shooter/goal", 0);
-		// volt = SmartDashboard.getNumber("shooter/volt", 0);
-		// if (this.getRPM() < goal) {
-		// this.setVolt(volt);
-		// } else {
-		// this.atGoal = true;
-		// }
+
 		switch (this.controlType) {
 			case BANG_BANG :
 				this.topFlywheel.set(this.bangBangController.calculate(this.getRPM(), this.reference));
@@ -74,21 +63,18 @@ public class ShooterSubsystem extends SubsystemBase {
 		return topEncoder.getVelocity();
 	}
 
-	// public void setSpeed(double speed) {
-	// this.topFlywheel.set(speed);
-	// }
-
-	// public void setVolt(double amount) {
-	// this.topFlywheel.setVoltage(amount);
-	// }
-
 	public void set(double goal, ControlType controlType) {
 		this.reference = goal;
 		this.controlType = controlType;
 	}
 
 	public boolean atGoal() {
-		return this.bangBangController.atSetpoint();
+		if(controlType == ControlType.VOLTAGE){
+			return false;
+		}else{
+			return this.bangBangController.atSetpoint();
+		}
+		
 	}
 	private void initializeMotors() {
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);

@@ -1,20 +1,19 @@
 package org.jmhsrobotics.frc2024.subsystems.arm.commands;
 
-import edu.wpi.first.wpilibj2.command.Command;
-
-import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 
-public class ArmSetShootCommand extends Command {
+import edu.wpi.first.wpilibj2.command.Command;
 
+public class CommandArm extends Command {
 	private ArmPIDSubsystem armSubsystem;
 
-	private double angle = Constants.ArmSetpoint.SHOOT.value;
+	// set angle from constants
+	private final double angle;
 
-	public ArmSetShootCommand(ArmPIDSubsystem armSubsystem) {
+	public CommandArm(ArmPIDSubsystem armSubsystem, double angleDegrees) {
 		this.armSubsystem = armSubsystem;
-		addRequirements(this.armSubsystem);
-
+		this.angle = angleDegrees;
+		addRequirements(armSubsystem);
 	}
 
 	@Override
@@ -24,7 +23,6 @@ public class ArmSetShootCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		// return false;
 		return this.armSubsystem.atGoal();
 	}
 }

@@ -1,7 +1,8 @@
 package org.jmhsrobotics.frc2024.ComboCommands;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetAmpCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
@@ -20,7 +21,7 @@ public class AmpHelper extends SequentialCommandGroup {
 		this.shooterSubsystem = shooterSubsystem;
 		this.armPIDSubsystem = armPIDSubsystem;
 
-		addCommands(new ArmSetAmpCommand(this.armPIDSubsystem),
+		addCommands(new CommandArm(this.armPIDSubsystem, Constants.ArmSetpoint.AMP.value),
 				new ShootOpenLoopCommand(1, this.shooterSubsystem).withTimeout(0.5),
 				new IntakeCommand(0.8, this.intakeSubsystem, this.shooterSubsystem));
 	}
