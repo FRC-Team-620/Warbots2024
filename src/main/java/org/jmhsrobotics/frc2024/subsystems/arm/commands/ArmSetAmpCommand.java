@@ -13,6 +13,7 @@ public class ArmSetAmpCommand extends Command {
 
 	public ArmSetAmpCommand(ArmPIDSubsystem armSubsystem) {
 		this.armSubsystem = armSubsystem;
+		addRequirements(armSubsystem);
 	}
 
 	@Override

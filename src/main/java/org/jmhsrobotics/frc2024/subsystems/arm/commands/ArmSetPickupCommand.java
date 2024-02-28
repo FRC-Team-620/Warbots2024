@@ -11,6 +11,7 @@ public class ArmSetPickupCommand extends Command {
 
 	public ArmSetPickupCommand(ArmPIDSubsystem armSubsystem) {
 		this.armSubsystem = armSubsystem;
+		addRequirements(armSubsystem);
 	}
 
 	@Override
@@ -22,4 +23,5 @@ public class ArmSetPickupCommand extends Command {
 	public boolean isFinished() {
 		return this.armSubsystem.atGoal();
 	}
+
 }
