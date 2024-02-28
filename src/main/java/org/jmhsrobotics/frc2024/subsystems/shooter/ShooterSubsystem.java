@@ -88,9 +88,6 @@ public class ShooterSubsystem extends SubsystemBase {
 		this.bottomEncoder = bottomFlywheel.getEncoder();
 
 		this.bottomFlywheel.follow(topFlywheel);
-
-		SmartDashboard.putNumber("shooter/goal", 0);
-		SmartDashboard.putNumber("shooter/volt", 5.5);
 	}
 
 	FlywheelSim flywheelSim;

@@ -63,31 +63,14 @@ public class RobotContainer implements Logged {
 	public RobotContainer() {
 
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
-		// this.armSubsystem.setDefaultCommand(new
-		// ArmOpenLoopControlCommand(this.armSubsystem, this.control));
+
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
-		// DefaultIntakeCommand(this.intakeSubsystem));
-		// DefaultIntakeCommand(this.intakeSubsystem));
+
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
-		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-
-		// TODO: test these two comamnds individually before test any autos
-		SmartDashboard.putData("AutoIntakeCommand",
-				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
-		SmartDashboard.putData("AutoShooterCommand", new ShooterAutoCommand(this.shooterSubsystem, 1));
-
-		// TODO: test this combo command after two commands above work as intended(lift
-		// the arm first)
-		SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
-
-		SmartDashboard.putData("AmpHelper",
-				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
-
-		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
-		// this.driveSubsystem, this.visionSubsystem));
-		// SmartDashboard.putData("ArmCommand", new ArmCommand(0, this.armSubsystem));
+		// configureSmartDashboard();
+		
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
@@ -140,6 +123,23 @@ public class RobotContainer implements Logged {
 		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
 	}
 
+	public void configureSmartDashboard(){
+		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+
+		SmartDashboard.putData("AutoIntakeCommand",
+				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+
+		SmartDashboard.putData("AutoShooterCommand", new ShooterAutoCommand(this.shooterSubsystem, 1));
+
+		SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+
+		SmartDashboard.putData("AmpHelper",
+				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+
+		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
+		this.driveSubsystem, this.visionSubsystem));
+	}
+	
 	public void configureTeam() {
 		// if (getAllianceFlipState()) {
 		// this.control.AprilLockOn().whileTrue(new LockAprilTag(4, driveSubsystem,
