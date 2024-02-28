@@ -144,10 +144,10 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		// // Set the camera image capture framerate (Note: this is limited by robot
 		// loop
 		// // rate).
-		// cameraProp.setFPS(20);
+		cameraProp.setFPS(10);
 		// // The average and standard deviation in milliseconds of image data latency.
-		// cameraProp.setAvgLatencyMs(35);
-		// cameraProp.setLatencyStdDevMs(5);
+		cameraProp.setAvgLatencyMs(50);
+		cameraProp.setLatencyStdDevMs(5);
 		// SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
 		// cameraSim.enableRawStream(true);
 		// cameraSim.enableProcessedStream(true);

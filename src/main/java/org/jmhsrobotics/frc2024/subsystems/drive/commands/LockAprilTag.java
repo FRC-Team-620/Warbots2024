@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 //TODO: move all hardcoded numbers to constants file
@@ -28,11 +29,11 @@ public class LockAprilTag extends Command {
 	public LockAprilTag(int fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.001, 0, 0);
-
+		this.lockPID = new PIDController(0.01, 0, 0);
+		SmartDashboard.putData(lockPID);
 		this.fiducialID = fiducialID;
 
-		this.angleGoal = 0;
+		this.angleGoal = 180;
 
 		// this.angleGoal = this.target.getYaw();
 		// TODO: FIXME: move to the initialize method, lastApriltag is not reset between
@@ -40,14 +41,14 @@ public class LockAprilTag extends Command {
 		// time.
 
 		// SmartDashboard.putData("LockPID", this.lockPID);
-		addRequirements(this.drive, this.vision);
+		addRequirements(this.drive); //TODO: Figure out how to deal with vision requirements
 	}
 
 	@Override
 	public void initialize() {
 		this.lockPID.reset();
 		this.lockPID.setSetpoint(this.angleGoal);
-		this.lockPID.setTolerance(3, 1);
+		// this.lockPID.setTolerance(3, 1);
 		this.lockPID.enableContinuousInput(-180, 180);
 		var potentialAprilTag = this.vision.getAprilTagLayout().getTagPose(this.fiducialID);
 		if (potentialAprilTag.isPresent()) {
@@ -76,10 +77,15 @@ public class LockAprilTag extends Command {
 			// SmartDashboard.putNumber("Theta", theta);
 
 			var rawOutput = this.lockPID.calculate(theta);
-			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
+			double output = MathUtil.clamp(rawOutput, -1, 1);
+			//TODO: Remove smart dashboard values
+
+			SmartDashboard.putNumber("Output", output);
+			SmartDashboard.putNumber("mes", theta);
 
 			// TODO: flip the output sign
-			this.drive.drive(0, 0, output, true, true);
+			// Figured out the issue it appears that we had some values flipped and it was causing the pid loop not to output a continous output rather a stepped output
+			this.drive.drive(0, 0, -output, true, true);
 
 			// SmartDashboard.putNumber("LockPID/PositionError",
 			// this.lockPID.getPositionError());
