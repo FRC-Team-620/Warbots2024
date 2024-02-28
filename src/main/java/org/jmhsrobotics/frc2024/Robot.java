@@ -106,6 +106,7 @@ public class Robot extends TimedRobot implements Logged {
 
 	@Override
 	public void simulationInit() {
+		DriverStationSim.setDsAttached(true);
 		DriverStationSim.setEnabled(true);
 	}
 }

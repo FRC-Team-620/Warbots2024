@@ -4,9 +4,9 @@
 
 package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
-import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
+import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
+import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
@@ -18,13 +18,11 @@ import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
-import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -44,7 +42,7 @@ import monologue.Logged;
 
 public class RobotContainer implements Logged {
 
-	public ControlBoard control = new CompControl();
+	public final ControlBoard control;
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
@@ -61,7 +59,11 @@ public class RobotContainer implements Logged {
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
-
+		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
+		if (Robot.isSimulation()) { // Switch to single control in sim
+			swboard.setControlBoard(new SingleControl());
+		}
+		this.control = swboard;
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
@@ -78,6 +80,7 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
@@ -126,17 +129,21 @@ public class RobotContainer implements Logged {
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
-		SmartDashboard.putData("AutoIntakeCommand",
-				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+		// SmartDashboard.putData("AutoIntakeCommand",
+		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
-		SmartDashboard.putData("AutoShooterCommand", new ShooterAutoCommand(this.shooterSubsystem, 1));
+		// SmartDashboard.putData("AutoShooterCommand", new
+		// ShooterAutoCommand(this.shooterSubsystem, 1));
 
-		SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+		// SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem,
+		// this.shooterSubsystem));
 
-		SmartDashboard.putData("AmpHelper",
-				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+		// SmartDashboard.putData("AmpHelper",
+		// new AmpHelper(this.armSubsystem, this.shooterSubsystem,
+		// this.intakeSubsystem));
 
-		SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem));
+		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
+		// this.driveSubsystem, this.visionSubsystem));
 	}
 
 	public void configureTeam() {
