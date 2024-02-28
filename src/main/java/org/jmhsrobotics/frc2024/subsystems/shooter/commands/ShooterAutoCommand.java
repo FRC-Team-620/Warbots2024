@@ -20,7 +20,8 @@ public class ShooterAutoCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return this.shooterSubsystem.atGoal();
+		// return this.shooterSubsystem.atGoal();
+		return false;
 	}
 
 	@Override

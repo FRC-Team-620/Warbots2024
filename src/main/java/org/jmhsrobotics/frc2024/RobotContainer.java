@@ -61,9 +61,10 @@ public class RobotContainer implements Logged {
 
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
-		if (Robot.isSimulation()) { // Switch to single control in sim
-			swboard.setControlBoard(new SingleControl());
-		}
+		// if (Robot.isSimulation()) { // Switch to single control in sim
+		// swboard.setControlBoard(new SingleControl());
+		// }
+		swboard.setControlBoard(new SingleControl());
 		this.control = swboard;
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 
@@ -118,7 +119,7 @@ public class RobotContainer implements Logged {
 		this.control.presetLow().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
-		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
+		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(12, shooterSubsystem));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls

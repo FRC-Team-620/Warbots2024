@@ -34,7 +34,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	public ShooterSubsystem() {
 		// Initializes motor(s)
 		this.bangBangController = new BangBangController();
-		this.bangBangController.setTolerance(100);
+		// this.bangBangController.setTolerance(100);
 
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
