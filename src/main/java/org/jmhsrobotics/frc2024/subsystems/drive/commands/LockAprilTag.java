@@ -29,11 +29,11 @@ public class LockAprilTag extends Command {
 	public LockAprilTag(int fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.005, 0, 0);
+		this.lockPID = new PIDController(0.001, 0, 0);
 
 		this.fiducialID = fiducialID;
 
-		this.angleGoal = 180;
+		this.angleGoal = 0;
 
 		// this.angleGoal = this.target.getYaw();
 		// TODO: FIXME: move to the initialize method, lastApriltag is not reset between
@@ -80,7 +80,7 @@ public class LockAprilTag extends Command {
 			double output = MathUtil.clamp(rawOutput, -0.5, 0.5);
 
 			// TODO: flip the output sign
-			this.drive.drive(0, 0, -output, true, true);
+			this.drive.drive(0, 0, output, true, true);
 
 			SmartDashboard.putNumber("LockPID/PositionError", this.lockPID.getPositionError());
 			SmartDashboard.putNumber("LockPID/VelocityError", this.lockPID.getVelocityError());
