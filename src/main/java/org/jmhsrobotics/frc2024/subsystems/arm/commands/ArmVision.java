@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 //TODO: move all hardcoded numbers to constants file
@@ -23,6 +24,7 @@ public class ArmVision extends Command {
 		this.vision = vision;
 		armAngles.put(0d, 0d);
 		armAngles.put(5d, 90d);
+		SmartDashboard.putNumber("Armangle", 0);
 
 		addRequirements(this.arm, this.vision);
 	}
@@ -34,6 +36,7 @@ public class ArmVision extends Command {
 
 	@Override
 	public void execute() {
+		arm.setGoal(SmartDashboard.getNumber("Armangle", 0));
 		PhotonTrackedTarget aprilTag = this.vision.getTarget(7);
 		if (aprilTag != null) {
 			this.lastAprilTag = new Pose3d().transformBy(aprilTag.getBestCameraToTarget()).toPose2d(); // TODO: Clean up
@@ -42,8 +45,9 @@ public class ArmVision extends Command {
 		}
 		if (this.lastAprilTag != null) {
 			double dist = lastAprilTag.getTranslation().getDistance(new Translation2d());
+			SmartDashboard.putNumber("Distance", dist);
 			double angle = armAngles.get(dist);
-			arm.setGoal(angle);
+			// arm.setGoal(angle);
 			// Transform2d transform = this.lastAprilTag.minus(this.arm.getPose());
 			// double theta = Math.toDegrees(Math.atan2(transform.getY(),
 			// transform.getX()));
@@ -63,6 +67,7 @@ public class ArmVision extends Command {
 			// SmartDashboard.putNumber("LockPID/currentYaw", currentYaw);
 
 		} else {
+			SmartDashboard.putNumber("Distance", -1);
 		}
 
 	}
