@@ -23,8 +23,11 @@ public class ArmVision extends Command {
 		this.arm = arm;
 		this.vision = vision;
 		armAngles.put(0d, 0d);
+		armAngles.put(1.76d, 20d);
+		armAngles.put(2.11d, 25d);
+		armAngles.put(2.6d, 29d);
 		armAngles.put(5d, 90d);
-		SmartDashboard.putNumber("Armangle", 0);
+		// SmartDashboard.putNumber("Armangle", 0);
 
 		addRequirements(this.arm, this.vision);
 	}
@@ -36,7 +39,7 @@ public class ArmVision extends Command {
 
 	@Override
 	public void execute() {
-		arm.setGoal(SmartDashboard.getNumber("Armangle", 0));
+		// arm.setGoal(SmartDashboard.getNumber("Armangle", 0));
 		PhotonTrackedTarget aprilTag = this.vision.getTarget(7);
 		if (aprilTag != null) {
 			this.lastAprilTag = new Pose3d().transformBy(aprilTag.getBestCameraToTarget()).toPose2d(); // TODO: Clean up
@@ -47,7 +50,7 @@ public class ArmVision extends Command {
 			double dist = lastAprilTag.getTranslation().getDistance(new Translation2d());
 			SmartDashboard.putNumber("Distance", dist);
 			double angle = armAngles.get(dist);
-			// arm.setGoal(angle);
+			arm.setGoal(angle);
 			// Transform2d transform = this.lastAprilTag.minus(this.arm.getPose());
 			// double theta = Math.toDegrees(Math.atan2(transform.getY(),
 			// transform.getX()));
