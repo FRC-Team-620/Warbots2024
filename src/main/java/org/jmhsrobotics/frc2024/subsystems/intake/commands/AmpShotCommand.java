@@ -26,7 +26,7 @@ public class AmpShotCommand extends Command {
 	@Override
 	public void execute() {
 		this.intakeSubsystem.set(1);
-		this.shooterSubsystem.set(0.2, ControlType.VOLTAGE);
+		this.shooterSubsystem.set(0.2 * 12, ControlType.VOLTAGE);
 	}
 
 	@Override

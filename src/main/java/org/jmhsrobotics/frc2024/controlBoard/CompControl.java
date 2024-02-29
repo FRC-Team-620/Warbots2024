@@ -14,9 +14,14 @@ public class CompControl implements ControlBoard {
 	// =============Driver Controls=============
 	private double slowSpeedFps = Constants.SwerveConstants.slowSpeedFeetPerSecond;
 	private double slowMode = slowSpeedFps / Constants.SwerveConstants.kMaxSpeedFeetPerSecond;
+
 	private boolean isTurbo() {
-		return this.driver.getAButton();
+		// return this.driver.getAButton();
+		// return new Trigger(() -> {
+		return driver.getRightTriggerAxis() > 0.5;
+		// }); //
 	}
+
 	@Override
 	public double xInput() {
 		return this.driver.getLeftX() * (isTurbo() ? 1.0 : slowMode);
