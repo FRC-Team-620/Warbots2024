@@ -77,11 +77,23 @@ public class Constants {
 		// Driving Parameters - Note that these are not the maximum capable speeds of
 		// the robot, rather the allowed maximum speeds
 		// public static final double kMaxSpeedMetersPerSecond = 4.2;
-		public static final double kMaxSpeedFeetPerSecond = 12;
-		public static final double  slowSpeedFeetPerSecond = 10; // TODO: Remove used when not in turbo mode move to Comp control later after refactor
-		public static final double kMaxSpeedMetersPerSecond = 0.3048 * kMaxSpeedFeetPerSecond; // testing speed -
-																								// roughly 6ft/s
+
+		/* START DRIVER CONFIGURABLES */
+
+		// configure to change drivetrain turbo mode
+		public static final double kMaxSpeedFeetPerSecond = 14;
+
+		// configure to change drivetrain slow mode
+		public static final double slowSpeedFeetPerSecond = 8; // TODO: Remove used when not in turbo mode move to Comp
+																// control later after refactor
+
+		// configure to change rotation speed
 		public static final double kMaxAngularSpeed = Math.PI; // radians per second
+
+		/* END DRIVER CONFIGURABLES */
+
+		// DO NOT change
+		public static final double kMaxSpeedMetersPerSecond = 0.3048 * kMaxSpeedFeetPerSecond;
 
 		public static final double kDirectionSlewRate = 1.4; // radians per second
 		public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
