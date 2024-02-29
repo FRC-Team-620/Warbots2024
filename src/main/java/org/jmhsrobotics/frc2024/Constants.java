@@ -84,7 +84,7 @@ public class Constants {
 		public static final double kMaxSpeedFeetPerSecond = 14;
 
 		// configure to change drivetrain slow mode
-		public static final double slowSpeedFeetPerSecond = 8; // TODO: Remove used when not in turbo mode move to Comp
+		public static final double slowSpeedFeetPerSecond = 12; // TODO: Remove used when not in turbo mode move to Comp
 																// control later after refactor
 
 		// configure to change rotation speed
