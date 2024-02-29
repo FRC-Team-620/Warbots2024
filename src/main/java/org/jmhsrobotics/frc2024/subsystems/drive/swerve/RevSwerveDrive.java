@@ -16,6 +16,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 public class RevSwerveDrive extends RobotDriveBase {
@@ -49,7 +51,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 
 		this.m_gyro = gyro;
 
-		this.m_odometry = new SwerveDriveOdometry(Constants.SwerveConstants.kDriveKinematics, getCurrentYaw(),
+		this.m_odometry = new SwerveDriveOdometry(Constants.SwerveConstants.kDriveKinematics, getRawGyro(),
 				new SwerveModulePosition[]{m_frontLeft.getPosition(), m_frontRight.getPosition(),
 						m_rearLeft.getPosition(), m_rearRight.getPosition()});
 
@@ -62,7 +64,8 @@ public class RevSwerveDrive extends RobotDriveBase {
 	 *
 	 * @return the current yaw of the robot
 	 */
-	private Rotation2d getCurrentYaw() {
+	private Rotation2d getRawGyro() {
+		// return this.getPose().getRotation();
 		return Rotation2d.fromDegrees(m_gyro.getYaw().getValue());
 	}
 
@@ -72,7 +75,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 	 * @return the robot's heading in degrees, from -180 to 180
 	 */
 	public double getHeading() {
-		return getCurrentYaw().getDegrees();
+		return getPose().getRotation().getDegrees();
 	}
 
 	@Override
@@ -135,8 +138,10 @@ public class RevSwerveDrive extends RobotDriveBase {
 		// Calculate new module values depending if using field-relative control
 		ChassisSpeeds updatedChassisSpeeds;
 		if (fieldRelative) {
+			var tmp = DriverStation.getAlliance();
+			double flipAngle = tmp.isPresent() && tmp.get() == Alliance.Blue ? 0 : 180;
 			updatedChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-					getCurrentYaw());
+					getPose().getRotation().minus(Rotation2d.fromDegrees(flipAngle)));
 		} else {
 			updatedChassisSpeeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
 		}
@@ -236,7 +241,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 	}
 
 	public void updateOdometry() {
-		m_odometry.update(getCurrentYaw(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
+		m_odometry.update(getRawGyro(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
 				m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()});
 	}
 
@@ -252,7 +257,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 	 *            The pose to which to set the odometry.
 	 */
 	public void resetOdometry(Pose2d pose) {
-		m_odometry.resetPosition(getCurrentYaw(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
+		m_odometry.resetPosition(getRawGyro(), new SwerveModulePosition[]{m_frontLeft.getPosition(),
 				m_frontRight.getPosition(), m_rearLeft.getPosition(), m_rearRight.getPosition()}, pose);
 	}
 

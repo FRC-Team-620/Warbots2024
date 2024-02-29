@@ -16,11 +16,14 @@ import com.ctre.phoenix6.hardware.Pigeon2;
 import com.ctre.phoenix6.sim.Pigeon2SimState;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 import monologue.Annotations.Log;
@@ -134,7 +137,11 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 	/** Zeroes the heading of the robot. */
 	public void zeroHeading() {
 		// if sideways became for/backward somehow, change it to 0 degree
-		m_gyro.setYaw(0);
+		var tmp = DriverStation.getAlliance();
+		double flipAngle = tmp.isPresent() && tmp.get() == Alliance.Blue ? 0 : 180;
+
+		resetOdometry(new Pose2d(this.getPose().getTranslation(), Rotation2d.fromDegrees(flipAngle)));
+		// m_gyro.setYaw(0);
 	}
 
 	/**
