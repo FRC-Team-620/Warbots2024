@@ -24,6 +24,7 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -119,7 +120,7 @@ public class RobotContainer implements Logged {
 		this.control.presetLow().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
-		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(12, shooterSubsystem));
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5500));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls

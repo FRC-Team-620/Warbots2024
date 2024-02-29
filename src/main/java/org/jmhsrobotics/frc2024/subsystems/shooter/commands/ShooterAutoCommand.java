@@ -15,7 +15,7 @@ public class ShooterAutoCommand extends Command {
 	}
 	@Override
 	public void execute() {
-		this.shooterSubsystem.set(this.targetRPM, ControlType.BANG_BANG);
+		this.shooterSubsystem.set(this.targetRPM, ControlType.PID);
 	}
 
 	@Override

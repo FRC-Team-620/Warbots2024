@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -47,6 +48,9 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}
+
+		SmartDashboard.putData("ShooterUpperPID", this.upperPID);
+		SmartDashboard.putData("ShooterLowerPID", this.lowerPID);
 	}
 
 	@Override
@@ -54,14 +58,20 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		switch (this.controlType) {
 			case BANG_BANG :
-				this.topFlywheel.set(this.bangBangController.calculate(this.getRPM(), this.reference));
+				double outPut = this.bangBangController.calculate(this.getRPM(), this.reference);
+				this.topFlywheel.set(outPut);
+				this.bottomFlywheel.set(outPut);
 				break;
 
 			case VOLTAGE :
 				this.topFlywheel.setVoltage(this.reference);
+				this.bottomFlywheel.setVoltage(this.reference);
 				break;
 			case PID :
-
+				double upperOutput = MathUtil.clamp(this.upperPID.calculate(this.topEncoder.getVelocity(), this.reference), -1, 1);
+				double lowerOutput = MathUtil.clamp(this.lowerPID.calculate(this.bottomEncoder.getVelocity(), this.reference), -1, 1);
+				this.topFlywheel.set(upperOutput);
+				this.bottomFlywheel.set(lowerOutput);
 		}
 		log("controlType", this.controlType.toString());
 		log("reference", this.reference);
@@ -100,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.bottomFlywheel.setOpenLoopRampRate(.5);
 		this.bottomEncoder = bottomFlywheel.getEncoder();
 
-		this.bottomFlywheel.follow(topFlywheel);
+		// this.bottomFlywheel.follow(topFlywheel);
 	}
 
 	FlywheelSim flywheelSim;
