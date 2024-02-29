@@ -19,7 +19,7 @@ public class PrepareShot extends ParallelCommandGroup {
 		this.arm = arm;
 		this.shooter = shooter;
 		this.vision = vision;
-		addCommands(new LockAprilTag(7, drive, vision), new ArmVision(arm, vision),
+		addCommands(new LockAprilTag(7, drive, vision), new ArmVision(arm, vision, drive),
 				new ShootOpenLoopCommand(12, shooter));
 	}
 
