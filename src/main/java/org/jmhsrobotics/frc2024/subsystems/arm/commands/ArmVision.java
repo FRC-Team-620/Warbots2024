@@ -7,6 +7,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -15,6 +17,7 @@ public class ArmVision extends Command {
 	private ArmPIDSubsystem arm;
 	private VisionSubsystem vision;
 	private DriveSubsystem drive;
+	private double fiducialID = -1;
 
 	private Pose2d lastAprilTag;
 	private InterpolatingDoubleTreeMap armAngles = new InterpolatingDoubleTreeMap();
@@ -36,13 +39,17 @@ public class ArmVision extends Command {
 
 	@Override
 	public void initialize() {
+		var optionalColor = DriverStation.getAlliance();
+		if (optionalColor.isPresent()) {
+			this.fiducialID = optionalColor.get() == Alliance.Blue ? 7 : 4;
+		}
 
 	}
 
 	@Override
 	public void execute() {
 		// arm.setGoal(SmartDashboard.getNumber("Armangle", 0));
-		PhotonTrackedTarget aprilTag = this.vision.getTarget(7);
+		PhotonTrackedTarget aprilTag = this.vision.getTarget(fiducialID);
 		if (aprilTag != null) {
 			this.lastAprilTag = vision.targetToField(aprilTag.getBestCameraToTarget(), drive.getPose()).toPose2d(); // TODO:
 																													// Clean
