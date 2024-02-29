@@ -8,14 +8,19 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeCommand extends Command {
 
-	private IntakeSubsystem intakeSubsystem;
-	private ShooterSubsystem shooterSubsystem;
+	private final IntakeSubsystem intakeSubsystem;
+	private final ShooterSubsystem shooterSubsystem;
 
 	private double speed;
 
-	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) { // Fixme:
+																												// add
+																												// requirements
+																												// for
+																												// shooter!
 		this.speed = speed;
 		this.intakeSubsystem = intakeSubsystem;
+		this.shooterSubsystem = shooterSubsystem;
 
 		addRequirements(this.intakeSubsystem);
 	}
