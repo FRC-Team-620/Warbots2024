@@ -78,6 +78,7 @@ public class Constants {
 		// the robot, rather the allowed maximum speeds
 		// public static final double kMaxSpeedMetersPerSecond = 4.2;
 		public static final double kMaxSpeedFeetPerSecond = 12;
+		public static final double  slowSpeedFeetPerSecond = 10; // TODO: Remove used when not in turbo mode move to Comp control later after refactor
 		public static final double kMaxSpeedMetersPerSecond = 0.3048 * kMaxSpeedFeetPerSecond; // testing speed -
 																								// roughly 6ft/s
 		public static final double kMaxAngularSpeed = Math.PI; // radians per second

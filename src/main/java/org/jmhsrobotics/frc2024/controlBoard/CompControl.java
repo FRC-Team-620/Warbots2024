@@ -1,5 +1,7 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
+import org.jmhsrobotics.frc2024.Constants;
+
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -10,14 +12,19 @@ public class CompControl implements ControlBoard {
 	private XboxController operator = new XboxController(1);
 
 	// =============Driver Controls=============
+	private double slowSpeedFps = Constants.SwerveConstants.slowSpeedFeetPerSecond;
+	private double slowMode =  slowSpeedFps/Constants.SwerveConstants.kMaxSpeedFeetPerSecond;
+	private boolean isTurbo(){
+		return this.driver.getAButton();
+	}
 	@Override
 	public double xInput() {
-		return this.driver.getLeftX();
+		return this.driver.getLeftX() * (isTurbo()?1.0: slowMode);
 	}
 
 	@Override
 	public double yInput() {
-		return this.driver.getLeftY();
+		return this.driver.getLeftY()* (isTurbo()?1.0: slowMode);
 	}
 
 	@Override
