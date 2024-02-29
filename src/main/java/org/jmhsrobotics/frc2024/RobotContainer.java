@@ -83,7 +83,7 @@ public class RobotContainer implements Logged {
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem));
+		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}

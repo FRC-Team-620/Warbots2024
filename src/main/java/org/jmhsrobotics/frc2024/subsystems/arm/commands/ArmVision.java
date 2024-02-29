@@ -1,12 +1,11 @@
 package org.jmhsrobotics.frc2024.subsystems.arm.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,11 +14,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ArmVision extends Command {
 	private ArmPIDSubsystem arm;
 	private VisionSubsystem vision;
+	private DriveSubsystem drive;
 
 	private Pose2d lastAprilTag;
 	private InterpolatingDoubleTreeMap armAngles = new InterpolatingDoubleTreeMap();
 
-	public ArmVision(ArmPIDSubsystem arm, VisionSubsystem vision) {
+	public ArmVision(ArmPIDSubsystem arm, VisionSubsystem vision, DriveSubsystem drive) {
 		this.arm = arm;
 		this.vision = vision;
 		armAngles.put(0d, 0d);
@@ -28,6 +28,8 @@ public class ArmVision extends Command {
 		armAngles.put(2.6d, 29d);
 		armAngles.put(5d, 90d);
 		// SmartDashboard.putNumber("Armangle", 0);
+
+		this.drive = drive;
 
 		addRequirements(this.arm, this.vision);
 	}
@@ -42,12 +44,14 @@ public class ArmVision extends Command {
 		// arm.setGoal(SmartDashboard.getNumber("Armangle", 0));
 		PhotonTrackedTarget aprilTag = this.vision.getTarget(7);
 		if (aprilTag != null) {
-			this.lastAprilTag = new Pose3d().transformBy(aprilTag.getBestCameraToTarget()).toPose2d(); // TODO: Clean up
-																										// hack
+			this.lastAprilTag = vision.targetToField(aprilTag.getBestCameraToTarget(), drive.getPose()).toPose2d(); // TODO:
+																													// Clean
+																													// up
+			// hack
 
 		}
 		if (this.lastAprilTag != null) {
-			double dist = lastAprilTag.getTranslation().getDistance(new Translation2d());
+			double dist = lastAprilTag.getTranslation().getDistance(drive.getPose().getTranslation());
 			SmartDashboard.putNumber("Distance", dist);
 			double angle = armAngles.get(dist);
 			arm.setGoal(angle);
