@@ -90,7 +90,6 @@ public class RobotContainer implements Logged {
 
 	private void configurePathPlanner() {
 		// Add path planner auto chooser.
-
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
@@ -110,7 +109,7 @@ public class RobotContainer implements Logged {
 	// TODO: fix this later to flip correctly based on side color
 	// TODO: Check parity of this
 	private boolean getAllianceFlipState() {
-		return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Blue : false;
+		return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Red : false;
 	}
 
 	private void configureBindings() {
