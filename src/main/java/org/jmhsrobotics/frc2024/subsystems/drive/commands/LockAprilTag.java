@@ -7,8 +7,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import monologue.Logged;
 
@@ -29,7 +29,7 @@ public class LockAprilTag extends Command implements Logged {
 	public LockAprilTag(int fiducialID, DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.01, 0, 0);
+		this.lockPID = new PIDController(0.02, 0, 0);
 		// SmartDashboard.putData(lockPID);
 		this.fiducialID = fiducialID;
 
@@ -40,7 +40,6 @@ public class LockAprilTag extends Command implements Logged {
 		// command runs and could cause issues when running the command more then one
 		// time.
 
-		// SmartDashboard.putData("LockPID", this.lockPID);
 		addRequirements(this.drive); // TODO: Figure out how to deal with vision requirements
 	}
 
@@ -48,13 +47,16 @@ public class LockAprilTag extends Command implements Logged {
 	public void initialize() {
 		this.lockPID.reset();
 		this.lockPID.setSetpoint(this.angleGoal);
+		SmartDashboard.putData(this.lockPID);
 		// this.lockPID.setTolerance(3, 1);
 		this.lockPID.enableContinuousInput(-180, 180);
-		var potentialAprilTag = this.vision.getAprilTagLayout().getTagPose(this.fiducialID);
-		if (potentialAprilTag.isPresent()) {
-			Pose3d estimatedLocation = potentialAprilTag.get();
-			this.lastAprilTag = estimatedLocation.toPose2d();
-		}
+		// TODO: add portential april estimation
+		// var potentialAprilTag =
+		// this.vision.getAprilTagLayout().getTagPose(this.fiducialID);
+		// if (potentialAprilTag.isPresent()) {
+		// Pose3d estimatedLocation = potentialAprilTag.get();
+		// this.lastAprilTag = estimatedLocation.toPose2d();
+		// }
 
 		// our goal should be 0 degrees if the camera is in the center of the robot
 		// Right now we are not accounting for the camera angle and cordnate sys
@@ -80,8 +82,8 @@ public class LockAprilTag extends Command implements Logged {
 			double output = MathUtil.clamp(rawOutput, -1, 1);
 			// TODO: Remove smart dashboard values
 
-			// SmartDashboard.putNumber("Output", output);
-			// SmartDashboard.putNumber("mes", theta);
+			SmartDashboard.putNumber("Output", output);
+			SmartDashboard.putNumber("mes", theta);
 
 			// TODO: flip the output sign
 			// Figured out the issue it appears that we had some values flipped and it was

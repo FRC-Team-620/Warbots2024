@@ -39,7 +39,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	public ShooterSubsystem() {
 		// Initializes motor(s)
 		this.bangBangController = new BangBangController();
-		this.bangBangController.setTolerance(100);
+		// this.bangBangController.setTolerance(100);
 
 		this.upperPID = new PIDController(0.01, 0, 0);
 		this.lowerPID = new PIDController(0.01, 0, 0);
@@ -63,6 +63,11 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 			case PID :
 
 		}
+		log("controlType", this.controlType.toString());
+		log("reference", this.reference);
+		log("topFlywheelDutyCycle", topFlywheel.get());
+		log("topflywheelSpeed", getRPM());
+		log("bottomflywheelSpeed", bottomEncoder.getVelocity());
 
 	}
 
