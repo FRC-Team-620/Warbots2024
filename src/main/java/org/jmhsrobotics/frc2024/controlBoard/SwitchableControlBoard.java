@@ -92,5 +92,10 @@ public class SwitchableControlBoard implements ControlBoard {
 	public Trigger AprilLockOn() {
 		return current.AprilLockOn();
 	}
+	@Override
+	public void Rumble() {
+		// TODO Auto-generated method stub
+		current.Rumble();
+	}
 
 }

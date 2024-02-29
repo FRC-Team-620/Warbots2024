@@ -40,4 +40,6 @@ public interface ControlBoard {
 
 	public Trigger AprilLockOn();
 
+	public void Rumble();
+
 }

@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -91,5 +92,11 @@ public class SingleControl implements ControlBoard {
 	@Override
 	public Trigger AprilLockOn() {
 		return new Trigger(driver::getStartButton);
+	}
+
+	@Override
+	public void Rumble() {
+		// TODO Auto-generated method stub
+		this.driver.setRumble(RumbleType.kBothRumble, 1);
 	}
 }

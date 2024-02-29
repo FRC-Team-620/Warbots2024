@@ -16,7 +16,6 @@ public class IntakeCommand extends Command {
 	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
 		this.speed = speed;
 		this.intakeSubsystem = intakeSubsystem;
-		this.shooterSubsystem = shooterSubsystem;
 
 		addRequirements(this.intakeSubsystem);
 	}

@@ -68,8 +68,10 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 				this.bottomFlywheel.setVoltage(this.reference);
 				break;
 			case PID :
-				double upperOutput = MathUtil.clamp(this.upperPID.calculate(this.topEncoder.getVelocity(), this.reference), -1, 1);
-				double lowerOutput = MathUtil.clamp(this.lowerPID.calculate(this.bottomEncoder.getVelocity(), this.reference), -1, 1);
+				double upperOutput = MathUtil
+						.clamp(this.upperPID.calculate(this.topEncoder.getVelocity(), this.reference), -1, 1);
+				double lowerOutput = MathUtil
+						.clamp(this.lowerPID.calculate(this.bottomEncoder.getVelocity(), this.reference), -1, 1);
 				this.topFlywheel.set(upperOutput);
 				this.bottomFlywheel.set(lowerOutput);
 		}
@@ -100,14 +102,16 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	}
 	private void initializeMotors() {
+		this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
 		this.topFlywheel.setSmartCurrentLimit(35);
-		this.topFlywheel.setOpenLoopRampRate(.5);
+		this.topFlywheel.setOpenLoopRampRate(0);
 		this.topEncoder = topFlywheel.getEncoder();
 
+		this.bottomFlywheel.restoreFactoryDefaults();
 		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
 		this.bottomFlywheel.setSmartCurrentLimit(35);
-		this.bottomFlywheel.setOpenLoopRampRate(.5);
+		this.bottomFlywheel.setOpenLoopRampRate(0);
 		this.bottomEncoder = bottomFlywheel.getEncoder();
 
 		// this.bottomFlywheel.follow(topFlywheel);
