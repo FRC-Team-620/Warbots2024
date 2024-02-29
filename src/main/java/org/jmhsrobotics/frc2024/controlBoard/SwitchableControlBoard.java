@@ -1,5 +1,6 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class SwitchableControlBoard implements ControlBoard {
@@ -93,9 +94,9 @@ public class SwitchableControlBoard implements ControlBoard {
 		return current.AprilLockOn();
 	}
 	@Override
-	public void Rumble() {
+	public void setRumble(RumbleType type, double value) {
 		// TODO Auto-generated method stub
-		current.Rumble();
+		current.setRumble(type, value);
 	}
 
 }

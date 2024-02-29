@@ -4,6 +4,7 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
@@ -22,9 +23,11 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
+import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -34,11 +37,13 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -61,10 +66,10 @@ public class RobotContainer implements Logged {
 
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
-		// if (Robot.isSimulation()) { // Switch to single control in sim
-		// swboard.setControlBoard(new SingleControl());
-		// }
-		swboard.setControlBoard(new SingleControl());
+		if (Robot.isSimulation()) { // Switch to single control in sim
+			swboard.setControlBoard(new SingleControl());
+		}
+		// swboard.setControlBoard(new CompControl());
 		this.control = swboard;
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
 
@@ -74,7 +79,14 @@ public class RobotContainer implements Logged {
 		// RainbowLEDCommand(this.ledSubsystem));
 
 		// configureSmartDashboard();
-
+		new Trigger(intakeSubsystem::hasNote).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1)); // TODO:
+																													// Quick
+																													// and
+																													// dirty
+																													// way
+																													// to
+																													// indicate
+																													// intake
 		configureBindings();
 
 		// Named commands must be added before building the chooser.
@@ -114,11 +126,20 @@ public class RobotContainer implements Logged {
 
 	private void configureBindings() {
 		// this.control.Rumble();
+
+		/* Arm Controls */
 		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
 		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		this.control.presetLow().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
-		this.control.intakeInput().whileTrue(new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+		// this.control.presetLow().onTrue(new CommandArm(this.armSubsystem,
+		// Constants.ArmSetpoint.PICKUP.value));
+		this.control.presetLow().whileTrue(new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
+		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+
+		/* Intake Controls */
+		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
+
+		/* Shooter Controls */
 		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5500));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 

@@ -95,8 +95,7 @@ public class SingleControl implements ControlBoard {
 	}
 
 	@Override
-	public void Rumble() {
-		// TODO Auto-generated method stub
-		this.driver.setRumble(RumbleType.kBothRumble, 1);
+	public void setRumble(RumbleType type, double value) {
+		this.driver.setRumble(type, value);
 	}
 }

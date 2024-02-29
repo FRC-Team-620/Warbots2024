@@ -1,5 +1,6 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public interface ControlBoard {
@@ -40,6 +41,6 @@ public interface ControlBoard {
 
 	public Trigger AprilLockOn();
 
-	public void Rumble();
+	public void setRumble(RumbleType type, double value);
 
 }
