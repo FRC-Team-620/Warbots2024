@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
@@ -25,8 +26,12 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	private BangBangController bangBangController;
 	private double reference;
 	private ControlType controlType = ControlType.BANG_BANG;
+
+	private PIDController upperPID;
+	private PIDController lowerPID;
+
 	public enum ControlType {
-		BANG_BANG, VOLTAGE
+		BANG_BANG, VOLTAGE, PID
 	};
 
 	// private double speed;
@@ -36,6 +41,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.bangBangController = new BangBangController();
 		this.bangBangController.setTolerance(100);
 
+		this.upperPID = new PIDController(0.01, 0, 0);
+		this.lowerPID = new PIDController(0.01, 0, 0);
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
@@ -53,6 +60,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 			case VOLTAGE :
 				this.topFlywheel.setVoltage(this.reference);
 				break;
+			case PID :
+
 		}
 
 	}
