@@ -10,17 +10,17 @@ import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class ComboIntakeArmCommand extends ParallelCommandGroup {
-	private ArmPIDSubsystem arm;
-	private ShooterSubsystem shooter;
-	private IntakeSubsystem intake;
+    private ArmPIDSubsystem arm;
+    private ShooterSubsystem shooter;
+    private IntakeSubsystem intake;
 
-	public ComboIntakeArmCommand(ArmPIDSubsystem arm, ShooterSubsystem shooter, IntakeSubsystem intake) {
-		this.arm = arm;
-		this.shooter = shooter;
-		this.intake = intake;
-		addCommands(new CommandArm(this.arm, Constants.ArmSetpoint.PICKUP.value), // move arm to intake position
-				new IntakeCommand(1, intake, shooter)// start intkae
-		);
-	}
+    public ComboIntakeArmCommand(ArmPIDSubsystem arm, ShooterSubsystem shooter, IntakeSubsystem intake) {
+        this.arm = arm;
+        this.shooter = shooter;
+        this.intake = intake;
+        addCommands(new CommandArm(this.arm, Constants.ArmSetpoint.PICKUP.value), // move arm to intake position
+                new IntakeCommand(1, this.intake, this.shooter)// start intkae
+        );
+    }
 
 }
