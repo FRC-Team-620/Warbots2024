@@ -94,9 +94,9 @@ public class SwitchableControlBoard implements ControlBoard {
 		return current.AprilLockOn();
 	}
 	@Override
-	public void Rumble(double value, RumbleType type) {
+	public void setRumble(RumbleType type, double value) {
 		// TODO Auto-generated method stub
-		current.Rumble(value, type);
+		current.setRumble(type, value);
 	}
 
 }

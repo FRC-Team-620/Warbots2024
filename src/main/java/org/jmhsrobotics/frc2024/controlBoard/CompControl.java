@@ -105,8 +105,8 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
-	public void Rumble(double value, RumbleType type) {
+	public void setRumble(RumbleType type, double value) {
 		// TODO Auto-generated method stub
-		this.driver.setRumble(RumbleType.kBothRumble, 1);
+		this.driver.setRumble(type, 1);
 	}
 }
