@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
-import org.jmhsrobotics.warcore.nt.NT4Util;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -26,7 +25,6 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -39,8 +37,8 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 	// get the camera position on the robot
 	private Transform3d camOnRobot = new Transform3d(
-			new Translation3d(Units.inchesToMeters(9.5), Units.inchesToMeters(-3.5), Units.inchesToMeters(7)),
-			new Rotation3d(0, 0, (Math.PI)));
+			new Translation3d(Units.inchesToMeters(-13), Units.inchesToMeters(0), Units.inchesToMeters(9.875)),
+			new Rotation3d(0, Units.degreesToRadians(-20), (Math.PI)));
 
 	// construct a photonPoseEstimator
 	private PhotonPoseEstimator estimator;
@@ -73,11 +71,12 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 	@Override
 	public void periodic() {
+
 		PhotonPipelineResult results = this.cam.getLatestResult();
 
 		targets = results.getTargets();
 
-		SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
+		// SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
 		flucialIDs = new double[len];
@@ -90,13 +89,17 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
 
-		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
-		NT4Util.putPose3d("Vision/poseList", posList);
+		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		log("flucialIDs", flucialIDs);
+		log("targets", posList);
+		log("cameraTransform", camOnRobot); // TODO: only log once
 
 		// Puting the estimated pose to the network table
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());
 		if (estimatedPose.isPresent()) {
-			NT4Util.putPose3d("Vision/EstimatedTarget", estimatedPose.get().estimatedPose);
+			// NT4Util.putPose3d("Vision/EstimatedTarget",
+			// estimatedPose.get().estimatedPose);
+			log("postEstimation", estimatedPose.get().estimatedPose);
 		}
 	}
 
@@ -143,17 +146,18 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		// // Set the camera image capture framerate (Note: this is limited by robot
 		// loop
 		// // rate).
-		// cameraProp.setFPS(20);
+		cameraProp.setFPS(10);
 		// // The average and standard deviation in milliseconds of image data latency.
-		// cameraProp.setAvgLatencyMs(35);
-		// cameraProp.setLatencyStdDevMs(5);
-		SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
-		cameraSim.enableRawStream(true);
-		cameraSim.enableProcessedStream(true);
+		cameraProp.setAvgLatencyMs(50);
+		cameraProp.setLatencyStdDevMs(5);
+		// SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
+		// cameraSim.enableRawStream(true);
+		// cameraSim.enableProcessedStream(true);
 
-		// Enable drawing a wireframe visualization of the field to the camera streams.
-		// This is extremely resource-intensive and is disabled by default.
-		cameraSim.enableDrawWireframe(true);
+		// // Enable drawing a wireframe visualization of the field to the camera
+		// streams.
+		// // This is extremely resource-intensive and is disabled by default.
+		// cameraSim.enableDrawWireframe(true);
 	}
 
 	@Override

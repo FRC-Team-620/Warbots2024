@@ -15,10 +15,10 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private CANSparkMax intakeMotor;
 
 	private TimeOfFlight lowerSensor;
@@ -42,15 +42,24 @@ public class IntakeSubsystem extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("intake/velocityRPM", intakeMotor.getEncoder().getVelocity());
-		SmartDashboard.putNumber("intake/currentDrawAmps", intakeMotor.getOutputCurrent());
-		SmartDashboard.putBoolean("Intake/highSwitchState", this.highSwitch().isPressed());
-		SmartDashboard.putBoolean("Intake/lowSwitchState", this.lowSwitch().isPressed());
+		// SmartDashboard.putNumber("intake/velocityRPM",
+		// intakeMotor.getEncoder().getVelocity());
+		// SmartDashboard.putNumber("intake/currentDrawAmps",
+		// intakeMotor.getOutputCurrent());
+		// SmartDashboard.putBoolean("Intake/highSwitchState",
+		// this.highSwitch().isPressed());
+		// SmartDashboard.putBoolean("Intake/lowSwitchState",
+		// this.lowSwitch().isPressed());
 
-		SmartDashboard.putNumber("Intake/lowerSensorReading", this.lowerSensor.getRange());
-		SmartDashboard.putNumber("Intake/upperSensorReading", this.upperSensor.getRange());
+		// SmartDashboard.putNumber("Intake/lowerSensorReading",
+		// this.lowerSensor.getRange());
+		// SmartDashboard.putNumber("Intake/upperSensorReading",
+		// this.upperSensor.getRange());
 
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
+		log("intakeDutyCycle", intakeMotor.get());
+		log("hasNote", this.hasNote());
+		log("noteTooHigh", this.noteTooHigh());
 	}
 
 	public void set(double speed) {

@@ -1,6 +1,9 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
+import org.jmhsrobotics.frc2024.Constants;
+
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -9,14 +12,24 @@ public class CompControl implements ControlBoard {
 	private XboxController operator = new XboxController(1);
 
 	// =============Driver Controls=============
+	private double slowSpeedFps = Constants.SwerveConstants.slowSpeedFeetPerSecond;
+	private double slowMode = slowSpeedFps / Constants.SwerveConstants.kMaxSpeedFeetPerSecond;
+
+	private boolean isTurbo() {
+		// return this.driver.getAButton();
+		// return new Trigger(() -> {
+		return driver.getRightTriggerAxis() > 0.5;
+		// }); //
+	}
+
 	@Override
 	public double xInput() {
-		return this.driver.getLeftX();
+		return this.driver.getLeftX() * (isTurbo() ? 1.0 : slowMode);
 	}
 
 	@Override
 	public double yInput() {
-		return this.driver.getLeftY();
+		return this.driver.getLeftY() * (isTurbo() ? 1.0 : slowMode);
 	}
 
 	@Override
@@ -41,6 +54,7 @@ public class CompControl implements ControlBoard {
 
 	public Trigger presetHigh() {
 		return new JoystickButton(this.operator, XboxController.Button.kY.value);
+
 	}
 
 	@Override
@@ -54,12 +68,16 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger intakeInput() {
-		return new JoystickButton(this.operator, XboxController.Axis.kRightTrigger.value);
+		return new Trigger(() -> {
+			return this.operator.getRightTriggerAxis() > 0.5;
+		}); // Right Trigger
 	}
 
 	@Override
 	public Trigger extakeInput() {
-		return new JoystickButton(this.operator, XboxController.Axis.kLeftTrigger.value);
+		return new Trigger(() -> {
+			return operator.getLeftTriggerAxis() > 0.5;
+		}); // Left Trigger
 	}
 
 	@Override
@@ -68,18 +86,33 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
+	public Trigger ampShooterInput() {
+		return new JoystickButton(this.operator, XboxController.Button.kX.value);
+	}
+
+	@Override
 	public Trigger climberExtend() {
-		return new JoystickButton(this.operator, XboxController.Axis.kRightY.value);
-	}
-
-	// =============Utils=============
-	@Override
-	public XboxController getDriverController() {
-		return this.driver;
+		return new Trigger(() -> {
+			return this.operator.getPOV() == 0;
+		}); // DPAD Up
 	}
 
 	@Override
-	public XboxController getOperatorController() {
-		return this.operator;
+	public Trigger climberRetract() {
+		return new Trigger(() -> {
+			return this.operator.getPOV() == 180;
+		}); // DPAD Down
+	}
+
+	@Override
+	public Trigger AprilLockOn() {
+		return new Trigger(driver::getStartButton);
+	}
+
+	@Override
+	public void setRumble(RumbleType type, double value) {
+		// TODO Auto-generated method stub
+		this.driver.setRumble(type, 1);
+		this.operator.setRumble(type, 1);
 	}
 }

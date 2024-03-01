@@ -1,9 +1,10 @@
 package org.jmhsrobotics.frc2024.autoCommands;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockAprilTag;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockSpeaker;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
@@ -28,9 +29,13 @@ public class TurnAndShootCommand extends SequentialCommandGroup {
 		this.shooterSubsystem = shooterSubsystem;
 		this.intakeSubsystem = intakeSubsystem;
 
-		addCommands(new ParallelCommandGroup(new LockAprilTag(7, this.driveSubsystem, this.visionSubsystem),
-				new ArmSetShootCommand(this.armSubsystem)));
-		// new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+		addCommands(new ParallelCommandGroup(new LockSpeaker(this.driveSubsystem, this.visionSubsystem), // TODO:
+																											// Remove
+																											// hardcoded
+																											// id
+				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value)),
+				new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+
 		addRequirements(this.visionSubsystem, this.armSubsystem, this.driveSubsystem, this.shooterSubsystem,
 				this.intakeSubsystem);
 	}

@@ -1,6 +1,6 @@
 package org.jmhsrobotics.frc2024.controlBoard;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public interface ControlBoard {
@@ -33,9 +33,14 @@ public interface ControlBoard {
 
 	public Trigger extakeInput();
 
+	public Trigger ampShooterInput();
+
 	public Trigger climberExtend();
 
-	public XboxController getDriverController();
+	public Trigger climberRetract();
 
-	public XboxController getOperatorController();
+	public Trigger AprilLockOn();
+
+	public void setRumble(RumbleType type, double value);
+
 }

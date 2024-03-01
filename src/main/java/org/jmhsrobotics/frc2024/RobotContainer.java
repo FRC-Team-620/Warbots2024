@@ -4,40 +4,51 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
+import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
+import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
+import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetAmpCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetPickupCommand;
-import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmSetShootCommand;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.PrepareShot;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
+import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
+import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
 
-	public ControlBoard control = new CompControl();
+	public final ControlBoard control;
 	// Subsystems
 	private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
@@ -54,72 +65,115 @@ public class RobotContainer implements Logged {
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
-
+		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
+		if (Robot.isSimulation()) { // Switch to single control in sim
+			swboard.setControlBoard(new SingleControl());
+		}
+		// swboard.setControlBoard(new CompControl());
+		this.control = swboard;
 		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
-		// this.armSubsystem.setDefaultCommand(new
-		// ArmOpenLoopControlCommand(this.armSubsystem, this.control));
+
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
-		// DefaultIntakeCommand(this.intakeSubsystem));
-		// DefaultIntakeCommand(this.intakeSubsystem));
+
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
-		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
-		// this.driveSubsystem, this.visionSubsystem));
-		// SmartDashboard.putData("ArmCommand", new ArmCommand(0, this.armSubsystem));
-		configureBindings();
+		// configureSmartDashboard();
+		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+		new Trigger(() -> {
+			return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() > 1000;
+		}).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kLeftRumble, 0.2, 1));
 
+		configureBindings();
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
+		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {
 		// Add path planner auto chooser.
-
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
 				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
 						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
 
-		// TODO: fix command names in pathplanner and code
-
-		// NamedCommands.registerCommand("ScoreAmp", new ArmCommand(86,
-		// this.armSubsystem));
-		// NamedCommands.registerCommand("Extake", new
-		// ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
-		// NamedCommands.registerCommand("TurnAndShoot", new
-		// TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
-		// this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
-		// NamedCommands.registerCommand("Intake", new IntakeCommand(1,
-		// this.intakeSubsystem).withTimeout(1));
-		// NamedCommands.registerCommand("ArmPickup", new ArmCommand(0,
-		// this.armSubsystem));
+		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
+		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
+		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
+				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+		NamedCommands.registerCommand("Intake",
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(1));
+		NamedCommands.registerCommand("ArmPickup",
+				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
 	// TODO: Check parity of this
 	private boolean getAllianceFlipState() {
-		return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Blue : false;
+		return DriverStation.getAlliance().isPresent() ? DriverStation.getAlliance().get() == Alliance.Red : false;
 	}
 
 	private void configureBindings() {
-		this.control.presetHigh().onTrue(new ArmSetAmpCommand(this.armSubsystem));
-		this.control.presetMid().onTrue(new ArmSetShootCommand(this.armSubsystem));
-		this.control.presetLow().onTrue(new ArmSetPickupCommand(this.armSubsystem));
-		this.control.intakeInput().whileTrue(new IntakeCommand(0.5, this.intakeSubsystem, this.shooterSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-0.5, this.intakeSubsystem, this.shooterSubsystem));
-		this.control.shooterInput().whileTrue(new ShootOpenLoopCommand(80, shooterSubsystem));
+		// this.control.Rumble();
+
+		/* Arm Controls */
+		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
+		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+		// this.control.presetLow().onTrue(new CommandArm(this.armSubsystem,
+		// Constants.ArmSetpoint.PICKUP.value));
+		this.control.presetLow().whileTrue(new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
+		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+
+		/* Intake Controls */
+		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
+
+		/* Shooter Controls */
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5500));
+		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
-		this.control.climberExtend().whileTrue(new InstantCommand(climberSubsystem::extend));
+		this.control.climberExtend().onTrue(new InstantCommand(climberSubsystem::extend));
+		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().onTrue(new InstantCommand(climberSubsystem::retract));
+		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+	}
 
+	public void configureSmartDashboard() {
+		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+
+		// SmartDashboard.putData("AutoIntakeCommand",
+		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+
+		// SmartDashboard.putData("AutoShooterCommand", new
+		// ShooterAutoCommand(this.shooterSubsystem, 1));
+
+		// SmartDashboard.putData("FireCommand", new FireCommand(this.intakeSubsystem,
+		// this.shooterSubsystem));
+
+		// SmartDashboard.putData("AmpHelper",
+		// new AmpHelper(this.armSubsystem, this.shooterSubsystem,
+		// this.intakeSubsystem));
+
+		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
+		// this.driveSubsystem, this.visionSubsystem));
+	}
+
+	public void configureTeam() {
+		// if (getAllianceFlipState()) {
+		// this.control.AprilLockOn().whileTrue(new LockAprilTag(4, driveSubsystem,
+		// visionSubsystem));
+		// } else {
+		this.control.AprilLockOn()
+				.whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
+		// }
 	}
 
 	public Command getAutonomousCommand() {

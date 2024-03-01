@@ -9,69 +9,111 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import monologue.Logged;
 
-public class ShooterSubsystem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase implements Logged {
 	private CANSparkMax topFlywheel = new CANSparkMax(Constants.CAN.kShooterTopId, MotorType.kBrushless);
 	private CANSparkMax bottomFlywheel = new CANSparkMax(Constants.CAN.kShooterBottomId, MotorType.kBrushless);;
 	private RelativeEncoder topEncoder;
 	private RelativeEncoder bottomEncoder;
-	private double goal;
-	private double volt;
+
+	private BangBangController bangBangController;
+	private double reference;
+	private ControlType controlType = ControlType.BANG_BANG;
+
+	private PIDController upperPID;
+	private PIDController lowerPID;
+
+	public enum ControlType {
+		BANG_BANG, VOLTAGE, PID
+	};
 
 	// private double speed;
 
 	public ShooterSubsystem() {
 		// Initializes motor(s)
+		this.bangBangController = new BangBangController();
+		this.bangBangController.setTolerance(200);
+
+		this.upperPID = new PIDController(0.01, 0, 0);
+		this.lowerPID = new PIDController(0.01, 0, 0);
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}
-	}
 
-	private void initializeMotors() {
-		this.topFlywheel.setIdleMode(IdleMode.kCoast);
-		this.topFlywheel.setSmartCurrentLimit(35);
-		this.topFlywheel.setOpenLoopRampRate(.5);
-		this.topEncoder = topFlywheel.getEncoder();
-
-		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
-		this.bottomFlywheel.setSmartCurrentLimit(35);
-		this.bottomFlywheel.setOpenLoopRampRate(.5);
-		this.bottomEncoder = bottomFlywheel.getEncoder();
-
-		this.bottomFlywheel.follow(topFlywheel);
-
-		SmartDashboard.putNumber("shooter/goal", 0);
-		SmartDashboard.putNumber("shooter/volt", 5.5);
+		SmartDashboard.putData("ShooterUpperPID", this.upperPID);
+		SmartDashboard.putData("ShooterLowerPID", this.lowerPID);
 	}
 
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("shooter/topRPM", getRPM());
-		SmartDashboard.putNumber("shooter/bottomRPM", bottomEncoder.getVelocity());
-		goal = SmartDashboard.getNumber("shooter/goal", 0);
-		volt = SmartDashboard.getNumber("shooter/volt", 0);
-		if (getRPM() < goal) {
-			setVolt(volt);
+
+		switch (this.controlType) {
+			case BANG_BANG :
+				double outPut = this.bangBangController.calculate(this.getRPM(), this.reference);
+				this.topFlywheel.set(outPut);
+				this.bottomFlywheel.set(outPut);
+				break;
+
+			case VOLTAGE :
+				this.topFlywheel.setVoltage(this.reference);
+				this.bottomFlywheel.setVoltage(this.reference);
+				break;
+			case PID :
+				double upperOutput = MathUtil
+						.clamp(this.upperPID.calculate(this.topEncoder.getVelocity(), this.reference), -1, 1);
+				double lowerOutput = MathUtil
+						.clamp(this.lowerPID.calculate(this.bottomEncoder.getVelocity(), this.reference), -1, 1);
+				this.topFlywheel.set(upperOutput);
+				this.bottomFlywheel.set(lowerOutput);
 		}
+		log("controlType", this.controlType.toString());
+		log("reference", this.reference);
+		log("topFlywheelDutyCycle", topFlywheel.get());
+		log("topflywheelSpeed", getRPM());
+		log("bottomflywheelSpeed", bottomEncoder.getVelocity());
+
 	}
 
 	public double getRPM() {
-
 		return topEncoder.getVelocity();
 	}
 
-	public void setSpeed(double speed) {
-		this.topFlywheel.set(speed);
+	public void set(double goal, ControlType controlType) {
+		this.reference = goal;
+		this.controlType = controlType;
 	}
 
-	public void setVolt(double amount) {
-		this.topFlywheel.setVoltage(amount);
+	public boolean atGoal() {
+		if (controlType == ControlType.VOLTAGE) {
+			return false;
+		} else {
+			return this.bangBangController.atSetpoint();
+		}
+
+	}
+	private void initializeMotors() {
+		this.topFlywheel.restoreFactoryDefaults();
+		this.topFlywheel.setIdleMode(IdleMode.kCoast);
+		this.topFlywheel.setSmartCurrentLimit(35);
+		this.topFlywheel.setOpenLoopRampRate(0);
+		this.topEncoder = topFlywheel.getEncoder();
+
+		this.bottomFlywheel.restoreFactoryDefaults();
+		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
+		this.bottomFlywheel.setSmartCurrentLimit(35);
+		this.bottomFlywheel.setOpenLoopRampRate(0);
+		this.bottomEncoder = bottomFlywheel.getEncoder();
+
+		// this.bottomFlywheel.follow(topFlywheel);
 	}
 
 	FlywheelSim flywheelSim;

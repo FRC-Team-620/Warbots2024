@@ -8,7 +8,6 @@ import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DriveCommand extends Command {
@@ -47,9 +46,10 @@ public class DriveCommand extends Command {
 		double rotationSpeed = MathUtil.applyDeadband(
 				this.getSquareInput(-this.control.rotationalInput()) * Constants.SwerveConstants.kMaxRotationSpeed,
 				Constants.SwerveConstants.kDeadBand);
-		SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
-		SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);
-		SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", rotationSpeed);
+		// SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", xSpeed);
+		// SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed", ySpeed);
+		// SmartDashboard.putNumber("SwerveDrive/Input/SwerveDriveXSpeed",
+		// rotationSpeed);
 		this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed, Constants.SwerveConstants.kFieldRelative,
 				Constants.SwerveConstants.kRateLimit);
 

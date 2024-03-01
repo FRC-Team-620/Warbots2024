@@ -2,17 +2,22 @@ package org.jmhsrobotics.frc2024.subsystems.intake.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakeCommand extends Command {
 
-	private IntakeSubsystem intakeSubsystem;
-	private ShooterSubsystem shooterSubsystem;
+	private final IntakeSubsystem intakeSubsystem;
+	private final ShooterSubsystem shooterSubsystem;
 
 	private double speed;
 
-	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) { // Fixme:
+																												// add
+																												// requirements
+																												// for
+																												// shooter!
 		this.speed = speed;
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
@@ -28,11 +33,12 @@ public class IntakeCommand extends Command {
 	@Override
 	public void execute() {
 		this.intakeSubsystem.set(this.speed);
-		this.shooterSubsystem.setSpeed(-0.1);
+		this.shooterSubsystem.set(-.05, ControlType.VOLTAGE);
 	}
 
 	@Override
 	public boolean isFinished() {
+		// return this.intakeSubsystem.hasNote();
 		return false;
 	}
 
