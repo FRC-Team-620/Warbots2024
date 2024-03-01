@@ -84,7 +84,6 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getRPM() {
-
 		return topEncoder.getVelocity();
 	}
 

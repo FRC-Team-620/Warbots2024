@@ -113,5 +113,6 @@ public class CompControl implements ControlBoard {
 	public void setRumble(RumbleType type, double value) {
 		// TODO Auto-generated method stub
 		this.driver.setRumble(type, 1);
+		this.operator.setRumble(type, 1);
 	}
 }
