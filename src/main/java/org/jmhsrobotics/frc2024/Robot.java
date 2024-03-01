@@ -24,6 +24,7 @@ public class Robot extends TimedRobot implements Logged {
 	@Override
 	public void robotInit() {
 		m_robotContainer = new RobotContainer();
+		m_robotContainer.getDriveSubsystem().zeroHeading();
 		setupLogs();
 	}
 
@@ -63,6 +64,7 @@ public class Robot extends TimedRobot implements Logged {
 
 	@Override
 	public void autonomousInit() {
+		m_robotContainer.getDriveSubsystem().zeroHeading();
 		autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 		if (autonomousCommand != null) {
