@@ -18,9 +18,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.drive.RobotDriveBase;
+import monologue.Logged;
 
-public class RevSwerveDrive extends RobotDriveBase {
+public class RevSwerveDrive implements Logged {
 
 	// Create MAXSwerveModules
 	private ISwerveModule m_frontLeft, m_frontRight, m_rearLeft, m_rearRight;
@@ -78,21 +78,25 @@ public class RevSwerveDrive extends RobotDriveBase {
 		return getPose().getRotation().getDegrees();
 	}
 
-	@Override
-	public void stopMotor() {
-		// TODO: Fix stop hack
-		m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-		m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-		m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-		m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-	}
+	// @Override //TODO: add motor safty back
+	// public void stopMotor() {
+	// // TODO: Fix stop hack
+	// m_frontLeft.setDesiredState(new SwerveModuleState(0,
+	// Rotation2d.fromDegrees(45)));
+	// m_frontRight.setDesiredState(new SwerveModuleState(0,
+	// Rotation2d.fromDegrees(-45)));
+	// m_rearLeft.setDesiredState(new SwerveModuleState(0,
+	// Rotation2d.fromDegrees(-45)));
+	// m_rearRight.setDesiredState(new SwerveModuleState(0,
+	// Rotation2d.fromDegrees(45)));
+	// }
 
-	@Override
-	public String getDescription() {
-		// throw new UnsupportedOperationException("Unimplemented method
-		// 'getDescription'");
-		return "swerve";
-	}
+	// @Override
+	// public String getDescription() {
+	// // throw new UnsupportedOperationException("Unimplemented method
+	// // 'getDescription'");
+	// return "swerve";
+	// }
 
 	/**
 	 * Method to drive the robot using joystick info.
@@ -155,8 +159,11 @@ public class RevSwerveDrive extends RobotDriveBase {
 		// Set the desired module states
 		mapDesiredModuleStates(swerveModuleStates, rotDelivered);
 
-		feedWatchdog(); // Make motor MotorSafety.feed() Happy
+		// feedWatchdog(); // Make motor MotorSafety.feed() Happy
 		// Update visualizer
+		log("targetStates", swerveModuleStates);
+		log("realStates", new SwerveModuleState[]{m_frontLeft.getState(), m_frontRight.getState(),
+				m_rearLeft.getState(), m_rearRight.getState()});
 		m_visualizer.update(m_frontLeft.getState().angle, m_frontRight.getState().angle, m_rearLeft.getState().angle,
 				m_rearRight.getState().angle, getPose());
 	}
@@ -170,7 +177,7 @@ public class RevSwerveDrive extends RobotDriveBase {
 		m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
 		m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
 		m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-		feedWatchdog(); // Make motor MotorSafety.feed() Happy
+		// feedWatchdog(); // Make motor MotorSafety.feed() Happy
 	}
 
 	private double getXRateLimit() {

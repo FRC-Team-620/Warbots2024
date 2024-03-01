@@ -23,6 +23,4 @@ public class PrepareShot extends ParallelCommandGroup {
 				new ShootOpenLoopCommand(12, shooter));
 	}
 
-	
-
 }
