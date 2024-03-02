@@ -89,7 +89,7 @@ public class RobotContainer implements Logged {
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
-		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(1.535, 0.3, driveSubsystem));
+		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
@@ -137,7 +137,7 @@ public class RobotContainer implements Logged {
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 
 		/* Shooter Controls */
-		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5500));
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 4500));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
@@ -181,7 +181,7 @@ public class RobotContainer implements Logged {
 		Command picked = autoChooser.getSelected();
 		if (picked == null) {
 			DriverStation.reportError("WARNING: No auto command detected, defaulting to baseline auto.", false);
-			return new DriveTimeCommand(1.535, 0.3, driveSubsystem);
+			return new DriveTimeCommand(2.2, 0.3, driveSubsystem);
 		} else {
 			return picked;
 		}

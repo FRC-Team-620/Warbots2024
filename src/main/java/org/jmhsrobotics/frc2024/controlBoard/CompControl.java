@@ -94,7 +94,7 @@ public class CompControl implements ControlBoard {
 	public Trigger climberExtend() {
 		return new Trigger(() -> {
 			return this.operator.getPOV() == 0;
-		}); // DPAD Up
+		}); // DPAD Upe
 	}
 
 	@Override
@@ -106,7 +106,9 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public Trigger AprilLockOn() {
-		return new Trigger(driver::getStartButton);
+		return new Trigger(() -> {
+			return this.driver.getRightTriggerAxis() > 0.5;
+		});
 	}
 
 	@Override
