@@ -5,6 +5,7 @@
 package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
+import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
@@ -78,7 +79,7 @@ public class RobotContainer implements Logged {
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
-		// configureSmartDashboard();																		// intake
+		// configureSmartDashboard(); // intake
 		configureBindings();
 		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
 		new Trigger(() -> {
@@ -113,6 +114,7 @@ public class RobotContainer implements Logged {
 				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(1));
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
+		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
