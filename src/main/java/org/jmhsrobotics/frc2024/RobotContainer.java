@@ -27,7 +27,6 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
-import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -37,13 +36,11 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -80,10 +77,13 @@ public class RobotContainer implements Logged {
 		// RainbowLEDCommand(this.ledSubsystem));
 
 		// configureSmartDashboard();
-		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
-		new Trigger(() -> {
-			return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() > 1000;
-		}).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kLeftRumble, 0.2, 1));
+		// new Trigger(intakeSubsystem::noteTooHigh).onTrue(new
+		// RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+		// new Trigger(() -> {
+		// return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() >
+		// 1000;
+		// }).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kLeftRumble, 0.2,
+		// 1));
 
 		configureBindings();
 		// Named commands must be added before building the chooser.
@@ -144,7 +144,7 @@ public class RobotContainer implements Logged {
 		this.control.climberExtend().onTrue(new InstantCommand(climberSubsystem::extend));
 		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
 		this.control.climberRetract().onTrue(new InstantCommand(climberSubsystem::retract));
-		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().onFalse(new InstantCommand(climberSubsystem::stop));
 	}
 
 	public void configureSmartDashboard() {
