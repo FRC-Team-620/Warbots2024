@@ -6,6 +6,7 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
 
+import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -111,5 +112,6 @@ public class Robot extends TimedRobot implements Logged {
 	public void simulationInit() {
 		DriverStationSim.setDsAttached(true);
 		DriverStationSim.setEnabled(true);
+		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 	}
 }
