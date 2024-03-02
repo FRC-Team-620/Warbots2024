@@ -104,13 +104,13 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
 		this.topFlywheel.setSmartCurrentLimit(35);
-		this.topFlywheel.setOpenLoopRampRate(0);
+		this.topFlywheel.setOpenLoopRampRate(0.001);
 		this.topEncoder = topFlywheel.getEncoder();
 
 		this.bottomFlywheel.restoreFactoryDefaults();
 		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
 		this.bottomFlywheel.setSmartCurrentLimit(35);
-		this.bottomFlywheel.setOpenLoopRampRate(0);
+		this.bottomFlywheel.setOpenLoopRampRate(0.001);
 		this.bottomEncoder = bottomFlywheel.getEncoder();
 
 		// this.bottomFlywheel.follow(topFlywheel);
