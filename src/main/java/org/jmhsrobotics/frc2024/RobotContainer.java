@@ -69,7 +69,8 @@ public class RobotContainer implements Logged {
 		}
 		// swboard.setControlBoard(new CompControl());
 		this.control = swboard;
-		this.driveSubsystem.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.control));
+		this.driveSubsystem
+				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
 
