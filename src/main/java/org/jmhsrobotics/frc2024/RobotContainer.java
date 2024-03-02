@@ -78,17 +78,14 @@ public class RobotContainer implements Logged {
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
-		// configureSmartDashboard();
-		new Trigger(intakeSubsystem::hasNote).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1)); // TODO:
-																													// Quick
-																													// and
-																													// dirty
-																													// way
-																													// to
-																													// indicate
-																													// intake
+		// configureSmartDashboard();																		// intake
 		configureBindings();
+		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+		new Trigger(() -> {
+			return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() > 1000;
+		}).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kLeftRumble, 0.2, 1));
 
+		configureBindings();
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
