@@ -38,8 +38,8 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	@Override
 	public void periodic() {
 		// TODO Auto-generated method stub
-		log("climberAppliedOutput",climber.getAppliedOutput());
-		log("climberHelperAppliedOutput",climber.getAppliedOutput());
+		log("climberAppliedOutput", climber.getAppliedOutput());
+		log("climberHelperAppliedOutput", climber.getAppliedOutput());
 		log("climberPosition", encoder.getPosition());
 		super.periodic();
 	}
