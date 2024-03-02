@@ -170,13 +170,12 @@ public class RobotContainer implements Logged {
 	}
 
 	public void configureTeam() {
-		// if (getAllianceFlipState()) {
-		// this.control.AprilLockOn().whileTrue(new LockAprilTag(4, driveSubsystem,
-		// visionSubsystem));
-		// } else {
+		if (getAllianceFlipState()) {
+		this.control.AprilLockOn().whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
+		} else {
 		this.control.AprilLockOn()
 				.whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		// }
+		}
 	}
 
 	public Command getAutonomousCommand() {
