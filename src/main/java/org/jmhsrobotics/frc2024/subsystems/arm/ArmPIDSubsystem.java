@@ -64,12 +64,10 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
 		// not yet on Robot (02/10/24)
-		// pitchSwitchF =
-		// armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		// pitchSwitchR =
-		// armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		// pitchSwitchF.enableLimitSwitch(true);
-		// pitchSwitchR.enableLimitSwitch(true);
+		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		pitchSwitchF.enableLimitSwitch(false);
+		pitchSwitchR.enableLimitSwitch(false);
 
 		// armPivot.burnFlash();
 		// armHelper.burnFlash();
