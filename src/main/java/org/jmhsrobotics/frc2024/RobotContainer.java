@@ -183,7 +183,7 @@ public class RobotContainer implements Logged {
 		Command picked = autoChooser.getSelected();
 		if (picked == null) {
 			DriverStation.reportError("WARNING: No auto command detected, defaulting to baseline auto.", false);
-			return new DriveTimeCommand(1.535, 0.3, driveSubsystem);
+			return new DriveTimeCommand(2, 0.3, driveSubsystem);
 		} else {
 			return picked;
 		}
