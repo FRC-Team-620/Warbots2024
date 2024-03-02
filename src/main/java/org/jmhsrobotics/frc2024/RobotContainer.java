@@ -42,6 +42,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -92,6 +96,27 @@ public class RobotContainer implements Logged {
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
+
+
+		var preloadShoot = new ParallelCommandGroup(
+			new WaitCommand(4),
+			new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+			new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
+		.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
+		.andThen(new ParallelCommandGroup(
+			new DriveTimeCommand(3, 0.3, this.driveSubsystem),
+			new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
+
+			
+			
+			).withTimeout(3));
+			var preloadShoot_only = new ParallelCommandGroup(
+			new WaitCommand(4),
+			new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+			new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
+		.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
+		autoChooser.addOption("Preload-shoot-intake", preloadShoot);
+		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
@@ -152,6 +177,7 @@ public class RobotContainer implements Logged {
 
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+		
 
 		// SmartDashboard.putData("AutoIntakeCommand",
 		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
