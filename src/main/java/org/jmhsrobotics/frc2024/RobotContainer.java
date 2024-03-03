@@ -80,10 +80,10 @@ public class RobotContainer implements Logged {
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
-		// configureSmartDashboard(); // intake
-		configureBindings();
+		// configureSmartDashboard();
 		// new Trigger(intakeSubsystem::noteTooHigh).onTrue(new
 		// RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+
 		// new Trigger(() -> {
 		// return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() >
 		// 1000;
@@ -108,6 +108,7 @@ public class RobotContainer implements Logged {
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
 						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
+						
 		autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);
