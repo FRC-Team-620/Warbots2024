@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
 public class ClimberSubsystem extends SubsystemBase implements Logged {
+<<<<<<< Updated upstream
 	private CANSparkMax climber, helper;
 	private RelativeEncoder encoder;
 
@@ -25,6 +26,24 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		climber.setIdleMode(IdleMode.kBrake);
 		helper.setIdleMode(IdleMode.kBrake);
 		encoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
+=======
+	private CANSparkMax leftClimber, rightClimber;
+	private RelativeEncoder leftClimberEncoder, rightClimberEncoder;
+
+	public ClimberSubsystem() {
+		leftClimber = new CANSparkMax(60, MotorType.kBrushless);
+		rightClimber = new CANSparkMax(61, MotorType.kBrushless);
+		leftClimberEncoder = leftClimber.getEncoder();
+		rightClimberEncoder = rightClimber.getEncoder();
+
+		leftClimber.restoreFactoryDefaults();
+		rightClimber.restoreFactoryDefaults();
+		leftClimber.setSmartCurrentLimit(40);
+		rightClimber.setSmartCurrentLimit(40);
+		leftClimber.setIdleMode(IdleMode.kBrake);
+		rightClimber.setIdleMode(IdleMode.kBrake);
+		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
+>>>>>>> Stashed changes
 
 		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
 		// climber.setSoftLimit(SoftLimitDirection.kForward, 40);
@@ -32,9 +51,11 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		// climber.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
 		// climber.setInverted(true);
-		helper.follow(climber, true);
+
+		// rightClimber.follow(leftClimber, true);
 	}
 
+<<<<<<< Updated upstream
 	@Override
 	public void periodic() {
 		// TODO Auto-generated method stub
@@ -52,5 +73,26 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 
 	public void stop() {
 		climber.set(0);
+=======
+	public void setLeftMotor(double amount) {
+		this.leftClimber.set(amount);
+	}
+
+	public void setRightMotor(double amount) {
+		this.rightClimber.set(amount);
+	}
+
+	public double getLeftEncoderPostition() {
+		return this.leftClimberEncoder.getPosition();
+	}
+
+	public double getRightEncoderPosition() {
+		return this.rightClimberEncoder.getPosition();
+	}
+	@Override
+	public void periodic() {
+		SmartDashboard.putNumber("ClimberSubsystem/LeftEncoderReading", getLeftEncoderPostition());
+		SmartDashboard.putNumber("ClimberSubsystem/RightClimberEncoderPosition", getLeftEncoderPostition());
+>>>>>>> Stashed changes
 	}
 }

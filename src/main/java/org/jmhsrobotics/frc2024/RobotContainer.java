@@ -7,9 +7,9 @@ package org.jmhsrobotics.frc2024;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
-import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
-import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
+import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
@@ -41,9 +41,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+=======
+>>>>>>> Stashed changes
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -67,7 +70,7 @@ public class RobotContainer implements Logged {
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
-			swboard.setControlBoard(new SingleControl());
+			swboard.setControlBoard(new CompControl());
 		}
 		// swboard.setControlBoard(new CompControl());
 		this.control = swboard;
@@ -112,6 +115,10 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
+<<<<<<< Updated upstream
+=======
+		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
+>>>>>>> Stashed changes
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
@@ -161,10 +168,8 @@ public class RobotContainer implements Logged {
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
-		this.control.climberExtend().onTrue(new InstantCommand(climberSubsystem::extend));
-		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
-		this.control.climberRetract().onTrue(new InstantCommand(climberSubsystem::retract));
-		this.control.climberRetract().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().onTrue(new ClimbCommand(this.climberSubsystem, -10.919127));
+		this.control.climberExtend().onTrue(new ClimbCommand(this.climberSubsystem, 0));
 	}
 
 	public void configureSmartDashboard() {
