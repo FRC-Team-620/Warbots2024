@@ -16,6 +16,7 @@ import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.PrepareShot;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.climber.commands.ClimbCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
@@ -112,6 +113,7 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
+		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, 0));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
