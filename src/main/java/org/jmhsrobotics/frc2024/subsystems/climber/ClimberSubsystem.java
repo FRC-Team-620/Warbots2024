@@ -45,7 +45,12 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	}
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("ClimberSubsystem/EncoderReading", getEncoderPostition());
+		// SmartDashboard.putNumber("ClimberSubsystem/EncoderReading", getEncoderPostition());
+		// TODO Auto-generated method stub
+		log("climberAppliedOutput", climber.getAppliedOutput());
+		log("climberHelperAppliedOutput", climber.getAppliedOutput());
+		log("climberPosition", encoder.getPosition());
+		super.periodic();
 	}
 
 	// TEMP CODE

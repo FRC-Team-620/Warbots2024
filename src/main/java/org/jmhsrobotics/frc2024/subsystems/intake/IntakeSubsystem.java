@@ -60,6 +60,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		log("intakeDutyCycle", intakeMotor.get());
 		log("hasNote", this.hasNote());
 		log("noteTooHigh", this.noteTooHigh());
+		log("lowerSensoDistance", this.lowerSensor.getRange());
+		log("upperSensor", this.upperSensor.getRange());
 	}
 
 	public void set(double speed) {

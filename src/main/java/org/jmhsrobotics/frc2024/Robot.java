@@ -5,6 +5,7 @@
 package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
+import org.littletonrobotics.urcl.URCL;
 
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DataLogManager;
@@ -36,13 +37,14 @@ public class Robot extends TimedRobot implements Logged {
 		} else {
 			DataLogManager.start();
 		}
-		DataLogManager.logNetworkTables(false);
+		DataLogManager.logNetworkTables(true);
 		DriverStation.startDataLog(DataLogManager.getLog());
 		BuildDataLogger.LogToNetworkTables(BuildConstants.class);
 		BuildDataLogger.LogToWpiLib(DataLogManager.getLog(), BuildConstants.class);
 		boolean fileOnly = false;
 		boolean lazyLogging = true;
 		Monologue.setupMonologue(this, "Robot", fileOnly, lazyLogging);
+		URCL.start();
 	}
 
 	@Override
@@ -111,6 +113,7 @@ public class Robot extends TimedRobot implements Logged {
 	@Override
 	public void simulationInit() {
 		DriverStationSim.setDsAttached(true);
+		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 		DriverStationSim.setEnabled(true);
 		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 	}
