@@ -59,7 +59,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armPivot.getEncoder().setPosition(getArmPitch());
 
 		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
-		armPivot.setSoftLimit(SoftLimitDirection.kForward, 110);
+		armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
 		armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
 		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
