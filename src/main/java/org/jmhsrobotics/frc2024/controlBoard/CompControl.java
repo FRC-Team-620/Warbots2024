@@ -107,7 +107,7 @@ public class CompControl implements ControlBoard {
 	@Override
 	public Trigger AprilLockOn() {
 		return new Trigger(() -> {
-			return this.driver.getRightTriggerAxis() > 0.5;
+			return this.driver.getLeftTriggerAxis() > 0.5;
 		});
 	}
 

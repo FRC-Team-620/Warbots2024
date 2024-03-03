@@ -24,10 +24,10 @@ public class ClimbCommand extends Command {
 		this.positionGoal = positionGoal;
 
 		this.rightClimberConstraint = new Constraints(80, 120);
-		this.rightClimberPID = new ProfiledPIDController(0.01, 0, 0, this.rightClimberConstraint);
+		this.rightClimberPID = new ProfiledPIDController(0.1, 0, 0, this.rightClimberConstraint);
 
 		this.leftClimberConstraint = new Constraints(80, 120);
-		this.leftClimberPID = new ProfiledPIDController(0.01, 0, 0, this.leftClimberConstraint);
+		this.leftClimberPID = new ProfiledPIDController(0.1, 0, 0, this.leftClimberConstraint);
 		SmartDashboard.putData("RightClimberPID", this.rightClimberPID);
 		SmartDashboard.putData("LeftClimberPID", this.leftClimberPID);
 
@@ -51,7 +51,7 @@ public class ClimbCommand extends Command {
 
 		this.rightClimberPID.setConstraints(new Constraints(80, 120));
 		double rightMotorRawOutput = this.rightClimberPID.calculate(this.climberSubsystem.getRightEncoderPosition());
-		double powerLim = 0.3;
+		double powerLim = 0.5;
 		double rightMotorOutput = MathUtil.clamp(rightMotorRawOutput, -powerLim, powerLim);
 
 		double leftMotorRawOutput = this.rightClimberPID.calculate(this.climberSubsystem.getRightEncoderPosition());
