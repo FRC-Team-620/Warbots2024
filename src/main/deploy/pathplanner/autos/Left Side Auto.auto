@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.55
+      "x": 0.73,
+      "y": 4.4452871008375645
     },
-    "rotation": 0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,13 @@
         {
           "type": "named",
           "data": {
-            "name": "TurnAndShoot"
+            "name": "PrepareShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         },
         {
@@ -22,9 +28,9 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Intake"
+                  "pathName": "Left Pick-UP"
                 }
               },
               {
@@ -34,9 +40,9 @@
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Load Middle Note"
+                  "name": "Intake"
                 }
               }
             ]
@@ -45,7 +51,13 @@
         {
           "type": "named",
           "data": {
-            "name": "TurnAndShoot"
+            "name": "PrepareShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Intake"
           }
         }
       ]

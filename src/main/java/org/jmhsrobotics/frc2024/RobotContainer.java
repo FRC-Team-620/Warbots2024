@@ -7,9 +7,9 @@ package org.jmhsrobotics.frc2024;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
-import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
-import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
+import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
@@ -42,7 +42,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import monologue.Logged;
@@ -68,9 +67,10 @@ public class RobotContainer implements Logged {
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
-			swboard.setControlBoard(new SingleControl());
+			swboard.setControlBoard(new CompControl());
 		}
 		// swboard.setControlBoard(new CompControl());
+
 		this.control = swboard;
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
@@ -113,8 +113,11 @@ public class RobotContainer implements Logged {
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
+
+		SmartDashboard.putData(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
-		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, 0));
+
+		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
@@ -136,6 +139,9 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+		NamedCommands.registerCommand("PrepareShot",
+				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
+						.withTimeout(1));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
@@ -164,10 +170,8 @@ public class RobotContainer implements Logged {
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
-		this.control.climberExtend().onTrue(new InstantCommand(climberSubsystem::extend));
-		this.control.climberExtend().onFalse(new InstantCommand(climberSubsystem::stop));
-		this.control.climberRetract().onTrue(new InstantCommand(climberSubsystem::retract));
-		this.control.climberRetract().onFalse(new InstantCommand(climberSubsystem::stop));
+		this.control.climberRetract().onTrue(new ClimbCommand(this.climberSubsystem, -10.919127));
+		this.control.climberExtend().onTrue(new ClimbCommand(this.climberSubsystem, 0));
 	}
 
 	public void configureSmartDashboard() {
