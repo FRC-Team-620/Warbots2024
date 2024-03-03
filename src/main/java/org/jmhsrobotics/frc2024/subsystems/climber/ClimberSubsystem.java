@@ -10,14 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
 public class ClimberSubsystem extends SubsystemBase implements Logged {
-<<<<<<< Updated upstream
 	private CANSparkMax climber, helper;
-	private RelativeEncoder encoder;
+	private RelativeEncoder climberEncoder;
 
 	public ClimberSubsystem() {
 		climber = new CANSparkMax(60, MotorType.kBrushless);
 		helper = new CANSparkMax(61, MotorType.kBrushless);
-		encoder = climber.getEncoder();
+		climberEncoder = climber.getEncoder();
 
 		climber.restoreFactoryDefaults();
 		helper.restoreFactoryDefaults();
@@ -26,7 +25,6 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		climber.setIdleMode(IdleMode.kBrake);
 		helper.setIdleMode(IdleMode.kBrake);
 		encoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
-=======
 	private CANSparkMax leftClimber, rightClimber;
 	private RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
@@ -43,7 +41,7 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		leftClimber.setIdleMode(IdleMode.kBrake);
 		rightClimber.setIdleMode(IdleMode.kBrake);
 		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
->>>>>>> Stashed changes
+		climberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 
 		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
 		// climber.setSoftLimit(SoftLimitDirection.kForward, 40);
@@ -54,26 +52,6 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 
 		// rightClimber.follow(leftClimber, true);
 	}
-
-<<<<<<< Updated upstream
-	@Override
-	public void periodic() {
-		// TODO Auto-generated method stub
-		super.periodic();
-	}
-
-	// TEMP CODE
-	public void extend() {
-		climber.set(0.3);
-	}
-
-	public void retract() {
-		climber.set(-0.3);
-	}
-
-	public void stop() {
-		climber.set(0);
-=======
 	public void setLeftMotor(double amount) {
 		this.leftClimber.set(amount);
 	}
@@ -93,6 +71,5 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	public void periodic() {
 		SmartDashboard.putNumber("ClimberSubsystem/LeftEncoderReading", getLeftEncoderPostition());
 		SmartDashboard.putNumber("ClimberSubsystem/RightClimberEncoderPosition", getLeftEncoderPostition());
->>>>>>> Stashed changes
 	}
 }

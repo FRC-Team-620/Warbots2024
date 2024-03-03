@@ -16,6 +16,7 @@ import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.PrepareShot;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.climber.commands.ClimbCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
@@ -41,12 +42,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-<<<<<<< Updated upstream
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-=======
->>>>>>> Stashed changes
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -82,10 +80,10 @@ public class RobotContainer implements Logged {
 		// this.ledSubsystem.setDefaultCommand(new
 		// RainbowLEDCommand(this.ledSubsystem));
 
-		// configureSmartDashboard(); // intake
-		configureBindings();
+		// configureSmartDashboard();
 		// new Trigger(intakeSubsystem::noteTooHigh).onTrue(new
 		// RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+
 		// new Trigger(() -> {
 		// return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() >
 		// 1000;
@@ -110,15 +108,14 @@ public class RobotContainer implements Logged {
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
 						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
+
 		autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
-<<<<<<< Updated upstream
-=======
+		
 		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
->>>>>>> Stashed changes
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}

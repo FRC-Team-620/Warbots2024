@@ -1,9 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.climber.commands;
 
-public class ClimbCommand {
-
-<<<<<<< Updated upstream
-=======
+import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -66,9 +63,6 @@ public class ClimbCommand extends Command {
 		// SmartDashboard.putNumber("ExtensionPID/output", motorOutput);
 		// SmartDashboard.putNumber("ExtensionPID/setpoint",
 		// this.climberPID.getSetpoint().position); // 85 is max
-
-		SmartDashboard.putNumber("ClimberPID/positionError", this.rightClimberPID.getPositionError());
-		SmartDashboard.putNumber("ClimberPID/velocityError", this.rightClimberPID.getVelocityError());
 	}
 
 	@Override
@@ -79,5 +73,4 @@ public class ClimbCommand extends Command {
 
 	// TODO: We should add an end method that sets the motor output to 0 when the
 	// command ends;
->>>>>>> Stashed changes
 }
