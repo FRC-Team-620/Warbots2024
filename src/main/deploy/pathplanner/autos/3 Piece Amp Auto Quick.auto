@@ -99,13 +99,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "ArmPickup"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ArmPickup"
+                  "name": "Intake"
                 }
               }
             ]
