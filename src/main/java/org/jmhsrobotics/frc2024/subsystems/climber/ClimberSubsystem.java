@@ -49,7 +49,7 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		// TODO Auto-generated method stub
 		log("climberAppliedOutput", climber.getAppliedOutput());
 		log("climberHelperAppliedOutput", climber.getAppliedOutput());
-		log("climberPosition", encoder.getPosition());
+		// log("climberPosition", encoder.getPosition());
 		super.periodic();
 	}
 
