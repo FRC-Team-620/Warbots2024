@@ -108,7 +108,7 @@ public class RobotContainer implements Logged {
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
 						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
-						
+
 		autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);

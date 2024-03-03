@@ -6,7 +6,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -45,7 +44,8 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	}
 	@Override
 	public void periodic() {
-		// SmartDashboard.putNumber("ClimberSubsystem/EncoderReading", getEncoderPostition());
+		// SmartDashboard.putNumber("ClimberSubsystem/EncoderReading",
+		// getEncoderPostition());
 		// TODO Auto-generated method stub
 		log("climberAppliedOutput", climber.getAppliedOutput());
 		log("climberHelperAppliedOutput", climber.getAppliedOutput());
