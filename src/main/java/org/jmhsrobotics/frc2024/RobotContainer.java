@@ -137,7 +137,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(5));
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(3));
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
@@ -145,7 +145,7 @@ public class RobotContainer implements Logged {
 				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
 						.withTimeout(1));
 		NamedCommands.registerCommand("ComboIntake",
-				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem).withTimeout(4));
+				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem).withTimeout(3));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
