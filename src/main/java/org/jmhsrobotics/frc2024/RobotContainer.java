@@ -71,6 +71,7 @@ public class RobotContainer implements Logged {
 			swboard.setControlBoard(new SingleControl());
 		}
 		// swboard.setControlBoard(new CompControl());
+
 		this.control = swboard;
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
@@ -113,8 +114,7 @@ public class RobotContainer implements Logged {
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
-		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, 0));
+		SmartDashboard.putData(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
@@ -136,6 +136,9 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+		NamedCommands.registerCommand("PrepareShot",
+				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
+						.withTimeout(1));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
