@@ -20,6 +20,12 @@
                 "data": {
                   "pathName": "Amp Score Start"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAmp"
+                }
               }
             ]
           }
@@ -28,12 +34,6 @@
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmAmp"
-                }
-              },
               {
                 "type": "named",
                 "data": {
