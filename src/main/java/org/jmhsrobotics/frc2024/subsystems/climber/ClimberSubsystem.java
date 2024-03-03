@@ -24,6 +24,23 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		helper.setSmartCurrentLimit(40);
 		climber.setIdleMode(IdleMode.kBrake);
 		helper.setIdleMode(IdleMode.kBrake);
+		encoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
+	private CANSparkMax leftClimber, rightClimber;
+	private RelativeEncoder leftClimberEncoder, rightClimberEncoder;
+
+	public ClimberSubsystem() {
+		leftClimber = new CANSparkMax(60, MotorType.kBrushless);
+		rightClimber = new CANSparkMax(61, MotorType.kBrushless);
+		leftClimberEncoder = leftClimber.getEncoder();
+		rightClimberEncoder = rightClimber.getEncoder();
+
+		leftClimber.restoreFactoryDefaults();
+		rightClimber.restoreFactoryDefaults();
+		leftClimber.setSmartCurrentLimit(40);
+		rightClimber.setSmartCurrentLimit(40);
+		leftClimber.setIdleMode(IdleMode.kBrake);
+		rightClimber.setIdleMode(IdleMode.kBrake);
+		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 		climberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 
 		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
@@ -32,37 +49,27 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		// climber.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
 		// climber.setInverted(true);
-		helper.follow(climber, true);
+
+		// rightClimber.follow(leftClimber, true);
+	}
+	public void setLeftMotor(double amount) {
+		this.leftClimber.set(amount);
 	}
 
-	public void set(double amount) {
-		this.climber.set(amount);
+	public void setRightMotor(double amount) {
+		this.rightClimber.set(amount);
 	}
 
-	public double getEncoderPostition() {
-		return this.climberEncoder.getPosition();
+	public double getLeftEncoderPostition() {
+		return this.leftClimberEncoder.getPosition();
+	}
+
+	public double getRightEncoderPosition() {
+		return this.rightClimberEncoder.getPosition();
 	}
 	@Override
 	public void periodic() {
-		// SmartDashboard.putNumber("ClimberSubsystem/EncoderReading",
-		// getEncoderPostition());
-		// TODO Auto-generated method stub
-		log("climberAppliedOutput", climber.getAppliedOutput());
-		log("climberHelperAppliedOutput", climber.getAppliedOutput());
-		// log("climberPosition", encoder.getPosition());
-		super.periodic();
-	}
-
-	// TEMP CODE
-	public void extend() {
-		climber.set(0.3);
-	}
-
-	public void retract() {
-		climber.set(-0.3);
-	}
-
-	public void stop() {
-		climber.set(0);
+		SmartDashboard.putNumber("ClimberSubsystem/LeftEncoderReading", getLeftEncoderPostition());
+		SmartDashboard.putNumber("ClimberSubsystem/RightClimberEncoderPosition", getLeftEncoderPostition());
 	}
 }
