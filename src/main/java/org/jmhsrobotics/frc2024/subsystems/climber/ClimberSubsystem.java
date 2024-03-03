@@ -6,25 +6,11 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
 public class ClimberSubsystem extends SubsystemBase implements Logged {
-	private CANSparkMax climber, helper;
-	private RelativeEncoder climberEncoder;
-
-	public ClimberSubsystem() {
-		climber = new CANSparkMax(60, MotorType.kBrushless);
-		helper = new CANSparkMax(61, MotorType.kBrushless);
-		climberEncoder = climber.getEncoder();
-
-		climber.restoreFactoryDefaults();
-		helper.restoreFactoryDefaults();
-		climber.setSmartCurrentLimit(40);
-		helper.setSmartCurrentLimit(40);
-		climber.setIdleMode(IdleMode.kBrake);
-		helper.setIdleMode(IdleMode.kBrake);
-		encoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 	private CANSparkMax leftClimber, rightClimber;
 	private RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
@@ -41,7 +27,7 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		leftClimber.setIdleMode(IdleMode.kBrake);
 		rightClimber.setIdleMode(IdleMode.kBrake);
 		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
-		climberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
+		rightClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 
 		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
 		// climber.setSoftLimit(SoftLimitDirection.kForward, 40);
