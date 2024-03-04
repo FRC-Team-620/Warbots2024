@@ -77,7 +77,6 @@ public class RevSwerveDrive implements Logged {
 	public double getHeading() {
 		return getPose().getRotation().getDegrees();
 	}
-
 	// @Override //TODO: add motor safty back
 	// public void stopMotor() {
 	// // TODO: Fix stop hack

@@ -60,8 +60,8 @@ public class ArmSubsystem extends SubsystemBase implements Logged {
 
 		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		pitchSwitchF.enableLimitSwitch(true);
-		pitchSwitchR.enableLimitSwitch(true);
+		pitchSwitchF.enableLimitSwitch(false);
+		pitchSwitchR.enableLimitSwitch(false);
 
 		// armPivot.burnFlash();
 		// armHelper.burnFlash();

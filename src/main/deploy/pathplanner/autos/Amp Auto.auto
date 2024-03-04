@@ -25,9 +25,22 @@
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "ArmAmp"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAmp"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Fire"
+                }
+              }
+            ]
           }
         },
         {

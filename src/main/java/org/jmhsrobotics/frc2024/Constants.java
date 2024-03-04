@@ -36,7 +36,7 @@ public class Constants {
 	public static class Arm {
 		public static double pickupSetpoint = 5;
 		public static double shootingSetpoint = 12.5;
-		public static double ampSetpoint = 95;
+		public static double ampSetpoint = 93;
 	}
 
 	public static enum ArmSetpoint {
