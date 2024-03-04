@@ -16,25 +16,6 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "ArmAmp"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 4.5
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
                 "type": "path",
                 "data": {
                   "pathName": "Amp Score Start"
@@ -56,19 +37,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp Get Third Note"
+                  "pathName": "Amp Get Far Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
                   "name": "ArmPickup"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
                 }
               }
             ]
@@ -77,13 +52,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Amp Score Third Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmAmp"
+            "pathName": "Amp Score Far Note"
           }
         },
         {

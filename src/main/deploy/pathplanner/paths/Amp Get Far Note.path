@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.3,
-        "y": 7.45
+        "x": 1.85,
+        "y": 7.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.4,
-        "y": 7.45
+        "x": 1.9500000000000002,
+        "y": 7.7
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.85,
-        "y": 7.65
+        "x": 8.3,
+        "y": 7.45
       },
       "prevControl": {
-        "x": 1.85,
-        "y": 6.15
+        "x": 8.200000000000001,
+        "y": 7.45
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,7 +30,12 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": -3.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 0.25,
       "rotationDegrees": -90.0,
       "rotateFast": false
     }
@@ -39,15 +44,15 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.75,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "ArmAmp"
+                "name": "Intake"
               }
             }
           ]
@@ -63,7 +68,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": -3.0,
     "rotateFast": false
   },
   "reversed": false,

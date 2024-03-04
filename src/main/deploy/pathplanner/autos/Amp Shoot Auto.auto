@@ -14,13 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PrepareShot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
+            "name": "TurnAndShoot"
           }
         },
         {
@@ -44,13 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "PrepareShot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
+            "name": "TurnAndShoot"
           }
         }
       ]
