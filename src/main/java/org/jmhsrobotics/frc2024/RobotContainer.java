@@ -160,15 +160,16 @@ public class RobotContainer implements Logged {
 
 		/* Arm Controls */
 		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
-		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+		this.control.presetMid().whileTrue(armSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
 		// this.control.presetLow().onTrue(new CommandArm(this.armSubsystem,
 		// Constants.ArmSetpoint.PICKUP.value));
-		this.control.presetLow().whileTrue(new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
-		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+		this.control.presetLow().whileTrue(armSubsystem.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+		// this.control.presetLow().onFalse(new CommandArm(this.armSubsystem,
+		// Constants.ArmSetpoint.SHOOT.value));
 
 		/* Intake Controls */
-		this.control.intakeInput().whileTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-		this.control.extakeInput().whileTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+		this.control.intakeInput().onTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+		this.control.extakeInput().onTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
 
 		/* Shooter Controls */
 		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 4500));

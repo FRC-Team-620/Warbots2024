@@ -11,18 +11,20 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
 
 public class ArmPIDSubsystem extends SubsystemBase implements Logged {
@@ -37,6 +39,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	// PID vars
 	private double angle;
 	private ProfiledPIDController armPID;
+	private SysIdRoutine routine;
 
 	public ArmPIDSubsystem() {
 
@@ -46,7 +49,8 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armPivot.setInverted(true);
 
 		pitchEncoder = new SimableAbsoluteEncoder(armPivot.getAbsoluteEncoder(Type.kDutyCycle));
-		armPivot.setSmartCurrentLimit(40);
+		armPivot.setSmartCurrentLimit(60);
+		armHelper.setSmartCurrentLimit(60);
 		armPivot.setIdleMode(IdleMode.kBrake);
 		armHelper.setIdleMode(IdleMode.kBrake);
 
@@ -57,6 +61,8 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armHelper.follow(armPivot, true);
 		pitchEncoder.setPositionConversionFactor(360);
 		armPivot.getEncoder().setPosition(getArmPitch());
+		armPivot.setOpenLoopRampRate(0.0);
+		armHelper.setOpenLoopRampRate(0.0);
 
 		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
 		armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
@@ -71,12 +77,28 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 		// armPivot.burnFlash();
 		// armHelper.burnFlash();
+
+		this.routine = new SysIdRoutine(new SysIdRoutine.Config(),
+				new SysIdRoutine.Mechanism(this::voltageDrive, null, this));
+
 		this.initPid();
 
 		init2d();
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}
+	}
+
+	private void voltageDrive(Measure<Voltage> num) {
+		armPivot.setVoltage(num.baseUnitMagnitude());
+	}
+
+	public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+		return routine.quasistatic(direction);
+	}
+
+	public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+		return routine.dynamic(direction);
 	}
 
 	public void setGoal(double angle) {
@@ -155,19 +177,21 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		// armPivot.getEncoder().getPosition());
 	}
 
-	@Override
-	public void periodic() {
-		this.calculatePiditeration();
+	// @Override
+	// public void periodic() {
+	// this.calculatePiditeration();
 
-		this.updateOdometry();
+	// this.updateOdometry();
 
-		m_arm.setAngle(getArmPitch());
-		log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
-		log("armComponent_Goal",
-				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(armPID.getGoal().position), 0)));
-		log("angleDegrees", getArmPitch());
-		log("angleGoalDegrees", armPID.getGoal().position);
-	}
+	// m_arm.setAngle(getArmPitch());
+	// log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
+	// -Units.degreesToRadians(getArmPitch()), 0)));
+	// log("armComponent_Goal",
+	// new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
+	// -Units.degreesToRadians(armPID.getGoal().position), 0)));
+	// log("angleDegrees", getArmPitch());
+	// log("angleGoalDegrees", armPID.getGoal().position);
+	// }
 
 	SingleJointedArmSim armSim;
 
