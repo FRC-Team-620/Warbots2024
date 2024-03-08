@@ -16,6 +16,7 @@ public class ShootOpenLoopCommand extends Command {
 		this.shooterSubsystem = shooterSubsystem;
 
 		addRequirements(this.shooterSubsystem);
+
 	}
 
 	@Override

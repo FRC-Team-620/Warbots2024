@@ -46,6 +46,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -166,8 +167,8 @@ public class RobotContainer implements Logged {
 		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 
 		/* Intake Controls */
-		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
+		this.control.intakeInput().whileTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+		this.control.extakeInput().whileTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
 
 		/* Shooter Controls */
 		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 4500));
