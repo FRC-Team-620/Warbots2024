@@ -1,12 +1,13 @@
 package org.jmhsrobotics.frc2024.subsystems.climber;
 
+import org.jmhsrobotics.frc2024.Constants;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -15,8 +16,8 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	private RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
 	public ClimberSubsystem() {
-		leftClimber = new CANSparkMax(60, MotorType.kBrushless);
-		rightClimber = new CANSparkMax(61, MotorType.kBrushless);
+		leftClimber = new CANSparkMax(Constants.CAN.kLeftClimberID, MotorType.kBrushless);
+		rightClimber = new CANSparkMax(Constants.CAN.kRightClimberID, MotorType.kBrushless);
 		leftClimberEncoder = leftClimber.getEncoder();
 		rightClimberEncoder = rightClimber.getEncoder();
 
@@ -55,7 +56,7 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	}
 	@Override
 	public void periodic() {
-		SmartDashboard.putNumber("ClimberSubsystem/LeftEncoderReading", getLeftEncoderPostition());
-		SmartDashboard.putNumber("ClimberSubsystem/RightClimberEncoderPosition", getLeftEncoderPostition());
+		super.periodic();
 	}
+
 }
