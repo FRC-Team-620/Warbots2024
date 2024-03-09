@@ -40,14 +40,12 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -102,7 +100,7 @@ public class RobotContainer implements Logged {
 		configurePathPlanner();
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
-		
+
 		var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)

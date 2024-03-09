@@ -6,22 +6,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class ToggleBakes extends Command {
 
-    private ArmPIDSubsystem arm;
-    public ToggleBakes(ArmPIDSubsystem arm){
-        this.arm = arm;
-    }
+	private ArmPIDSubsystem arm;
+	public ToggleBakes(ArmPIDSubsystem arm) {
+		this.arm = arm;
+	}
 
-    @Override
-    public void initialize() {
-        this.arm.toggleBakes();
-    }
-    @Override
-    public boolean runsWhenDisabled() {
-        return true;
-    }
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
-    
+	@Override
+	public void initialize() {
+		this.arm.toggleBakes();
+	}
+	@Override
+	public boolean runsWhenDisabled() {
+		return true;
+	}
+	@Override
+	public boolean isFinished() {
+		return true;
+	}
+
 }

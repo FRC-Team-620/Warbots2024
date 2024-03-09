@@ -89,8 +89,8 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		// this.armPID.setGoal(angle);
 		this.angle = angle;
 	}
-	public void toggleBakes(){
-		var mode = this.armPivot.getIdleMode()  == IdleMode.kBrake? IdleMode.kCoast: IdleMode.kBrake;
+	public void toggleBakes() {
+		var mode = this.armPivot.getIdleMode() == IdleMode.kBrake ? IdleMode.kCoast : IdleMode.kBrake;
 		this.armPivot.setIdleMode(mode);
 		this.armHelper.setIdleMode(mode);
 	}
