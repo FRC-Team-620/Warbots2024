@@ -38,6 +38,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	// PID vars
 	private double angle;
 	private ProfiledPIDController armPID;
+	private RelativeEncoder relativeEncoder;
 
 	public ArmPIDSubsystem() {
 
@@ -53,11 +54,16 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket, times 360 degrees
 
-		armPivot.getEncoder().setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
+		relativeEncoder = this.armPivot.getEncoder();
+		relativeEncoder.setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
 
 		armHelper.follow(armPivot, true);
 		pitchEncoder.setPositionConversionFactor(360);
-		armPivot.getEncoder().setPosition(getArmPitch());
+		double tempAngle = pitchEncoder.getPosition();
+		if (tempAngle > 270) {
+			tempAngle -= 360;
+		}
+		relativeEncoder.setPosition(tempAngle);
 
 		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
 		armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
@@ -106,11 +112,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 	public double getArmPitch() {
 		// return this.pitchEncoder.getPosition();
-		return this.getRelativeEncoder().getPosition();
-	}
-
-	public RelativeEncoder getRelativeEncoder() {
-		return this.armPivot.getEncoder();
+		return this.relativeEncoder.getPosition();
 	}
 
 	public double getArmVelocity() {
