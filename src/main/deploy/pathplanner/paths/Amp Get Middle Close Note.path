@@ -31,12 +31,30 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.6,
-      "rotationDegrees": -70.0,
+      "rotationDegrees": -65.0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.65,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 2.0,
@@ -45,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -68.0,
+    "rotation": -65.0,
     "rotateFast": false
   },
   "reversed": false,
