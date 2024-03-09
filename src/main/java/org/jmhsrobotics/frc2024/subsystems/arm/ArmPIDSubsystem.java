@@ -2,8 +2,6 @@ package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import org.jmhsrobotics.frc2024.Constants;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
@@ -41,15 +39,15 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 	public ArmPIDSubsystem() {
 
-		armPivot.restoreFactoryDefaults();
-		armHelper.restoreFactoryDefaults();
+		// armPivot.restoreFactoryDefaults();
+		// armHelper.restoreFactoryDefaults();
 		// armHelper.setInverted(true);
-		armPivot.setInverted(true);
+		// armPivot.setInverted(true);
 
 		pitchEncoder = new SimableAbsoluteEncoder(armPivot.getAbsoluteEncoder(Type.kDutyCycle));
-		armPivot.setSmartCurrentLimit(40);
-		armPivot.setIdleMode(IdleMode.kBrake);
-		armHelper.setIdleMode(IdleMode.kBrake);
+		// armPivot.setSmartCurrentLimit(40);
+		// armPivot.setIdleMode(IdleMode.kBrake);
+		// armHelper.setIdleMode(IdleMode.kBrake);
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket, times 360 degrees
 
@@ -64,16 +62,18 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		}
 		relativeEncoder.setPosition(tempAngle);
 
-		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
-		armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
-		armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
-		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+		// armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
+		// armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
+		// armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
+		// armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
-		// not yet on Robot (02/10/24)
-		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		pitchSwitchF.enableLimitSwitch(false);
-		pitchSwitchR.enableLimitSwitch(false);
+		// // not yet on Robot (02/10/24)
+		// pitchSwitchF =
+		// armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		// pitchSwitchR =
+		// armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		// pitchSwitchF.enableLimitSwitch(false);
+		// pitchSwitchR.enableLimitSwitch(false);
 
 		// armPivot.burnFlash();
 		// armHelper.burnFlash();
