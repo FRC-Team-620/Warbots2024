@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 
@@ -104,7 +105,12 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getArmPitch() {
-		return this.pitchEncoder.getPosition();
+		// return this.pitchEncoder.getPosition();
+		return this.getRelativeEncoder().getPosition();
+	}
+
+	public RelativeEncoder getRelativeEncoder() {
+		return this.armPivot.getEncoder();
 	}
 
 	public double getArmVelocity() {
