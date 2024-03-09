@@ -20,6 +20,7 @@ public class RumbleTimeCommand extends Command {
 	private double time, strength;
 
 	private Timer timer = new Timer();
+
 	public RumbleTimeCommand(ControlBoard board, RumbleType type, double time, double strength) {
 		this.board = board;
 		this.type = type;
@@ -29,19 +30,20 @@ public class RumbleTimeCommand extends Command {
 
 	@Override
 	public void initialize() {
-		board.setRumble(this.type, this.strength);
+		this.board.setRumble(this.type, this.strength);
 		this.timer.reset();
-		timer.start();
+		this.timer.start();
 	}
 
-	@Override
-	public void execute() {
-		board.setRumble(this.type, this.strength);
-	}
+	// @Override
+	// public void execute() {
+	// board.setRumble(this.type, this.strength);
+	// }
 
 	@Override
 	public boolean isFinished() {
-		return this.timer.hasElapsed(time);
+		return this.timer.hasElapsed(this.time);
+		// return false;
 	}
 
 	@Override

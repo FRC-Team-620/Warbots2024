@@ -48,6 +48,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		this.upperPID = new PIDController(0.001, 0, 0);
 		this.lowerPID = new PIDController(0.001, 0, 0);
+		this.upperPID.setTolerance(50);
+		this.lowerPID.setTolerance(50);
 
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
@@ -107,9 +109,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		if (controlType == ControlType.VOLTAGE) {
 			return false;
 		} else {
-			return this.bangBangController.atSetpoint();
+			return this.upperPID.atSetpoint() && this.lowerPID.atSetpoint();
 		}
-
 	}
 	private void initializeMotors() {
 		// this.topFlywheel.restoreFactoryDefaults();
