@@ -4,6 +4,9 @@
 
 package org.jmhsrobotics.frc2024;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
 import org.littletonrobotics.urcl.URCL;
 
@@ -44,7 +47,7 @@ public class Robot extends TimedRobot implements Logged {
 		boolean fileOnly = false;
 		boolean lazyLogging = true;
 		Monologue.setupMonologue(this, "Robot", fileOnly, lazyLogging);
-		URCL.start();
+		URCL.start(getCanIDMap());
 	}
 
 	@Override
@@ -117,5 +120,29 @@ public class Robot extends TimedRobot implements Logged {
 		DriverStationSim.setEnabled(true);
 
 		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
+	}
+
+	private Map<Integer, String> getCanIDMap() {
+		var map = new HashMap<Integer, String>();
+
+		map.put(Constants.SwerveConstants.kFrontLeftDrivingCanId, "FrontLeftDriving");
+		map.put(Constants.SwerveConstants.kFrontLeftTurningCanId, "FrontLeftTurningCan");
+		map.put(Constants.SwerveConstants.kFrontRightDrivingCanId, "FrontRightDriving");
+		map.put(Constants.SwerveConstants.kFrontRightTurningCanId, "FrontRightTurning");
+		map.put(Constants.SwerveConstants.kRearLeftDrivingCanId, "RearLeftDriving");
+		map.put(Constants.SwerveConstants.kRearLeftTurningCanId, "RearLeftTurning");
+		map.put(Constants.SwerveConstants.kRearRightDrivingCanId, "RearRightDriving");
+		map.put(Constants.SwerveConstants.kRearRightTurningCanId, "RearRightTurning");
+
+		map.put(Constants.CAN.kArmPivotFollowerID, "ArmPivotFollower");
+		map.put(Constants.CAN.kArmPivotRightID, "ArmPivotRight");
+
+		map.put(Constants.CAN.kIntakeId, "Intake");
+		map.put(Constants.CAN.kShooterBottomId, "ShooterBottom");
+		map.put(Constants.CAN.kShooterTopId, "ShooterTop");
+
+		map.put(Constants.CAN.kLeftClimberID, "LeftClimber");
+		map.put(Constants.CAN.kRightClimberID, "RightClimber");
+		return map;
 	}
 }

@@ -1,5 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.climber;
 
+import org.jmhsrobotics.frc2024.Constants;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -14,8 +16,8 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	private RelativeEncoder leftClimberEncoder, rightClimberEncoder;
 
 	public ClimberSubsystem() {
-		leftClimber = new CANSparkMax(60, MotorType.kBrushless);
-		rightClimber = new CANSparkMax(61, MotorType.kBrushless);
+		leftClimber = new CANSparkMax(Constants.CAN.kLeftClimberID, MotorType.kBrushless);
+		rightClimber = new CANSparkMax(Constants.CAN.kRightClimberID, MotorType.kBrushless);
 		leftClimberEncoder = leftClimber.getEncoder();
 		rightClimberEncoder = rightClimber.getEncoder();
 

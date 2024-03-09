@@ -17,6 +17,9 @@ public class Constants {
 		public static final int kShooterBottomId = 31;
 		public static final int kArmPivotRightID = 50;
 		public static final int kArmPivotFollowerID = 51;
+		public static final int kLeftClimberID = 60;
+		public static final int kRightClimberID = 61;
+
 	};
 
 	/**
