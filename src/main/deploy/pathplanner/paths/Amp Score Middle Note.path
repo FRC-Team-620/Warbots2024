@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.85,
-        "y": 7.7
+        "x": 2.9,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9500000000000002,
-        "y": 7.7
+        "x": 3.0,
+        "y": 5.55
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.0,
+        "x": 1.85,
         "y": 7.65
       },
       "prevControl": {
-        "x": 3.9,
+        "x": 1.55,
         "y": 7.65
       },
       "nextControl": null,
@@ -28,7 +28,13 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": -90.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -44,9 +50,6 @@
   },
   "reversed": false,
   "folder": "Amp Paths",
-  "previewStartingState": {
-    "rotation": -90.0,
-    "velocity": 0
-  },
+  "previewStartingState": null,
   "useDefaultConstraints": false
 }

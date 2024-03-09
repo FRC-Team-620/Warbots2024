@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 
@@ -59,17 +60,15 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armPivot.getEncoder().setPosition(getArmPitch());
 
 		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
-		armPivot.setSoftLimit(SoftLimitDirection.kForward, 110);
+		armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
 		armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
 		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
 		// not yet on Robot (02/10/24)
-		// pitchSwitchF =
-		// armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		// pitchSwitchR =
-		// armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		// pitchSwitchF.enableLimitSwitch(true);
-		// pitchSwitchR.enableLimitSwitch(true);
+		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		pitchSwitchF.enableLimitSwitch(false);
+		pitchSwitchR.enableLimitSwitch(false);
 
 		// armPivot.burnFlash();
 		// armHelper.burnFlash();
@@ -106,7 +105,12 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getArmPitch() {
-		return this.pitchEncoder.getPosition();
+		// return this.pitchEncoder.getPosition();
+		return this.getRelativeEncoder().getPosition();
+	}
+
+	public RelativeEncoder getRelativeEncoder() {
+		return this.armPivot.getEncoder();
 	}
 
 	public double getArmVelocity() {

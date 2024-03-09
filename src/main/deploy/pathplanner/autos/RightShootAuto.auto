@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.47,
-      "y": 7.33
+      "x": 0.6300756175697536,
+      "y": 6.699323811426484
     },
-    "rotation": 0.0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -24,21 +24,28 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ArmPickup"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Right Cross Auto Line"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {

@@ -116,5 +116,6 @@ public class Robot extends TimedRobot implements Logged {
 		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 		DriverStationSim.setEnabled(true);
 
+		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 	}
 }
