@@ -39,7 +39,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	// PID vars
 	private double angle;
 	private ProfiledPIDController armPID;
-	private SysIdRoutine routine;
+	public SysIdRoutine routine;
 
 	public ArmPIDSubsystem() {
 

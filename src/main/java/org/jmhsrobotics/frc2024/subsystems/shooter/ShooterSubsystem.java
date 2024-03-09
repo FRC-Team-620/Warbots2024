@@ -17,7 +17,6 @@ import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
@@ -35,7 +34,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	private PIDController upperPID;
 	private PIDController lowerPID;
 
-	private SysIdRoutine routine;
+	public SysIdRoutine topRoutine;
+	public SysIdRoutine bottomRoutine;
 
 	public enum ControlType {
 		BANG_BANG, VOLTAGE, PID
@@ -58,20 +58,18 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		SmartDashboard.putData("ShooterUpperPID", this.upperPID);
 		SmartDashboard.putData("ShooterLowerPID", this.lowerPID);
 
-		this.routine = new SysIdRoutine(new SysIdRoutine.Config(),
+		this.topRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
 				new SysIdRoutine.Mechanism(this::voltageDrive, null, this));
+		this.bottomRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
+				new SysIdRoutine.Mechanism(this::bottomVoltageDrive, null, this));
 	}
 
 	private void voltageDrive(Measure<Voltage> num) {
 		topFlywheel.setVoltage(num.baseUnitMagnitude());
 	}
 
-	public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-		return routine.quasistatic(direction);
-	}
-
-	public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-		return routine.dynamic(direction);
+	private void bottomVoltageDrive(Measure<Voltage> num) {
+		bottomFlywheel.setVoltage(num.baseUnitMagnitude());
 	}
 
 	// @Override

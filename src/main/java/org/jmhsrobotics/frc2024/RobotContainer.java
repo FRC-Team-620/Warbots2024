@@ -34,7 +34,6 @@ import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 
-import com.ctre.phoenix6.SignalLogger;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -106,15 +105,15 @@ public class RobotContainer implements Logged {
 		var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-				.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
-				.andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3, this.driveSubsystem),
-						new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
+						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
+						.andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3, this.driveSubsystem),
+								new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
 
-				).withTimeout(2));
+						).withTimeout(2));
 		var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-				.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
+						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
 
 		autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
@@ -160,8 +159,7 @@ public class RobotContainer implements Logged {
 	}
 
 	public Command fullTest(SysIdRoutine routine, BooleanSupplier stopCondition, BooleanSupplier nextCondition) {
-		return Commands.sequence(
-				routine.quasistatic(SysIdRoutine.Direction.kForward).until(stopCondition),
+		return Commands.sequence(routine.quasistatic(SysIdRoutine.Direction.kForward).until(stopCondition),
 				Commands.waitUntil(nextCondition),
 				routine.quasistatic(SysIdRoutine.Direction.kReverse).until(stopCondition),
 				Commands.waitUntil(nextCondition),
@@ -182,8 +180,11 @@ public class RobotContainer implements Logged {
 		// Constants.ArmSetpoint.SHOOT.value));
 
 		/* Intake Controls */
-		this.control.intakeInput().onTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-		this.control.extakeInput().onTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+		// this.control.intakeInput().onTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+		// this.control.extakeInput().onTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+
+		SmartDashboard.putData("sysIDTest", fullTest(this.armSubsystem.routine,
+				this.control.intakeInput()::getAsBoolean, this.control.extakeInput()::getAsBoolean));
 
 		/* Shooter Controls */
 		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 4500));

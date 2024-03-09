@@ -12,10 +12,14 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
 
 public class IntakeSubsystem extends SubsystemBase implements Logged {
@@ -23,6 +27,9 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 
 	private TimeOfFlight lowerSensor;
 	private TimeOfFlight upperSensor;
+
+	public SysIdRoutine routine;
+
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
@@ -35,11 +42,25 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
 		this.upperSensor.setRangingMode(RangingMode.Short, 24);
 
+		this.routine = new SysIdRoutine(new SysIdRoutine.Config(),
+				new SysIdRoutine.Mechanism(this::voltageDrive, null, this));
+
 		if (RobotBase.isSimulation()) {
 			simInit();
 		}
 	}
 
+	private void voltageDrive(Measure<Voltage> num) {
+		this.intakeMotor.setVoltage(num.baseUnitMagnitude());
+	}
+
+	public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
+		return this.routine.quasistatic(direction);
+	}
+
+	public Command sysIdDynamic(SysIdRoutine.Direction direction) {
+		return this.routine.dynamic(direction);
+	}
 	@Override
 	public void periodic() {
 		// SmartDashboard.putNumber("intake/velocityRPM",
