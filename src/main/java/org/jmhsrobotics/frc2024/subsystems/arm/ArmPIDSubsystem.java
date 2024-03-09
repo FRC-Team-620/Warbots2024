@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
 
@@ -38,7 +37,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	// PID vars
 	private double angle;
 	private ProfiledPIDController armPID;
-	private RelativeEncoder relativeEncoder;
+	private SimableRelativeEncoder relativeEncoder;
 
 	public ArmPIDSubsystem() {
 
@@ -54,7 +53,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket, times 360 degrees
 
-		relativeEncoder = this.armPivot.getEncoder();
+		relativeEncoder = new SimableRelativeEncoder(this.armPivot.getEncoder());
 		relativeEncoder.setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
 
 		armHelper.follow(armPivot, true);
@@ -111,7 +110,6 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getArmPitch() {
-		// return this.pitchEncoder.getPosition();
 		return this.relativeEncoder.getPosition();
 	}
 
@@ -193,6 +191,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armSim.setInputVoltage(armVolts);
 		armSim.update(Constants.ksimDtSec);
 		pitchEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
+		relativeEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
 	}
 
 }
