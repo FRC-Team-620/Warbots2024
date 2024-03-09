@@ -123,15 +123,16 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	}
 	private void initializeMotors() {
-		this.topFlywheel.restoreFactoryDefaults();
+		// this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
 		this.topFlywheel.setSmartCurrentLimit(60);
 		this.topFlywheel.setOpenLoopRampRate(0.0);
 		this.topEncoder = topFlywheel.getEncoder();
+
 		this.topEncoder.setMeasurementPeriod(16);
 		this.topEncoder.setAverageDepth(2);
 
-		this.bottomFlywheel.restoreFactoryDefaults();
+		// this.bottomFlywheel.restoreFactoryDefaults();
 		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
 		this.bottomFlywheel.setSmartCurrentLimit(60);
 		this.bottomFlywheel.setOpenLoopRampRate(0.0);
