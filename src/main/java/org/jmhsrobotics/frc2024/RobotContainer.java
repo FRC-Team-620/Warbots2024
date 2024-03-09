@@ -170,7 +170,7 @@ public class RobotContainer implements Logged {
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 
 		/* Shooter Controls */
-		this.control.shooterInput().whileTrue(new ShooterAutoCommand(shooterSubsystem, 4500));
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 4500));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls

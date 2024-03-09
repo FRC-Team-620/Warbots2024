@@ -11,7 +11,9 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +32,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	private PIDController upperPID;
 	private PIDController lowerPID;
+	private SimpleMotorFeedforward upperFeedforward = new SimpleMotorFeedforward(0.10948, 0.019707, 0.0018555);
+	private SimpleMotorFeedforward lowerFeedforward = new SimpleMotorFeedforward(0.16094, 0.019748, 0.0020309);
 
 	public enum ControlType {
 		BANG_BANG, VOLTAGE, PID
@@ -42,8 +46,9 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.bangBangController = new BangBangController();
 		this.bangBangController.setTolerance(200);
 
-		this.upperPID = new PIDController(0.01, 0, 0);
-		this.lowerPID = new PIDController(0.01, 0, 0);
+		this.upperPID = new PIDController(0.001, 0, 0);
+		this.lowerPID = new PIDController(0.001, 0, 0);
+
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
@@ -55,7 +60,6 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	@Override
 	public void periodic() {
-
 		switch (this.controlType) {
 			case BANG_BANG :
 				double outPut = this.bangBangController.calculate(this.getRPM(), this.reference);
@@ -68,12 +72,19 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 				this.bottomFlywheel.setVoltage(this.reference);
 				break;
 			case PID :
-				double upperOutput = MathUtil
-						.clamp(this.upperPID.calculate(this.topEncoder.getVelocity(), this.reference), -1, 1);
-				double lowerOutput = MathUtil
-						.clamp(this.lowerPID.calculate(this.bottomEncoder.getVelocity(), this.reference), -1, 1);
-				this.topFlywheel.set(upperOutput);
-				this.bottomFlywheel.set(lowerOutput);
+				double upperOutput = MathUtil.clamp(this.upperPID.calculate(
+						Units.rotationsPerMinuteToRadiansPerSecond(this.topEncoder.getVelocity()),
+						Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
+				double lowerOutput = MathUtil.clamp(this.lowerPID.calculate(
+						Units.rotationsPerMinuteToRadiansPerSecond(this.bottomEncoder.getVelocity()),
+						Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
+
+				upperOutput += upperFeedforward.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.reference));
+				lowerOutput += this.lowerFeedforward
+						.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.reference));
+
+				this.topFlywheel.setVoltage(upperOutput);
+				this.bottomFlywheel.setVoltage(lowerOutput);
 		}
 		log("controlType", this.controlType.toString());
 		log("reference", this.reference);
@@ -101,17 +112,21 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	}
 	private void initializeMotors() {
-		this.topFlywheel.restoreFactoryDefaults();
+		// this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
-		this.topFlywheel.setSmartCurrentLimit(35);
-		this.topFlywheel.setOpenLoopRampRate(0.001);
+		this.topFlywheel.setSmartCurrentLimit(60);
+		this.topFlywheel.setOpenLoopRampRate(0);
 		this.topEncoder = topFlywheel.getEncoder();
+		this.topEncoder.setAverageDepth(2);
+		this.topEncoder.setMeasurementPeriod(16);
 
-		this.bottomFlywheel.restoreFactoryDefaults();
+		// this.bottomFlywheel.restoreFactoryDefaults();
 		this.bottomFlywheel.setIdleMode(IdleMode.kCoast);
-		this.bottomFlywheel.setSmartCurrentLimit(35);
-		this.bottomFlywheel.setOpenLoopRampRate(0.001);
+		this.bottomFlywheel.setSmartCurrentLimit(60);
+		this.bottomFlywheel.setOpenLoopRampRate(0);
 		this.bottomEncoder = bottomFlywheel.getEncoder();
+		this.bottomEncoder.setAverageDepth(2);
+		this.bottomEncoder.setMeasurementPeriod(16);
 
 		// this.bottomFlywheel.follow(topFlywheel);
 	}
