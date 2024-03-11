@@ -144,6 +144,7 @@ public class RobotContainer implements Logged {
 						.withTimeout(1));
 		NamedCommands.registerCommand("ComboIntake",
 				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem).withTimeout(3));
+		NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem, shooterSubsystem).withTimeout(1));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
