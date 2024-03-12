@@ -80,6 +80,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		this.initPid();
 
 		init2d();
+
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}

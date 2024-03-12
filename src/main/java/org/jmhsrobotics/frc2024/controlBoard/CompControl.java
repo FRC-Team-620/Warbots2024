@@ -2,6 +2,7 @@ package org.jmhsrobotics.frc2024.controlBoard;
 
 import org.jmhsrobotics.frc2024.Constants;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -34,7 +35,9 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public double rotationalInput() {
-		return this.driver.getRightX();
+		// return this.driver.getRightX();
+		double rotation = this.driver.getRightX();
+		return MathUtil.applyDeadband(rotation, 0.05);
 	}
 
 	@Override

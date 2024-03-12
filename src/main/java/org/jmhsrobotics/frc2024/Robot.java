@@ -22,6 +22,9 @@ import monologue.Logged;
 import monologue.Monologue;
 
 public class Robot extends TimedRobot implements Logged {
+	// set to false to disable logging (for RoboRIO performance)
+	private boolean ENABLE_LOGGING = true;
+
 	private Command autonomousCommand;
 
 	private RobotContainer m_robotContainer;
@@ -30,7 +33,10 @@ public class Robot extends TimedRobot implements Logged {
 	public void robotInit() {
 		m_robotContainer = new RobotContainer();
 		m_robotContainer.getDriveSubsystem().zeroHeading();
-		setupLogs();
+
+		if (this.ENABLE_LOGGING) {
+			setupLogs();
+		}
 	}
 
 	public void setupLogs() {

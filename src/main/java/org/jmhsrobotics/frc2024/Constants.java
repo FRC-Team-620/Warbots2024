@@ -8,6 +8,16 @@ import edu.wpi.first.math.util.Units;
 
 public class Constants {
 
+	public static class EnableSubsystems {
+		public static final boolean kDrive = true;
+		public static final boolean kShooter = true;
+		public static final boolean kArm = true;
+		public static final boolean kClimber = true;
+		public static final boolean kIntake = true;
+		public static final boolean kLED = true;
+		public static final boolean kVision = true;
+	}
+
 	/**
 	 * CAN id assignments
 	 */
@@ -50,6 +60,15 @@ public class Constants {
 		private ArmSetpoint(double value) {
 			this.value = value;
 		}
+	}
+
+	public static class CurrentLimits {
+		public static final double kDriveCurrentLimit = 80;
+		public static final double kTurningCurrentLimit = 25;
+		public static final double kArmCurrentlimit = 30;
+		public static final double kIntakeCurrentLimit = 45;
+		public static final double kShooterCurrentLimit = 60;
+		public static final double kClimberCurrentLimit = 40;
 	}
 
 	public static class SwerveConstants {
@@ -95,8 +114,9 @@ public class Constants {
 
 		/* END DRIVER CONFIGURABLES */
 
-		// DO NOT change
-		public static final double kMaxSpeedMetersPerSecond = 0.3048 * kMaxSpeedFeetPerSecond;
+		// public static final double kMaxSpeedMetersPerSecond = 0.3048 *
+		// kMaxSpeedFeetPerSecond;
+		public static final double kMaxSpeedMetersPerSecond = Units.feetToMeters(kMaxSpeedFeetPerSecond);
 
 		public static final double kDirectionSlewRate = 1.4; // radians per second
 		public static final double kMagnitudeSlewRate = 1.8; // percent per second (1 = 100%)
@@ -109,6 +129,8 @@ public class Constants {
 		public static final double kTrackWidth = Units.inchesToMeters(26 - kRobotWidthWheelDifference);
 		// Distance between centers of front and back wheels on robot
 		public static final double kWheelBase = Units.inchesToMeters(26 - kRobotWidthWheelDifference);
+
+		public static final double kDriveBaseRadiusMeters = kTrackWidth / 2.0;
 
 		public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
 				new Translation2d(kWheelBase / 2, kTrackWidth / 2), new Translation2d(kWheelBase / 2, -kTrackWidth / 2),

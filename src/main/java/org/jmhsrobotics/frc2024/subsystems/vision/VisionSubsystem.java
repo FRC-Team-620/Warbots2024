@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -24,11 +25,11 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
 public class VisionSubsystem extends SubsystemBase implements Logged {
+
 	// load the apriltag field layout
 	private AprilTagFieldLayout layout;
 
@@ -43,19 +44,38 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	// construct a photonPoseEstimator
 	private PhotonPoseEstimator estimator;
 
+	// declare driveSubsystem
 	private DriveSubsystem drive;
 
-	private double[] flucialIDs;
+	// declare fiducialIDs (apriltag names)
+	private double[] fiducialIDs;
+
+	// declare detected apriltags
 	List<PhotonTrackedTarget> targets;
 
 	public VisionSubsystem(DriveSubsystem drive) {
+
+		// instantiate camera
 		this.cam = new PhotonCamera("Sechenov");
-		this.estimator = new PhotonPoseEstimator(this.layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this.cam,
-				this.camOnRobot);
+
+		// instantiate drivetrain subsystem
 		this.drive = drive;
 
-		System.out.println(Filesystem.getDeployDirectory().getAbsolutePath());
+		// load and configure apriltag locations
+		// this.loadAprilTagLocations();
 
+		// Simulation
+		if (Robot.isSimulation()) {
+			simulationInit();
+		}
+	}
+
+	private void loadAprilTagLocations() {
+		// instantiate global position pose estimator
+		this.estimator = new PhotonPoseEstimator(this.layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this.cam,
+				this.camOnRobot);
+
+		// load apriltag locations from JSON
 		try {
 			layout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
 		} catch (IOException e) {
@@ -63,38 +83,58 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			DriverStation.reportError("Fail to load the april tag map", e.getStackTrace());
 		}
 
+		// set the apriltag locations to the photonPoseEstimator
 		estimator.setFieldTags(layout);
-
-		// Simulation
-		simulationInit();
 	}
 
 	@Override
 	public void periodic() {
 
+		/*
+		 * TODO: check if previous result timestamp is equal to current result timestamp
+		 * and only load if different
+		 */
+
+		// get the latest camera results (camera and apriltag properties)
 		PhotonPipelineResult results = this.cam.getLatestResult();
 
+		// extract detected apriltags
 		targets = results.getTargets();
 
-		// SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
+		// get number of detected targets
 		int len = targets.size();
+
+		// declare fieldcentric tag pose list
 		Pose3d[] posList = new Pose3d[len];
-		flucialIDs = new double[len];
+
+		// declare list of apriltag fiducial IDs
+		fiducialIDs = new double[len];
+
+		// for every target
 		for (int i = 0; i < len; i++) {
+			// Get robot position relative to field
 			Pose3d robotPose3d = new Pose3d(this.drive.getPose());
+
+			// Get tag transform relative to camera
 			Transform3d targetTransFromCam = targets.get(i).getBestCameraToTarget();
+
+			// Calculate field relative position of apriltag
 			Pose3d outPutPose = robotPose3d.plus(camOnRobot.plus(targetTransFromCam));
 
+			// Add apriltag position to list of fieldcentric poses
 			posList[i] = outPutPose;
-			flucialIDs[i] = targets.get(i).getFiducialId();
+			fiducialIDs[i] = targets.get(i).getFiducialId();
 		}
 
-		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
-		log("flucialIDs", flucialIDs);
+		log("fiducialIDs", fiducialIDs);
 		log("targets", posList);
 		log("cameraTransform", camOnRobot); // TODO: only log once
 
 		// Puting the estimated pose to the network table
+		// this.putEstimatedPoseToNT();
+	}
+
+	private void putEstimatedPoseToNT() {
 		var estimatedPose = this.getEstimatedGlobalPose(this.drive.getPose());
 		if (estimatedPose.isPresent()) {
 			// NT4Util.putPose3d("Vision/EstimatedTarget",
@@ -133,7 +173,9 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	PhotonCameraSim cameraSim;
 
 	private void simulationInit() {
-		visionSim.addAprilTags(layout);
+		if (layout != null) {
+			visionSim.addAprilTags(layout);
+		}
 		SimCameraProperties cameraProp = new SimCameraProperties();
 		cameraSim = new PhotonCameraSim(this.cam, cameraProp);
 		// robot-to-camera transform.
