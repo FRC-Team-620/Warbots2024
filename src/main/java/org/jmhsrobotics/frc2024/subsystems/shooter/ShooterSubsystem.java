@@ -107,9 +107,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		if (controlType == ControlType.VOLTAGE) {
 			return false;
 		} else {
-			return this.bangBangController.atSetpoint();
+			return this.upperPID.atSetpoint() && this.lowerPID.atSetpoint();
 		}
-
 	}
 	private void initializeMotors() {
 		// this.topFlywheel.restoreFactoryDefaults();

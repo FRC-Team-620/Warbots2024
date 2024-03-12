@@ -12,6 +12,8 @@ import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
@@ -31,6 +33,7 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
+import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -40,12 +43,14 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 
 public class RobotContainer implements Logged {
@@ -57,7 +62,7 @@ public class RobotContainer implements Logged {
 	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
 	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-	// private final LEDSubsystem ledSubsystem = new LEDSubsystem();
+	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
 	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
 	private final ArmPIDSubsystem armSubsystem = new ArmPIDSubsystem();
@@ -79,18 +84,14 @@ public class RobotContainer implements Logged {
 
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
 
-		// this.ledSubsystem.setDefaultCommand(new
-		// RainbowLEDCommand(this.ledSubsystem));
+		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
-		// configureSmartDashboard();
-		// new Trigger(intakeSubsystem::noteTooHigh).onTrue(new
-		// RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+		configureSmartDashboard();
+		new Trigger(intakeSubsystem::hasNote).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
 
-		// new Trigger(() -> {
-		// return this.shooterSubsystem.atGoal() && this.shooterSubsystem.getRPM() >
-		// 1000;
-		// }).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kLeftRumble, 0.2,
-		// 1));
+		new Trigger(() -> {
+			return this.shooterSubsystem.atGoal();
+		}).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kRightRumble, 0.2, 1));
 
 		configureBindings();
 		// Named commands must be added before building the chooser.
