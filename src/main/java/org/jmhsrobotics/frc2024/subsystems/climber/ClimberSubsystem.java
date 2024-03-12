@@ -39,6 +39,7 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 
 		// rightClimber.follow(leftClimber, true);
 	}
+
 	public void setLeftMotor(double amount) {
 		this.leftClimber.set(amount);
 	}
@@ -54,9 +55,9 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	public double getRightEncoderPosition() {
 		return this.rightClimberEncoder.getPosition();
 	}
+
 	@Override
 	public void periodic() {
-		super.periodic();
 	}
 
 }

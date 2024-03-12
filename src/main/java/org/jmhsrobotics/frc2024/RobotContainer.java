@@ -91,7 +91,8 @@ public class RobotContainer implements Logged {
 
 		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
 
-		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
+		// uncomment this when we have a static light command
+		// this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 	}
 
 	private void configurePathPlanner() {

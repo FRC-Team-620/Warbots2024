@@ -166,7 +166,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	public void periodic() {
 		this.calculatePiditeration();
 
-		this.updateOdometry();
+		// this.updateOdometry();
 
 		m_arm.setAngle(getArmPitch());
 		log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
