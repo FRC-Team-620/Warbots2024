@@ -157,9 +157,11 @@ public class MAXSwerveModule implements ISwerveModule {
 		SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
 				new Rotation2d(m_turningEncoder.getPosition()));
 
+		m_drivingSparkMax.setVoltage(desiredState.speedMetersPerSecond);
+
 		// Command driving and turning SPARKS MAX towards their respective setpoints.
-		m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond,
-				CANSparkMax.ControlType.kVelocity);
+		// m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond,
+		// CANSparkMax.ControlType.kVelocity);
 		m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(),
 				CANSparkMax.ControlType.kPosition);
 

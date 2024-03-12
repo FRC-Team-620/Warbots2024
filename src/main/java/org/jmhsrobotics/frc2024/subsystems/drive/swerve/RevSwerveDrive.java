@@ -11,13 +11,10 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import monologue.Logged;
 
 public class RevSwerveDrive implements Logged {
@@ -140,22 +137,28 @@ public class RevSwerveDrive implements Logged {
 
 		// Calculate new module values depending if using field-relative control
 		ChassisSpeeds updatedChassisSpeeds;
-		if (fieldRelative) {
-			var tmp = DriverStation.getAlliance();
-			double flipAngle = tmp.isPresent() && tmp.get() == Alliance.Blue ? 0 : 180;
-			updatedChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered,
-					getPose().getRotation().minus(Rotation2d.fromDegrees(flipAngle)));
-		} else {
-			updatedChassisSpeeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered);
-		}
-		SwerveModuleState[] swerveModuleStates = Constants.SwerveConstants.kDriveKinematics
-				.toSwerveModuleStates(updatedChassisSpeeds);
+		// if (fieldRelative) {
+		// var tmp = DriverStation.getAlliance();
+		// double flipAngle = tmp.isPresent() && tmp.get() == Alliance.Blue ? 0 : 180;
+		// updatedChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered,
+		// ySpeedDelivered, rotDelivered,
+		// getPose().getRotation().minus(Rotation2d.fromDegrees(flipAngle)));
+		// } else {
+		// updatedChassisSpeeds = new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered,
+		// rotDelivered);
+		// }
+		// SwerveModuleState[] swerveModuleStates =
+		// Constants.SwerveConstants.kDriveKinematics
+		// .toSwerveModuleStates(updatedChassisSpeeds);
 
-		// Limit the wheel speeds to the maximum speed
-		SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
-				Constants.SwerveConstants.kMaxSpeedMetersPerSecond);
+		// // Limit the wheel speeds to the maximum speed
+		// SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates,
+		// Constants.SwerveConstants.kMaxSpeedMetersPerSecond);
 
 		// Set the desired module states
+		SwerveModuleState[] swerveModuleStates = new SwerveModuleState[]{
+				new SwerveModuleState(-xSpeed, new Rotation2d()), new SwerveModuleState(xSpeed, new Rotation2d()),
+				new SwerveModuleState(xSpeed, new Rotation2d()), new SwerveModuleState(-xSpeed, new Rotation2d())};
 		mapDesiredModuleStates(swerveModuleStates, rotDelivered);
 
 		// feedWatchdog(); // Make motor MotorSafety.feed() Happy

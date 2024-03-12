@@ -70,6 +70,12 @@ public class RobotContainer implements Logged {
 
 	private final SendableChooser<Command> autoChooser;
 
+	// private CANSparkMax test = new
+	// CANSparkMax(Constants.SwerveConstants.kFrontLeftTurningCanId,
+	// MotorType.kBrushless);
+
+	private SysIdRoutine routine;
+
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
@@ -168,6 +174,19 @@ public class RobotContainer implements Logged {
 				routine.dynamic(SysIdRoutine.Direction.kReverse).until(stopCondition));
 	}
 
+	// public void swerveTest() {
+	// test.getAbsoluteEncoder(Type.kDutyCycle);
+	// test.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+	// test.setSmartCurrentLimit(25);
+	// test.setIdleMode(IdleMode.kCoast);
+	// this.routine = new SysIdRoutine(new SysIdRoutine.Config(),
+	// new SysIdRoutine.Mechanism(this::setVolt, null, this.driveSubsystem));
+
+	// }
+	// public void setVolt(Measure<Voltage> num) {
+	// test.setVoltage(num.baseUnitMagnitude());
+	// }
+
 	private void configureBindings() {
 		// this.control.Rumble();
 		/* Arm Controls */
@@ -182,8 +201,9 @@ public class RobotContainer implements Logged {
 		/* Intake Controls */
 		// this.control.intakeInput().onTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
 		// this.control.extakeInput().onTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
+		// swerveTest();
 
-		SmartDashboard.putData("sysIDTest", fullTest(this.armSubsystem.routine,
+		SmartDashboard.putData("sysIDTest", fullTest(this.driveSubsystem.routine,
 				this.control.intakeInput()::getAsBoolean, this.control.extakeInput()::getAsBoolean));
 
 		/* Shooter Controls */

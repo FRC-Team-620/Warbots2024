@@ -22,16 +22,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
 import monologue.Annotations.Log;
 
-public class DriveSubsystem extends SubsystemBase implements Logged {
+public class SysDriveSubsystem extends SubsystemBase implements Logged {
 	// Create MAXSwerveModules
 	// Test
 	private ISwerveModule m_frontLeft;
@@ -50,10 +47,8 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 	@Log.File
 	private Pose2d pose2d = new Pose2d();
 
-	public SysIdRoutine routine;
-
 	/** Creates a new DriveSubsystem. */
-	public DriveSubsystem() {
+	public SysDriveSubsystem() {
 		if (Robot.isSimulation()) {
 			// test
 			m_frontLeft = new SimSwerveModule();
@@ -61,8 +56,7 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 			m_rearLeft = new SimSwerveModule();
 			m_rearRight = new SimSwerveModule();
 		} else {
-			m_frontLeft = new MAXSwerveModule(Constants.SwerveConstants.kFrontLeftDrivingCanId,
-					Constants.SwerveConstants.kFrontLeftTurningCanId,
+			m_frontLeft = new MAXSwerveModule(Constants.SwerveConstants.kFrontLeftDrivingCanId, 57,
 					Constants.SwerveConstants.kFrontLeftChassisAngularOffset);
 
 			m_frontRight = new MAXSwerveModule(Constants.SwerveConstants.kFrontRightDrivingCanId,
@@ -79,14 +73,6 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 		}
 
 		swerveDrive = new RevSwerveDrive(m_frontLeft, m_frontRight, m_rearLeft, m_rearRight, m_gyro);
-
-		this.routine = new SysIdRoutine(new SysIdRoutine.Config(),
-				new SysIdRoutine.Mechanism(this::setVolt, null, this));
-
-	}
-
-	public void setVolt(Measure<Voltage> amount) {
-		this.drive(amount.baseUnitMagnitude(), 0, 0, false, false);
 	}
 
 	@Override
