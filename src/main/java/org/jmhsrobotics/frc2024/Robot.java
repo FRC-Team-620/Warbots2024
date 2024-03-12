@@ -77,7 +77,7 @@ public class Robot extends TimedRobot implements Logged {
 	@Override
 	public void autonomousInit() {
 		m_robotContainer.getDriveSubsystem().zeroHeading();
-		autonomousCommand = m_robotContainer.getAutonomousCommand();
+		// autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 		if (autonomousCommand != null) {
 			autonomousCommand.schedule();
@@ -94,7 +94,7 @@ public class Robot extends TimedRobot implements Logged {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
-		m_robotContainer.configureTeam();
+		// m_robotContainer.configureTeam();
 	}
 
 	@Override

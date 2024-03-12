@@ -8,12 +8,10 @@ import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -99,28 +97,32 @@ public class DriveCommand extends Command {
 	}
 
 	private double computeAngleLockValue() {
-		double out = 0;
-		PhotonTrackedTarget aprilTag = this.visionSubsystem.getTarget(fiducialID);
+		// double out = 0;
+		// PhotonTrackedTarget aprilTag = this.visionSubsystem.getTarget(fiducialID);
 
-		if (aprilTag != null) {
-			this.lastAprilTag = this.visionSubsystem
-					.targetToField(aprilTag.getBestCameraToTarget(), this.driveSubsystem.getPose()).toPose2d();
+		// if (aprilTag != null) {
+		// this.lastAprilTag = this.visionSubsystem
+		// .targetToField(aprilTag.getBestCameraToTarget(),
+		// this.driveSubsystem.getPose()).toPose2d();
 
-		}
-		if (this.lastAprilTag != null) {
-			Transform2d transform = this.lastAprilTag.minus(this.driveSubsystem.getPose());
-			double theta = Math.toDegrees(Math.atan2(transform.getY(), transform.getX()));
-			// SmartDashboard.putNumber("Theta", theta);
+		// }
+		// if (this.lastAprilTag != null) {
+		// Transform2d transform =
+		// this.lastAprilTag.minus(this.driveSubsystem.getPose());
+		// double theta = Math.toDegrees(Math.atan2(transform.getY(),
+		// transform.getX()));
+		// // SmartDashboard.putNumber("Theta", theta);
 
-			var rawOutput = this.lockPID.calculate(theta);
-			double output = MathUtil.clamp(rawOutput, -1, 1);
+		// var rawOutput = this.lockPID.calculate(theta);
+		// double output = MathUtil.clamp(rawOutput, -1, 1);
 
-			out = -output;
+		// out = -output;
 
-		} else {
-			out = 0;
-		}
-		return out;
+		// } else {
+		// out = 0;
+		// }
+		// return out;
+		return 0;
 	}
 
 	// Called once the command ends or is interrupted.
