@@ -4,8 +4,8 @@
 
 package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
+import org.jmhsrobotics.frc2024.autoCommands.AutoAmpShotCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
@@ -133,11 +133,12 @@ public class RobotContainer implements Logged {
 				this::getAllianceFlipState, driveSubsystem);
 
 		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
+		NamedCommands.registerCommand("ArmSpeaker", new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(3));
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(2));
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
@@ -145,8 +146,11 @@ public class RobotContainer implements Logged {
 				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
 						.withTimeout(1));
 		NamedCommands.registerCommand("ComboIntake",
-				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem).withTimeout(3));
-		NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem, shooterSubsystem).withTimeout(1));
+				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
+						.withTimeout(1.5));
+		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
+		// shooterSubsystem).withTimeout(1));
+		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
