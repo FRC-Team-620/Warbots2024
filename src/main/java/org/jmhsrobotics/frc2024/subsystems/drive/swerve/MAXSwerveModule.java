@@ -61,6 +61,8 @@ public class MAXSwerveModule implements ISwerveModule {
 		m_drivingEncoder.setPositionConversionFactor(Constants.ModuleConstants.kDrivingEncoderPositionFactor);
 		m_drivingEncoder.setVelocityConversionFactor(Constants.ModuleConstants.kDrivingEncoderVelocityFactor);
 
+		m_drivingEncoder.setAverageDepth(2);
+		m_drivingEncoder.setMeasurementPeriod(16);
 		// Apply position and velocity conversion factors for the turning encoder. We
 		// want these in radians and radians per second to use with WPILib's swerve
 		// APIs.
@@ -115,6 +117,7 @@ public class MAXSwerveModule implements ISwerveModule {
 		m_chassisAngularOffset = chassisAngularOffset;
 		m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
 		m_drivingEncoder.setPosition(0);
+
 	}
 
 	/**
