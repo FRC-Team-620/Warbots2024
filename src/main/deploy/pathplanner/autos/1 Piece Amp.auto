@@ -50,7 +50,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ArmPickup"
+                  "name": "ArmSpeaker"
                 }
               },
               {
@@ -65,6 +65,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Amp Autos",
   "choreoAuto": false
 }

@@ -43,7 +43,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
+      "name": "Intake Note",
       "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",
@@ -52,7 +52,24 @@
             {
               "type": "named",
               "data": {
-                "name": "Intake"
+                "name": "ComboIntake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ArmSpeaker",
+      "waypointRelativePos": 0.05,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "ArmSpeaker"
               }
             }
           ]

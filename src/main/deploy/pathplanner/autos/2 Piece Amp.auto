@@ -27,7 +27,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": "AmpShoot"
           }
         },
         {
@@ -58,7 +58,13 @@
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": "AmpShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmSpeaker"
           }
         }
       ]
