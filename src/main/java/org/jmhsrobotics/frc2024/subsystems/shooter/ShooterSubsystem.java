@@ -50,7 +50,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.lowerPID = new PIDController(0.001, 0, 0);
 		this.upperPID.setTolerance(50);
 		this.lowerPID.setTolerance(50);
-		
+
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
