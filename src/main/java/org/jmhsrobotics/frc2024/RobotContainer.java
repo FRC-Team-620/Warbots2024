@@ -4,14 +4,12 @@
 
 package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
-import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
@@ -115,13 +113,6 @@ public class RobotContainer implements Logged {
 		autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-
-		SmartDashboard.putData(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
-
-		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
-		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
-		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {
@@ -144,8 +135,6 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("PrepareShot",
 				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
 						.withTimeout(1));
-		NamedCommands.registerCommand("ComboIntake",
-				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem).withTimeout(3));
 		NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem, shooterSubsystem).withTimeout(1));
 	}
 
