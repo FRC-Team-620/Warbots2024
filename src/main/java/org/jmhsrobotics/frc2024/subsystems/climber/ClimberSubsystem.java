@@ -7,6 +7,7 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
@@ -29,6 +30,32 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		rightClimber.setIdleMode(IdleMode.kBrake);
 		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 		rightClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
+
+		// optimize Can Traffic
+		// leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 200); // Velocity, temp, voltage,current - 20ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); // Analog sensor volts, vel, acc - 50ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); // Alternate Encoder Vel/pos - 20ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); // Duty Cycle Absolute Encoder Position/
+																			// angle - 200ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); // Duty Cycle Absolute Encoder Velocity/
+																			// freequency - 200ms
+		leftClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus7, 65535); // I accumm
+
+		// optimize Can Traffic
+		// rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 200); // Velocity, temp, voltage,current - 20ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); // Analog sensor volts, vel, acc - 50ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); // Alternate Encoder Vel/pos - 20ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); // Duty Cycle Absolute Encoder Position/
+																			// angle - 200ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); // Duty Cycle Absolute Encoder Velocity/
+																			// freequency - 200ms
+		rightClimber.setPeriodicFramePeriod(PeriodicFrame.kStatus7, 65535); // I accumm
 
 		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
 		// climber.setSoftLimit(SoftLimitDirection.kForward, 40);
