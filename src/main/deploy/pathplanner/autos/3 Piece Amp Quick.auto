@@ -33,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": "AmpShoot"
           }
         },
         {
@@ -77,7 +77,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": "AmpShoot"
           }
         },
         {
@@ -127,6 +127,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Amp Autos",
   "choreoAuto": false
 }

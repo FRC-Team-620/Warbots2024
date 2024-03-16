@@ -90,8 +90,9 @@ public class ArmVision extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return false;
 		// return false;
+		// return false;
+		return this.arm.atGoal();
 	}
 
 	@Override
