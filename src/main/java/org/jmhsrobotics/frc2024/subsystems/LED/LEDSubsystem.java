@@ -35,7 +35,7 @@ public class LEDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public void endLED() {
-		this.led.stop();;
+		this.led.stop();
 	}
 
 	public void setRGB(int r, int g, int b) {
