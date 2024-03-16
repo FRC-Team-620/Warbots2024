@@ -3,25 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.85,
-        "y": 7.6
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9500000000000002,
-        "y": 7.6
+        "x": 2.05,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.0,
-        "y": 7.55
+        "x": 3.0,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 3.9,
-        "y": 7.55
+        "x": 2.95,
+        "y": 7.0
+      },
+      "nextControl": {
+        "x": 3.05,
+        "y": 7.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.0,
+        "y": 6.0
+      },
+      "prevControl": {
+        "x": 2.95,
+        "y": 6.0
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,14 +55,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp Paths",
-  "previewStartingState": {
-    "rotation": -90.0,
-    "velocity": 0
-  },
+  "folder": "PID Tuning",
+  "previewStartingState": null,
   "useDefaultConstraints": false
 }

@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4,
+      "x": 0.42,
       "y": 7.0
     },
     "rotation": -90.0
@@ -20,14 +20,27 @@
                 "data": {
                   "pathName": "Amp Score Start"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAmp"
+                }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "sequential",
           "data": {
-            "name": "Fire"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Fire"
+                }
+              }
+            ]
           }
         },
         {
@@ -35,35 +48,23 @@
           "data": {
             "commands": [
               {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp Get Far Note"
-                }
-              },
-              {
                 "type": "named",
                 "data": {
                   "name": "ArmPickup"
                 }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Cross Line"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Amp Score Far Note"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Fire"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Amp Autos",
   "choreoAuto": false
 }

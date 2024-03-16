@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.65,
+      "y": 6.7
+    },
+    "rotation": 60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmSpeaker"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SpeakerShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Speaker 4 Piece Start Top"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnAndShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Speaker 4 Piece Third Note"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "TurnAndShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Speaker Autos",
+  "choreoAuto": false
+}
