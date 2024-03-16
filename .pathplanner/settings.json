@@ -3,7 +3,8 @@
   "robotLength": 0.826,
   "holonomicMode": true,
   "pathFolders": [
-    "Amp Paths"
+    "Amp Paths",
+    "PID Tuning Paths"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,

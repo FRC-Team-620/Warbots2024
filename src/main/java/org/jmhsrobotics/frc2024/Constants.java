@@ -91,7 +91,7 @@ public class Constants {
 																// control later after refactor
 
 		// configure to change rotation speed
-		public static final double kMaxAngularSpeed = Math.PI; // radians per second
+		public static final double kMaxAngularSpeed = 8.5; // radians per second
 
 		/* END DRIVER CONFIGURABLES */
 
