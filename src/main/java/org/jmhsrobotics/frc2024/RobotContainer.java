@@ -128,7 +128,7 @@ public class RobotContainer implements Logged {
 				this::getAllianceFlipState, driveSubsystem);
 
 		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
-		NamedCommands.registerCommand("ArmSpeaker", new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+		NamedCommands.registerCommand("ArmShoot", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));

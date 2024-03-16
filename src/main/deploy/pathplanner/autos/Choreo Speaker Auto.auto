@@ -2,25 +2,32 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2471563816070557,
-      "y": 5.571437835693359
+      "x": 1.244184136390686,
+      "y": 5.574731826782227
     },
-    "rotation": -2.43725592817216e-22
+    "rotation": -3.1236147521851214e-22
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "PrepareShot"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Intake"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmShoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
