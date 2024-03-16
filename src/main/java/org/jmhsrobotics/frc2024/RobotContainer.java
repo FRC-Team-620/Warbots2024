@@ -24,6 +24,7 @@ import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
@@ -132,7 +133,10 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(2));
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
+		NamedCommands.registerCommand("AutoIntake",
+				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		NamedCommands.registerCommand("SpeakerShoot", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
