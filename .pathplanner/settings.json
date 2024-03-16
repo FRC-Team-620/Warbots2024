@@ -3,10 +3,12 @@
   "robotLength": 0.84,
   "holonomicMode": true,
   "pathFolders": [
-    "Amp Paths"
+    "Amp Paths",
+    "Speaker Paths"
   ],
   "autoFolders": [
-    "Amp Autos"
+    "Amp Autos",
+    "Speaker Autos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
