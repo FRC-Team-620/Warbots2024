@@ -44,7 +44,6 @@ public class MAXSwerveModule implements ISwerveModule {
 	public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
 		m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
 		m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
-
 		// Factory reset, so we get the SPARKS MAX to a known state before configuring
 		// them. This is useful in case a SPARK MAX is swapped out.
 		m_drivingSparkMax.restoreFactoryDefaults();
@@ -58,6 +57,8 @@ public class MAXSwerveModule implements ISwerveModule {
 		m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
 		m_turningPIDController.setFeedbackDevice(m_turningEncoder);
 
+		m_drivingEncoder.setAverageDepth(2);
+		m_drivingEncoder.setMeasurementPeriod(16);
 		// Apply position and velocity conversion factors for the driving encoder. The
 		// native units for position and velocity are rotations and RPM, respectively,
 		// but we want meters and meters per second to use with WPILib's swerve APIs.
