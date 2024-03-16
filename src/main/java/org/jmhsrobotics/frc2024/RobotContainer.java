@@ -32,8 +32,6 @@ import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
 
-import com.choreo.lib.Choreo;
-import com.choreo.lib.ChoreoControlFunction;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -70,8 +68,6 @@ public class RobotContainer implements Logged {
 
 	private final SendableChooser<Command> autoChooser;
 
-	private final Choreo choreo = new Choreo();
-
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
@@ -79,7 +75,6 @@ public class RobotContainer implements Logged {
 		}
 		// swboard.setControlBoard(new CompControl());
 
-		this.choreo.choreoSwerveCommand(null, null, null, null, getAllianceFlipState(), null)
 		this.control = swboard;
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
