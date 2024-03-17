@@ -41,13 +41,24 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		// output, faults, sticky faults, isfollower - 10ms
 		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 200); // Velocity, temp, voltage,current - 20ms
 		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
-		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); // Analog sensor volts, vel, acc - 50ms
-		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); // Alternate Encoder Vel/pos - 20ms
-		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); // Duty Cycle Absolute Encoder Position/
-																			// angle - 200ms
-		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); // Duty Cycle Absolute Encoder Velocity/
-																			// freequency - 200ms
-		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus7, 65535); // I accumm
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, Constants.CAN.kMaxFramePeriodMs); // Analog sensor
+																										// volts, vel,
+																										// acc - 50ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, Constants.CAN.kMaxFramePeriodMs); // Alternate
+																										// Encoder
+																										// Vel/pos -
+																										// 20ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, Constants.CAN.kMaxFramePeriodMs); // Duty Cycle
+																										// Absolute
+																										// Encoder
+																										// Position/
+		// angle - 200ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, Constants.CAN.kMaxFramePeriodMs); // Duty Cycle
+																										// Absolute
+																										// Encoder
+																										// Velocity/
+		// freequency - 200ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus7, Constants.CAN.kMaxFramePeriodMs); // I accumm
 
 		if (RobotBase.isSimulation()) {
 			simInit();
