@@ -1,4 +1,4 @@
-package org.jmhsrobotics.frc2024.subsystems.intake;
+package org.jmhsrobotics.frc2024.utils;
 
 import org.jmhsrobotics.frc2024.Robot;
 

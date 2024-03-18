@@ -1,6 +1,6 @@
-package org.jmhsrobotics.frc2024.subsystems.intake;
+package org.jmhsrobotics.frc2024.utils;
 
-import org.jmhsrobotics.frc2024.subsystems.intake.SimableTimeOfFlight.Sim;
+import org.jmhsrobotics.frc2024.utils.SimableTimeOfFlight.Sim;
 
 import edu.wpi.first.hal.SimBoolean;
 import edu.wpi.first.hal.SimDouble;
