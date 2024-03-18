@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jmhsrobotics.frc2024.utils.GameObjectSim;
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
 import org.littletonrobotics.urcl.URCL;
 
@@ -25,10 +26,12 @@ public class Robot extends TimedRobot implements Logged {
 	private Command autonomousCommand;
 
 	private RobotContainer m_robotContainer;
+	public static GameObjectSim objSim = new GameObjectSim();
 
 	@Override
 	public void robotInit() {
 		m_robotContainer = new RobotContainer();
+		objSim.preload();
 		m_robotContainer.getDriveSubsystem().zeroHeading();
 		setupLogs();
 	}

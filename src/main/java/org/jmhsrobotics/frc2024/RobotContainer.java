@@ -10,6 +10,7 @@ import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
+import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
@@ -48,7 +49,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
@@ -74,7 +77,7 @@ public class RobotContainer implements Logged {
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
-			swboard.setControlBoard(new CompControl());
+			swboard.setControlBoard(new SingleControl());
 		}
 		// swboard.setControlBoard(new CompControl());
 
@@ -168,6 +171,9 @@ public class RobotContainer implements Logged {
 
 		/* Intake Controls */
 		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
+		// this.control.intakeInput().onTrue(Commands.runOnce(() -> {
+		// 	Robot.objSim.fire();
+		// }, new Subsystem[0]));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 
 		/* Shooter Controls */

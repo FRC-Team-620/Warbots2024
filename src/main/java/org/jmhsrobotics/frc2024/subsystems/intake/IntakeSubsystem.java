@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.intake;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -23,6 +24,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 
 	private TimeOfFlight lowerSensor;
 	private TimeOfFlight upperSensor;
+
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
@@ -91,6 +93,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	public boolean noteTooHigh() {
 		return this.upperSensor.getRange() < 300;
 	}
+
 	private DIOSim intakeSwitchSim;
 	private DCMotorSim intakeSim;
 	private RevEncoderSimWrapper intakeEncSim;
@@ -105,6 +108,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	public void simulationPeriodic() {
 		double intakeVolts = MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
 		intakeSim.setInput(intakeVolts);
+		Robot.objSim.setIntake(intakeMotor.get() < 0);
 		intakeSim.update(Constants.ksimDtSec);
 		intakeSwitchSim.setValue(true); // TODO placeholder.
 		intakeEncSim.setDistance(intakeSim.getAngularPositionRotations());

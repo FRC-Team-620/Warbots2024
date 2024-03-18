@@ -81,6 +81,7 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 		// Update the odometry in the periodic block
 		swerveDrive.updateOdometry();
 		pose2d = swerveDrive.getPose();
+		Robot.objSim.update(pose2d);
 	}
 
 	public void drive(ChassisSpeeds chassisSpeeds) {

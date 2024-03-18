@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.shooter;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkMax;
@@ -63,17 +64,21 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	@Override
 	public void periodic() {
 		switch (this.controlType) {
-			case BANG_BANG :
+			case BANG_BANG:
 				double outPut = this.bangBangController.calculate(this.getRPM(), this.reference);
 				this.topFlywheel.set(outPut);
 				this.bottomFlywheel.set(outPut);
 				break;
 
-			case VOLTAGE :
+			case VOLTAGE:
+				if (Robot.isSimulation()) { // TODO: Simplation Hack
+					this.topFlywheel.set(this.reference / 12.0);
+					this.bottomFlywheel.set(this.reference / 12.0);
+				}
 				this.topFlywheel.setVoltage(this.reference);
 				this.bottomFlywheel.setVoltage(this.reference);
 				break;
-			case PID :
+			case PID:
 				double upperOutput = MathUtil.clamp(this.upperPID.calculate(
 						Units.rotationsPerMinuteToRadiansPerSecond(this.topEncoder.getVelocity()),
 						Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
@@ -84,9 +89,13 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 				upperOutput += upperFeedforward.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.reference));
 				lowerOutput += this.lowerFeedforward
 						.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.reference));
-
+				if (Robot.isSimulation()) { // TODO: Simplation Hack
+					this.topFlywheel.set(upperOutput / 12.0);
+					this.bottomFlywheel.set(lowerOutput / 12.0);
+				}
 				this.topFlywheel.setVoltage(upperOutput);
 				this.bottomFlywheel.setVoltage(lowerOutput);
+
 		}
 		log("controlType", this.controlType.toString());
 		log("reference", this.reference);
@@ -112,6 +121,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 			return this.upperPID.atSetpoint() && this.lowerPID.atSetpoint();
 		}
 	}
+
 	private void initializeMotors() {
 		// this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
@@ -134,16 +144,22 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	FlywheelSim flywheelSim;
 	RevEncoderSimWrapper encSim;
+
 	public void initSim() {
-		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 1);
+		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.001);
 		encSim = RevEncoderSimWrapper.create(topFlywheel);
 	}
 
 	@Override
 	public void simulationPeriodic() {
 		double motorVolts = MathUtil.clamp(topFlywheel.get() * 12, -12, 12);
+
+		// Robot.objSim.fire();
 		flywheelSim.setInputVoltage(motorVolts);
 		flywheelSim.update(Constants.ksimDtSec);
+		if (flywheelSim.getAngularVelocityRPM() > 1000) {
+			Robot.objSim.fire();
+		}
 		encSim.setVelocity(flywheelSim.getAngularVelocityRPM());
 	}
 }
