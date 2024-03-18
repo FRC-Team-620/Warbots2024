@@ -2,19 +2,45 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3,
-      "y": 5.55
+      "x": 0.42,
+      "y": 7.0
     },
-    "rotation": 0
+    "rotation": -90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "parallel",
           "data": {
-            "name": "TurnAndShoot"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Score Start"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAmp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Fire"
+                }
+              }
+            ]
           }
         },
         {
@@ -24,28 +50,16 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "ArmPickup"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Load Middle Note"
+                  "pathName": "Amp Cross Line"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "TurnAndShoot"
           }
         }
       ]

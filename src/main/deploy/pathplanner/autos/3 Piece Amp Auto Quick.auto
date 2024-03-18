@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.34882909059524536,
-      "y": 6.909913063049316
+      "x": 0.4,
+      "y": 7.0
     },
-    "rotation": -90.01166961505233
+    "rotation": -90.0
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp Path.1"
+                  "pathName": "Amp Score Start"
                 }
               },
               {
@@ -37,25 +37,19 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "ArmPickup"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp Path.2"
+                  "pathName": "Amp Get Close Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoIntake"
+                  "name": "ArmPickup"
                 }
               }
             ]
@@ -68,7 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp Path.3"
+                  "pathName": "Amp Score Second Note"
                 }
               },
               {
@@ -87,14 +81,52 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp Path.4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Get Middle Close Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Score Middle Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAmp"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": true
+  "choreoAuto": false
 }

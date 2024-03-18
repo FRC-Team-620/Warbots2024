@@ -33,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AmpShoot"
+            "name": "Fire"
           }
         },
         {
@@ -77,7 +77,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AmpShoot"
+            "name": "Fire"
           }
         },
         {
@@ -87,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp Get Middle Close Note"
+                  "pathName": "Amp Get Far Note"
                 }
               },
               {
@@ -100,22 +100,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp Score Middle Note"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmAmp"
-                }
-              }
-            ]
+            "pathName": "Amp Score Far Note"
           }
         },
         {
@@ -127,6 +114,6 @@
       ]
     }
   },
-  "folder": "Amp Autos",
+  "folder": null,
   "choreoAuto": false
 }

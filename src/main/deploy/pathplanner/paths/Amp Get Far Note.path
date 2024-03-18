@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 1.85,
-        "y": 7.6
+        "y": 7.7
       },
       "prevControl": null,
       "nextControl": {
         "x": 1.9500000000000002,
-        "y": 7.6
+        "y": 7.7
       },
       "isLocked": false,
       "linkedName": null
@@ -43,7 +43,7 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Note",
+      "name": "New Event Marker",
       "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",
@@ -52,24 +52,7 @@
             {
               "type": "named",
               "data": {
-                "name": "ComboIntake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "ArmSpeaker",
-      "waypointRelativePos": 0.05,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ArmSpeaker"
+                "name": "Intake"
               }
             }
           ]
