@@ -13,7 +13,7 @@ public class ComboIntakeArmCommand extends ParallelCommandGroup {
 
 	/**
 	 * Moves arm to the Pickup position and Intakes.
-	 * 
+	 *
 	 * @param arm
 	 * @param shooter
 	 * @param intake

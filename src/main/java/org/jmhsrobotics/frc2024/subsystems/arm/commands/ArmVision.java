@@ -25,7 +25,7 @@ public class ArmVision extends Command {
 	/**
 	 * Moves Arm into the corect angle/height based off of the distance to the
 	 * speaker apriltag. Command Never ends
-	 * 
+	 *
 	 * @param arm
 	 * @param vision
 	 * @param drive

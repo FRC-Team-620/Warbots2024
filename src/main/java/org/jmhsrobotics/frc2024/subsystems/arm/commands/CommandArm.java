@@ -12,7 +12,7 @@ public class CommandArm extends Command {
 
 	/**
 	 * Moves Arm to specified angle, Command ends when arm has moved to the setpoint
-	 * 
+	 *
 	 * @param armSubsystem
 	 * @param angleDegrees
 	 */

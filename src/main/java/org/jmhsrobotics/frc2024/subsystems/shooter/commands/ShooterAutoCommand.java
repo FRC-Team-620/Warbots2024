@@ -12,7 +12,7 @@ public class ShooterAutoCommand extends Command {
 	/**
 	 * Spins up shooter to the target rpm. Command never ends, When command is
 	 * exited, spin wheels back to zero rpm
-	 * 
+	 *
 	 * @param shooterSubsystem
 	 * @param targetRPM
 	 */

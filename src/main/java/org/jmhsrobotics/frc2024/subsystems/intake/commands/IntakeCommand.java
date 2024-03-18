@@ -14,7 +14,7 @@ public class IntakeCommand extends Command {
 	private double speed;
 	/**
 	 * Blindly Intakes while running the shooter motor backwards. Command never ends
-	 * 
+	 *
 	 * @param speed
 	 * @param intakeSubsystem
 	 * @param shooterSubsystem

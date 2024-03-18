@@ -14,7 +14,7 @@ public class PrepareShot extends ParallelCommandGroup {
 	 * Runs arm vision that automatically moves the arm to the correct shooting
 	 * distance and spins up the flywheels to shooting speed. TODO: Command Never
 	 * ends
-	 * 
+	 *
 	 * @param drive
 	 * @param arm
 	 * @param shooter

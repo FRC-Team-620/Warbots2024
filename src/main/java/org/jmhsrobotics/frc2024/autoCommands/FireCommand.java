@@ -12,8 +12,9 @@ public class FireCommand extends SequentialCommandGroup {
 	private ShooterSubsystem shooterSubsystem;
 
 	/**
-	 *  Runs the intake for 0.2 seconds and spins up the shooter flywheels to 5000 rpm with a timeout of 0.2 seconds Whole command ends is 0.2 seconds
-	 * 
+	 * Runs the intake for 0.2 seconds and spins up the shooter flywheels to 5000
+	 * rpm with a timeout of 0.2 seconds Whole command ends is 0.2 seconds
+	 *
 	 * @param intakeSubsystem
 	 * @param shooterSubsystem
 	 */

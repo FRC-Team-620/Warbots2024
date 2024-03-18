@@ -14,8 +14,9 @@ public class AutoIntakeCommand extends Command {
 	private double speed;
 
 	/**
-	 * Runs the intake at full speed while running the shooter backwards. Ends once the intake has a note
-	 * 
+	 * Runs the intake at full speed while running the shooter backwards. Ends once
+	 * the intake has a note
+	 *
 	 * @param speed
 	 * @param intakeSubsystem
 	 * @param shooterSubsystem
