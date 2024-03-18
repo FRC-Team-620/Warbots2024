@@ -22,6 +22,14 @@ public class ArmVision extends Command {
 	private Pose2d lastAprilTag;
 	private InterpolatingDoubleTreeMap armAngles = new InterpolatingDoubleTreeMap();
 
+	/**
+	 * Moves Arm into the corect angle/height based off of the distance to the
+	 * speaker apriltag. Command Never ends
+	 *
+	 * @param arm
+	 * @param vision
+	 * @param drive
+	 */
 	public ArmVision(ArmPIDSubsystem arm, VisionSubsystem vision, DriveSubsystem drive) {
 		this.arm = arm;
 		this.vision = vision;
