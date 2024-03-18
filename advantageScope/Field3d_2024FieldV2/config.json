@@ -1,0 +1,61 @@
+{
+  "name": "2024 With Notes",
+  "sourceUrl": "https://cad.onshape.com/documents/dcbe49ce579f6342435bc298/w/b93673f5b2ec9c9bdcfec487",
+  "rotations": [
+    {
+      "axis": "x",
+      "degrees": 90
+    },
+    {
+      "axis": "z",
+      "degrees": 180
+    }
+  ],
+  "widthInches": 651.25,
+  "heightInches": 323.25,
+  "defaultOrigin": "blue",
+  "driverStations": [
+    [-8.27, 3.144],
+    [-8.27, -0.26],
+    [-8.27, -2.088],
+    [8.27, -2.088],
+    [8.27, -0.26],
+    [8.27, 3.144]
+  ],
+  "gamePieces": [
+    {
+      "name": "Note",
+      "rotations": [
+        {
+          "axis": "x",
+          "degrees": 90
+        }
+      ],
+      "position": [0, 0, 0],
+      "stagedObjects": [
+        "Note",
+        "Note_1",
+        "Note_2",
+        "Note_3",
+        "Note_4",
+        "Note_5",
+        "Note_6",
+        "Note_7",
+        "Note_8",
+        "Note_9",
+        "Note_10"
+      ]
+    },
+    {
+      "name": "High Note",
+      "rotations": [
+        {
+          "axis": "x",
+          "degrees": 90
+        }
+      ],
+      "position": [0, 0, 0],
+      "stagedObjects": []
+    }
+  ]
+}
