@@ -1,33 +1,25 @@
 package org.jmhsrobotics.frc2024.subsystems.intake.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class IntakeCommand extends Command {
+public class IntakeSimpleIntakeCommand extends Command {
 
 	private final IntakeSubsystem intakeSubsystem;
-	private final ShooterSubsystem shooterSubsystem;
 
 	private double speed;
+
 	/**
-	 * Blindly Intakes while running the shooter motor backwards. Command never ends
+	 * Blindly sets intake speed. Command never ends
 	 *
 	 * @param speed
 	 * @param intakeSubsystem
-	 * @param shooterSubsystem
 	 */
 
-	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) { // Fixme:
-																												// add
-																												// requirements
-																												// for
-																												// shooter!
+	public IntakeSimpleIntakeCommand(double speed, IntakeSubsystem intakeSubsystem) {
 		this.speed = speed;
 		this.intakeSubsystem = intakeSubsystem;
-		this.shooterSubsystem = shooterSubsystem;
 
 		addRequirements(this.intakeSubsystem);
 	}
@@ -40,7 +32,6 @@ public class IntakeCommand extends Command {
 	@Override
 	public void execute() {
 		this.intakeSubsystem.set(this.speed);
-		this.shooterSubsystem.set(-.05, ControlType.VOLTAGE);
 	}
 
 	@Override

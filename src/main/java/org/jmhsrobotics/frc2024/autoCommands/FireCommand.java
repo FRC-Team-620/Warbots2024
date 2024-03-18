@@ -1,7 +1,8 @@
 package org.jmhsrobotics.frc2024.autoCommands;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeSimpleIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 
@@ -22,6 +23,6 @@ public class FireCommand extends SequentialCommandGroup {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
 		addCommands(new ShooterAutoCommand(this.shooterSubsystem, 5000).withTimeout(0.2),
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.2));
+				new IntakeSimpleIntakeCommand(Constants.Intake.shootingSpeed, this.intakeSubsystem).withTimeout(0.2));
 	}
 }

@@ -36,7 +36,7 @@ public class Constants {
 		public static final int kLedStrip = 9;
 	}
 
-	public static class Arm {
+	private static class Arm {
 		public static double pickupSetpoint = 4.2;
 		public static double shootingSetpoint = 12.5;
 		public static double ampSetpoint = 93;
@@ -51,6 +51,47 @@ public class Constants {
 			this.value = value;
 		}
 	}
+
+	public static class Shooter {
+		public static double intakeSpeed = -100; // helper for intake
+		public static double shootingSpeed = 5000; // shoot into speaker
+		public static double ampSpeed = 1000; // poop into amp
+		public static double ejectSpeed = -300;
+	}
+
+	// public static enum ShooterSpeeds {
+	// INTAKE(Shooter.intakeSpeed),
+	// SHOOT(Shooter.shootingSpeed),
+	// AMP(Shooter.ampSpeed);
+
+	// public final double value;
+
+	// private ShooterSpeeds(double value) {
+	// this.value = value;
+	// }
+	// }
+
+	public static class Intake {
+		public static double intakeSpeed = 1; // intake speed
+		public static double shootingSpeed = 1; // index to shooter for shots
+		public static double ampSpeed = 1; // poop into amp
+		public static double eject = -1;
+		public static double adjustSpeed = -0.2;
+	}
+
+	// public static enum IntakeSpeeds {
+	// INTAKE(Intake.intakeSpeed),
+	// SHOOT(Intake.shootingSpeed),
+	// AMP(Intake.ampSpeed),
+	// STOP(Intake.stopped),
+	// EJECT(Intake.eject);
+
+	// public final double value;
+
+	// private IntakeSpeeds(double value) {
+	// this.value = value;
+	// }
+	// }
 
 	public static class SwerveConstants {
 		// SPARK MAX CAN IDs
