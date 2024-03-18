@@ -1,18 +1,15 @@
 package org.jmhsrobotics.frc2024.subsystems.intake.commands;
 
+import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class DefaultIntakeCommand extends Command {
 	private IntakeSubsystem intakeSubsystem;
-	private ShooterSubsystem shooterSubsystem;
 
-	public DefaultIntakeCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+	public DefaultIntakeCommand(IntakeSubsystem intakeSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
-		this.shooterSubsystem = shooterSubsystem;
 
 		addRequirements(intakeSubsystem);
 	}
@@ -22,12 +19,12 @@ public class DefaultIntakeCommand extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		intakeSubsystem.set(0);
+		intakeSubsystem.stop();
 	}
 
 	@Override
 	public void execute() {
-		boolean hasNote = this.intakeSubsystem.hasNote();
+		// boolean hasNote = this.intakeSubsystem.hasNote();
 		boolean noteTooHigh = this.intakeSubsystem.noteTooHigh();
 
 		// boolean lowSwitchPressed = lowSwitch.isPressed();
@@ -35,11 +32,11 @@ public class DefaultIntakeCommand extends Command {
 		// boolean hasNote = lowSwitch.isPressed();
 
 		if (noteTooHigh) {
-			intakeSubsystem.set(-0.1);
-			this.shooterSubsystem.set(-0.1, ControlType.VOLTAGE);
+			intakeSubsystem.set(Constants.Intake.adjustSpeed);
+			// this.shooterSubsystem.set(-0.1, ControlType.VOLTAGE);
 		} else {
-			intakeSubsystem.set(0);
-			this.shooterSubsystem.set(0, ControlType.VOLTAGE);
+			intakeSubsystem.stop();
+			// this.shooterSubsystem.set(0, ControlType.VOLTAGE);
 		}
 	}
 }

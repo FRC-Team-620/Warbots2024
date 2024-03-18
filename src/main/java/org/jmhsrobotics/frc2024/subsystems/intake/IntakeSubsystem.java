@@ -68,6 +68,10 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		intakeMotor.set(-speed);
 	}
 
+	public void stop() {
+		this.set(0);
+	}
+
 	public TimeOfFlight lowerSensor() {
 		return this.lowerSensor;
 	}
@@ -91,6 +95,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	public boolean noteTooHigh() {
 		return this.upperSensor.getRange() < 300;
 	}
+
 	private DIOSim intakeSwitchSim;
 	private DCMotorSim intakeSim;
 	private RevEncoderSimWrapper intakeEncSim;

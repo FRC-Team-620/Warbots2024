@@ -4,13 +4,14 @@
 
 package org.jmhsrobotics.frc2024;
 
+import org.jmhsrobotics.frc2024.ComboCommands.ComboEjectCommand;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
+import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
-import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
@@ -27,7 +28,6 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
@@ -81,7 +81,7 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
-		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
+		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem));
 
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
@@ -137,7 +137,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
+				new ComboIntakeCommand(shooterSubsystem, intakeSubsystem).withTimeout(0.5));
 		NamedCommands.registerCommand("AutoIntake",
 				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
@@ -157,25 +157,20 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureBindings() {
-		// this.control.Rumble();
-
 		/* Arm Controls */
-
-		// Move Arm to Amp position
 		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
-		// Move Arm to Preset Shoot position
 		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		// this.control.presetLow().onTrue(new CommandArm(this.armSubsystem,
-		// Constants.ArmSetpoint.PICKUP.value));
+
 		this.control.presetLow().whileTrue(new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
 		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 
 		/* Intake Controls */
-		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
+		this.control.intakeInput().whileTrue(new ComboIntakeCommand(this.shooterSubsystem, this.intakeSubsystem));
+		this.control.extakeInput().whileTrue(new ComboEjectCommand(shooterSubsystem, intakeSubsystem));
 
 		/* Shooter Controls */
-		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 5000));
+		this.control.shooterInput()
+				.whileTrue(new ShooterAutoCommand(this.shooterSubsystem, Constants.Shooter.shootingSpeed));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls

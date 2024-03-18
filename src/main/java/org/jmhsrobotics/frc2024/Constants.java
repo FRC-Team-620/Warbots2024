@@ -43,9 +43,7 @@ public class Constants {
 	}
 
 	public static enum ArmSetpoint {
-		PICKUP(Arm.pickupSetpoint),
-		SHOOT(Arm.shootingSetpoint),
-		AMP(Arm.ampSetpoint);
+		PICKUP(Arm.pickupSetpoint), SHOOT(Arm.shootingSetpoint), AMP(Arm.ampSetpoint);
 
 		public final double value;
 
@@ -54,47 +52,46 @@ public class Constants {
 		}
 	}
 
-	private static class Shooter {
+	public static class Shooter {
 		public static double intakeSpeed = -100; // helper for intake
 		public static double shootingSpeed = 5000; // shoot into speaker
 		public static double ampSpeed = 1000; // poop into amp
+		public static double ejectSpeed = -300;
 	}
 
-	public static enum ShooterSpeeds {
-		INTAKE(Shooter.intakeSpeed),
-		SHOOT(Shooter.shootingSpeed),
-		AMP(Shooter.ampSpeed);
+	// public static enum ShooterSpeeds {
+	// INTAKE(Shooter.intakeSpeed),
+	// SHOOT(Shooter.shootingSpeed),
+	// AMP(Shooter.ampSpeed);
 
-		public final double value;
+	// public final double value;
 
-		private ShooterSpeeds(double value) {
-			this.value = value;
-		}
-	}
+	// private ShooterSpeeds(double value) {
+	// this.value = value;
+	// }
+	// }
 
-	private static class Intake {
+	public static class Intake {
 		public static double intakeSpeed = 1; // intake speed
 		public static double shootingSpeed = 1; // index to shooter for shots
 		public static double ampSpeed = 1; // poop into amp
-		public static double stopped = 0;
 		public static double eject = -1;
-
+		public static double adjustSpeed = -0.2;
 	}
 
-	public static enum IntakeSpeeds {
-		INTAKE(Intake.intakeSpeed),
-		SHOOT(Intake.shootingSpeed),
-		AMP(Intake.ampSpeed),
-		STOP(Intake.stopped),
-		EJECT(Intake.eject);
+	// public static enum IntakeSpeeds {
+	// INTAKE(Intake.intakeSpeed),
+	// SHOOT(Intake.shootingSpeed),
+	// AMP(Intake.ampSpeed),
+	// STOP(Intake.stopped),
+	// EJECT(Intake.eject);
 
+	// public final double value;
 
-		public final double value;
-
-		private IntakeSpeeds(double value) {
-			this.value = value;
-		}
-	}
+	// private IntakeSpeeds(double value) {
+	// this.value = value;
+	// }
+	// }
 
 	public static class SwerveConstants {
 		// SPARK MAX CAN IDs
