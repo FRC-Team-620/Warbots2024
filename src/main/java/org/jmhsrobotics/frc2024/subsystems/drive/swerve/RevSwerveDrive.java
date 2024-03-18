@@ -160,7 +160,8 @@ public class RevSwerveDrive implements Logged {
 
 		// feedWatchdog(); // Make motor MotorSafety.feed() Happy
 		// Update visualizer
-		log("targetStates", swerveModuleStates);
+		log("targetStates", new SwerveModuleState[]{m_frontLeft.getDesiredState(), m_frontRight.getDesiredState(),
+				m_rearLeft.getDesiredState(), m_rearRight.getDesiredState()});
 		log("realStates", new SwerveModuleState[]{m_frontLeft.getState(), m_frontRight.getState(),
 				m_rearLeft.getState(), m_rearRight.getState()});
 		m_visualizer.update(m_frontLeft.getState().angle, m_frontRight.getState().angle, m_rearLeft.getState().angle,
