@@ -18,6 +18,7 @@ import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.PrepareShot;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ToggleBakes;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.climber.commands.ClimbCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
@@ -42,6 +43,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -157,7 +159,7 @@ public class RobotContainer implements Logged {
 
 	private void configureBindings() {
 		// this.control.Rumble();
-
+		new Trigger(RobotController::getUserButton).onTrue(new ToggleBakes(armSubsystem));
 		/* Arm Controls */
 		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
 		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
