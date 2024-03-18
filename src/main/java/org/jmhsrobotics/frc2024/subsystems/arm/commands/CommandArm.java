@@ -10,6 +10,12 @@ public class CommandArm extends Command {
 	// set angle from constants
 	private final double angle;
 
+	/**
+	 * Moves Arm to specified angle, Command ends when arm has moved to the setpoint
+	 * 
+	 * @param armSubsystem
+	 * @param angleDegrees
+	 */
 	public CommandArm(ArmPIDSubsystem armSubsystem, double angleDegrees) {
 		this.armSubsystem = armSubsystem;
 		this.angle = angleDegrees;

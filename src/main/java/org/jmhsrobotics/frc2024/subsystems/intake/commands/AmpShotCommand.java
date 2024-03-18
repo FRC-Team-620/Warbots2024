@@ -10,7 +10,12 @@ public class AmpShotCommand extends Command {
 
 	private IntakeSubsystem intakeSubsystem;
 	private ShooterSubsystem shooterSubsystem;
-
+	/**
+	 * Runs the intake and the shooter to expell a note into the amp. Command Never ends
+	 * 
+	 * @param intakeSubsystem
+	 * @param shooterSubsystem
+	 */
 	public AmpShotCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;

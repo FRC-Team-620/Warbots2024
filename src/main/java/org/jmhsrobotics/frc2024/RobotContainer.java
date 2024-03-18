@@ -141,6 +141,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("AutoIntake",
 				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
+		// Move Arm to Pickup position
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
 		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
@@ -159,7 +160,10 @@ public class RobotContainer implements Logged {
 		// this.control.Rumble();
 
 		/* Arm Controls */
+
+		// Move Arm to Amp position
 		this.control.presetHigh().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
+		// Move Arm to Preset Shoot position
 		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		// this.control.presetLow().onTrue(new CommandArm(this.armSubsystem,
 		// Constants.ArmSetpoint.PICKUP.value));
