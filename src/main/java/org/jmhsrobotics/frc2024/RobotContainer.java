@@ -10,7 +10,6 @@ import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
-import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
@@ -71,9 +70,7 @@ public class RobotContainer implements Logged {
 	private final SendableChooser<Command> autoChooser;
 
 	public RobotContainer() {
-		// SwitchableControlBoard swboard = new SwitchableControlBoard(new
-		// CompControl());
-		SwitchableControlBoard swboard = new SwitchableControlBoard(new SingleControl());
+		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
 			swboard.setControlBoard(new CompControl());
 		}
