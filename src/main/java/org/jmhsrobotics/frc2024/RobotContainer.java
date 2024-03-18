@@ -136,7 +136,7 @@ public class RobotContainer implements Logged {
 
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
-		NamedCommands.registerCommand("SpeakerShoot", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
+		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
 		NamedCommands.registerCommand("PrepareShot",
 				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
 						.withTimeout(1));
