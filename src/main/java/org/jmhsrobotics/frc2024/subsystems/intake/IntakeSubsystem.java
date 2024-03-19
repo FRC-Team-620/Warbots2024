@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.intake;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.utils.SimableTimeOfFlight;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -28,8 +29,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		intakeMotor.setInverted(true);
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
-		this.lowerSensor = new TimeOfFlight(1);
-		this.upperSensor = new TimeOfFlight(0);
+		this.lowerSensor = new SimableTimeOfFlight(1);
+		this.upperSensor = new SimableTimeOfFlight(0);
 		intakeMotor.setSmartCurrentLimit(35);
 
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
