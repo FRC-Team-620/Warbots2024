@@ -120,8 +120,6 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
 
 		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
-		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
-		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
 
 	private void configurePathPlanner() {

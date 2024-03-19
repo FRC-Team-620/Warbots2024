@@ -20,7 +20,7 @@ public class ComboIntakeArmCommand extends ParallelCommandGroup {
 	 */
 	public ComboIntakeArmCommand(ArmPIDSubsystem arm, ShooterSubsystem shooter, IntakeSubsystem intake) {
 		addCommands(new CommandArm(arm, Constants.ArmSetpoint.PICKUP.value), // move arm to intake position
-				new IntakeCommand(1, intake, shooter)// start intkae
+				new IntakeCommand(1, intake, shooter, true)// start intake
 		);
 	}
 

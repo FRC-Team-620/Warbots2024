@@ -11,6 +11,7 @@ public class IntakeCommand extends Command {
 	private final IntakeSubsystem intakeSubsystem;
 	private final ShooterSubsystem shooterSubsystem;
 
+	private boolean isAuto;
 	private double speed;
 	/**
 	 * Blindly Intakes while running the shooter motor backwards. Command never ends
@@ -32,6 +33,13 @@ public class IntakeCommand extends Command {
 		addRequirements(this.intakeSubsystem);
 	}
 
+	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem, boolean isAuto){
+		this.speed = speed;
+		this.intakeSubsystem = intakeSubsystem;
+		this.shooterSubsystem = shooterSubsystem;
+		this.isAuto = isAuto;
+	}
+
 	@Override
 	public void initialize() {
 		this.intakeSubsystem.set(0);
@@ -45,7 +53,9 @@ public class IntakeCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		// return this.intakeSubsystem.hasNote();
+		if(isAuto){
+			return this.intakeSubsystem.hasNote();
+		}
 		return false;
 	}
 
