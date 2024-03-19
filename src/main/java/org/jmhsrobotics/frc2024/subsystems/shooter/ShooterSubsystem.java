@@ -64,13 +64,13 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	@Override
 	public void periodic() {
 		switch (this.controlType) {
-			case BANG_BANG:
+			case BANG_BANG :
 				double outPut = this.bangBangController.calculate(this.getRPM(), this.reference);
 				this.topFlywheel.set(outPut);
 				this.bottomFlywheel.set(outPut);
 				break;
 
-			case VOLTAGE:
+			case VOLTAGE :
 				if (Robot.isSimulation()) { // TODO: Simplation Hack
 					this.topFlywheel.set(this.reference / 12.0);
 					this.bottomFlywheel.set(this.reference / 12.0);
@@ -78,7 +78,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 				this.topFlywheel.setVoltage(this.reference);
 				this.bottomFlywheel.setVoltage(this.reference);
 				break;
-			case PID:
+			case PID :
 				double upperOutput = MathUtil.clamp(this.upperPID.calculate(
 						Units.rotationsPerMinuteToRadiansPerSecond(this.topEncoder.getVelocity()),
 						Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);

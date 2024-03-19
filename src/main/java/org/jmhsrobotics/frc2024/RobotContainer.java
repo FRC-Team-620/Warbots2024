@@ -48,9 +48,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
@@ -176,7 +174,7 @@ public class RobotContainer implements Logged {
 		/* Intake Controls */
 		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
 		// this.control.intakeInput().onTrue(Commands.runOnce(() -> {
-		// 	Robot.objSim.fire();
+		// Robot.objSim.fire();
 		// }, new Subsystem[0]));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 

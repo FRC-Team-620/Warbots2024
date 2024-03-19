@@ -84,7 +84,7 @@ public class GameObjectSim implements Logged {
 
 	private boolean canIntake(Pose3d pos, Pose2d robotpos) {
 		var dist = pos.getTranslation().getDistance(new Pose3d(robotpos).getTranslation());
-		return dist < 0.5;
+		return dist < 0.75;
 	}
 
 	public void setIntake(boolean isIntaking) {
@@ -103,8 +103,8 @@ public class GameObjectSim implements Logged {
 		}
 
 	}
-	public void preload(){
-		numInaked ++;
+	public void preload() {
+		numInaked++;
 	}
 
 }

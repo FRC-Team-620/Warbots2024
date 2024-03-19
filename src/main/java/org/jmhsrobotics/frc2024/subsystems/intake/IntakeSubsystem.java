@@ -2,6 +2,8 @@ package org.jmhsrobotics.frc2024.subsystems.intake;
 
 import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.Robot;
+import org.jmhsrobotics.frc2024.utils.SimTimeOfFlight;
+import org.jmhsrobotics.frc2024.utils.SimableTimeOfFlight;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -22,16 +24,16 @@ import monologue.Logged;
 public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private CANSparkMax intakeMotor;
 
-	private TimeOfFlight lowerSensor;
-	private TimeOfFlight upperSensor;
+	private SimableTimeOfFlight lowerSensor;
+	private SimableTimeOfFlight upperSensor;
 
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
-		this.lowerSensor = new TimeOfFlight(1);
-		this.upperSensor = new TimeOfFlight(0);
+		this.lowerSensor = new SimableTimeOfFlight(1);
+		this.upperSensor = new SimableTimeOfFlight(0);
 		intakeMotor.setSmartCurrentLimit(35);
 
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
@@ -97,11 +99,12 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private DIOSim intakeSwitchSim;
 	private DCMotorSim intakeSim;
 	private RevEncoderSimWrapper intakeEncSim;
-
+	private SimTimeOfFlight lowerSim;
 	public void simInit() {
 		intakeSwitchSim = new DIOSim(Constants.DIO.kIntakeSwitch);
 		intakeSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.3);
 		intakeEncSim = RevEncoderSimWrapper.create(intakeMotor);
+		lowerSim = new SimTimeOfFlight(lowerSensor);
 	}
 
 	@Override
@@ -109,7 +112,13 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		double intakeVolts = MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
 		intakeSim.setInput(intakeVolts);
 		Robot.objSim.setIntake(intakeMotor.get() < 0);
+
 		intakeSim.update(Constants.ksimDtSec);
+		if (Robot.objSim.hasObject()) {
+			lowerSim.setRange(20);
+		} else {
+			lowerSim.setRange(400);
+		}
 		intakeSwitchSim.setValue(true); // TODO placeholder.
 		intakeEncSim.setDistance(intakeSim.getAngularPositionRotations());
 		intakeEncSim.setVelocity(intakeSim.getAngularVelocityRPM());
