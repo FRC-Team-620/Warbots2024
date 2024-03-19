@@ -20,6 +20,12 @@
                 "data": {
                   "pathName": "Amp Path.1"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmAmp"
+                }
               }
             ]
           }
@@ -27,7 +33,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AmpScore"
+            "name": "Fire in Amp"
           }
         },
         {
@@ -49,7 +55,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "AutoIntake"
+                  "name": "Intake Floor"
                 }
               }
             ]
@@ -77,7 +83,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": "Fire in Amp"
           }
         },
         {

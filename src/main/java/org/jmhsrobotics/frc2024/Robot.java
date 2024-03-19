@@ -7,6 +7,7 @@ package org.jmhsrobotics.frc2024;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jmhsrobotics.frc2024.utils.GameObjectSim;
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
 import org.littletonrobotics.urcl.URCL;
 
@@ -25,9 +26,15 @@ public class Robot extends TimedRobot implements Logged {
 	private Command autonomousCommand;
 
 	private RobotContainer m_robotContainer;
+	public static GameObjectSim objSim;
 
 	@Override
 	public void robotInit() {
+		if (Robot.isSimulation()) {
+			objSim = new GameObjectSim();
+			objSim.preload();
+		}
+
 		m_robotContainer = new RobotContainer();
 		m_robotContainer.getDriveSubsystem().zeroHeading();
 		setupLogs();
@@ -70,6 +77,10 @@ public class Robot extends TimedRobot implements Logged {
 
 	@Override
 	public void autonomousInit() {
+		if (Robot.isSimulation()) {
+			Robot.objSim.reset();
+			Robot.objSim.preload();
+		}
 		m_robotContainer.getDriveSubsystem().zeroHeading();
 		autonomousCommand = m_robotContainer.getAutonomousCommand();
 
