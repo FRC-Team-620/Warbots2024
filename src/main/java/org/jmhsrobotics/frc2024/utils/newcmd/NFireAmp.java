@@ -12,6 +12,13 @@ public class NFireAmp extends Command {
 	IntakeSubsystem intake;
 	Debouncer sensorDebounce = new Debouncer(0.5);
 
+	/**
+	 * Fires a note into the amp. Runs shooter and flywheel. End when both hasnote
+	 * and note too high are false.
+	 * 
+	 * @param shooter
+	 * @param intake
+	 */
 	public NFireAmp(ShooterSubsystem shooter, IntakeSubsystem intake) {
 		this.shooter = shooter;
 		this.intake = intake;
