@@ -4,6 +4,7 @@
 
 package org.jmhsrobotics.frc2024.subsystems.drive.swerve;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -11,7 +12,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import org.jmhsrobotics.frc2024.Constants;
 
@@ -29,7 +32,7 @@ public class MAXSwerveModule implements ISwerveModule {
 	// private final SparkMaxPIDController m_turningPIDController;
 	private final SparkPIDController m_drivingPIDController;
 	private final SparkPIDController m_turningPIDController;
-
+	private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.08384, 2.4421, 0.33689);
 	private double m_chassisAngularOffset = 0;
 	private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
@@ -41,7 +44,6 @@ public class MAXSwerveModule implements ISwerveModule {
 	public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
 		m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
 		m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
-
 		// Factory reset, so we get the SPARKS MAX to a known state before configuring
 		// them. This is useful in case a SPARK MAX is swapped out.
 		m_drivingSparkMax.restoreFactoryDefaults();
@@ -55,6 +57,8 @@ public class MAXSwerveModule implements ISwerveModule {
 		m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
 		m_turningPIDController.setFeedbackDevice(m_turningEncoder);
 
+		m_drivingEncoder.setAverageDepth(2);
+		m_drivingEncoder.setMeasurementPeriod(16);
 		// Apply position and velocity conversion factors for the driving encoder. The
 		// native units for position and velocity are rotations and RPM, respectively,
 		// but we want meters and meters per second to use with WPILib's swerve APIs.
@@ -129,6 +133,10 @@ public class MAXSwerveModule implements ISwerveModule {
 				new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
 	}
 
+	public SwerveModuleState getDesiredState() {
+		return m_desiredState;
+	}
+
 	/**
 	 * Returns the current position of the module.
 	 *
@@ -157,13 +165,18 @@ public class MAXSwerveModule implements ISwerveModule {
 		SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
 				new Rotation2d(m_turningEncoder.getPosition()));
 
+		double ff = feedforward.calculate(optimizedDesiredState.speedMetersPerSecond);
+		m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, ControlType.kVelocity, 0, ff,
+				ArbFFUnits.kVoltage);
+
+		// optimizedDesiredState = correctedDesiredState;
 		// Command driving and turning SPARKS MAX towards their respective setpoints.
 		m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond,
 				CANSparkMax.ControlType.kVelocity);
 		m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(),
 				CANSparkMax.ControlType.kPosition);
 
-		m_desiredState = desiredState;
+		m_desiredState = optimizedDesiredState;
 	}
 
 	/** Zeroes all the SwerveModule encoders. */

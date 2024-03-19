@@ -6,19 +6,20 @@ package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
+import org.jmhsrobotics.frc2024.autoCommands.AutoAmpShotCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
-import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.PrepareShot;
+import org.jmhsrobotics.frc2024.subsystems.arm.commands.ToggleBakes;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.climber.commands.ClimbCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
@@ -47,6 +48,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -122,9 +124,6 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
-		SmartDashboard.putData(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
-
 		// Commands to test
 		SmartDashboard.putData("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
@@ -143,11 +142,12 @@ public class RobotContainer implements Logged {
 		// Add path planner auto chooser.
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
-				new HolonomicPathFollowerConfig(new PIDConstants(.5, 0, 0), new PIDConstants(1.5, 0, 0),
+				new HolonomicPathFollowerConfig(new PIDConstants(5, 0, 0), new PIDConstants(1.5, 0, 0),
 						Constants.SwerveConstants.kMaxSpeedMetersPerSecond, .5, new ReplanningConfig()),
 				this::getAllianceFlipState, driveSubsystem);
 
 		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
+		NamedCommands.registerCommand("ArmShoot", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
@@ -165,6 +165,7 @@ public class RobotContainer implements Logged {
 						.withTimeout(1));
 		NamedCommands.registerCommand("AmpScore",
 				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
+
 		// New Commands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
@@ -178,6 +179,12 @@ public class RobotContainer implements Logged {
 																											// End
 																											// condition
 
+		NamedCommands.registerCommand("ComboIntake",
+				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
+						.withTimeout(1));
+		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
+		// shooterSubsystem).withTimeout(1));
+		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
 	}
 
 	// TODO: fix this later to flip correctly based on side color
@@ -188,7 +195,7 @@ public class RobotContainer implements Logged {
 
 	private void configureBindings() {
 		// this.control.Rumble();
-
+		new Trigger(RobotController::getUserButton).onTrue(new ToggleBakes(armSubsystem));
 		/* Arm Controls */
 
 		// Move Arm to Amp position
