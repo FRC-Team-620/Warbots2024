@@ -34,6 +34,9 @@ import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
+import org.jmhsrobotics.frc2024.utils.newcmd.NFireAmp;
+import org.jmhsrobotics.frc2024.utils.newcmd.NFloorIntake;
+import org.jmhsrobotics.frc2024.utils.newcmd.NSpinupAndShoot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -121,6 +124,8 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
 
 		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
+		SmartDashboard.putData("NFireAmp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
+		SmartDashboard.putData("NFloor", new NFloorIntake(this.armSubsystem, this.intakeSubsystem));
 		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
 		// SmartDashboard.putData("Shooter Command", shooterCommand);
 	}
@@ -149,6 +154,13 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("PrepareShot",
 				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
 						.withTimeout(1));
+
+
+		//New Commands
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
+		NamedCommands.registerCommand("Fire in Amp", new NFireAmp( this.shooterSubsystem,this.intakeSubsystem));
+		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
+		// NamedCommands.registerCommand("Spinup no Stop", getAutonomousCommand());
 	}
 
 	// TODO: fix this later to flip correctly based on side color

@@ -100,11 +100,14 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private DCMotorSim intakeSim;
 	private RevEncoderSimWrapper intakeEncSim;
 	private SimTimeOfFlight lowerSim;
+	private SimTimeOfFlight upperSim;
 	public void simInit() {
 		intakeSwitchSim = new DIOSim(Constants.DIO.kIntakeSwitch);
 		intakeSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.3);
 		intakeEncSim = RevEncoderSimWrapper.create(intakeMotor);
 		lowerSim = new SimTimeOfFlight(lowerSensor);
+		upperSim = new SimTimeOfFlight(upperSensor);
+		upperSim.setRange(400);
 	}
 
 	@Override
