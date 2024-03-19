@@ -2,32 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.34882909059524536,
-      "y": 6.909913063049316
+      "x": 1.25,
+      "y": 5.57
     },
-    "rotation": -90.01166961505233
+    "rotation": 3.182804554303984e-21
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp Path.1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmAmp"
-                }
-              }
-            ]
+            "name": "PrepareShot"
           }
         },
         {
@@ -37,47 +24,34 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 Piece Speaker Auto.1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "ArmPickup"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp Path.2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutoIntake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Amp Path.3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmAmp"
-                }
-              }
-            ]
+            "name": "PrepareShot"
           }
         },
         {
@@ -87,14 +61,82 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Amp Path.4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 Piece Speaker Auto.2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PrepareShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "4 Piece Speaker Auto.3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ArmPickup"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PrepareShot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire"
           }
         }
       ]
     }
   },
-  "folder": "Amp Autos",
+  "folder": "Speaker Autos",
   "choreoAuto": true
 }
