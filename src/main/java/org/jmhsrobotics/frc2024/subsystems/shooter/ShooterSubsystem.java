@@ -17,7 +17,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -49,16 +48,16 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		this.upperPID = new PIDController(0.001, 0, 0);
 		this.lowerPID = new PIDController(0.001, 0, 0);
-		this.upperPID.setTolerance(50);
-		this.lowerPID.setTolerance(50);
+		this.upperPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(50)); // WARNING: this value is in Rad/s
+		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(50)); // WARNING: this value is in Rad/s
 
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}
 
-		SmartDashboard.putData("ShooterUpperPID", this.upperPID);
-		SmartDashboard.putData("ShooterLowerPID", this.lowerPID);
+		// SmartDashboard.putData("ShooterUpperPID", this.upperPID);
+		// SmartDashboard.putData("ShooterLowerPID", this.lowerPID);
 	}
 
 	@Override
@@ -71,42 +70,57 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 				break;
 
 			case VOLTAGE :
-				if (Robot.isSimulation()) { // TODO: Simplation Hack
-					this.topFlywheel.set(this.reference / 12.0);
-					this.bottomFlywheel.set(this.reference / 12.0);
-				}
-				this.topFlywheel.setVoltage(this.reference);
-				this.bottomFlywheel.setVoltage(this.reference);
+				this.setVoltages(this.reference, this.reference);
 				break;
 			case PID :
-				double upperOutput = MathUtil.clamp(this.upperPID.calculate(
-						Units.rotationsPerMinuteToRadiansPerSecond(this.topEncoder.getVelocity()),
-						Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
-				double lowerOutput = MathUtil.clamp(this.lowerPID.calculate(
-						Units.rotationsPerMinuteToRadiansPerSecond(this.bottomEncoder.getVelocity()),
-						Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
+				double upperOutput = MathUtil
+						.clamp(this.upperPID.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.getTopRRPM()),
+								Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
+				double lowerOutput = MathUtil
+						.clamp(this.lowerPID.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.getBottomRRPM()),
+								Units.rotationsPerMinuteToRadiansPerSecond(this.reference)), -12, 12);
 
 				upperOutput += upperFeedforward.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.reference));
 				lowerOutput += this.lowerFeedforward
 						.calculate(Units.rotationsPerMinuteToRadiansPerSecond(this.reference));
-				if (Robot.isSimulation()) { // TODO: Simplation Hack
-					this.topFlywheel.set(upperOutput / 12.0);
-					this.bottomFlywheel.set(lowerOutput / 12.0);
-				}
-				this.topFlywheel.setVoltage(upperOutput);
-				this.bottomFlywheel.setVoltage(lowerOutput);
+				this.setVoltages(upperOutput, lowerOutput);
+				break;
 
 		}
 		log("controlType", this.controlType.toString());
 		log("reference", this.reference);
 		log("topFlywheelDutyCycle", topFlywheel.get());
 		log("topflywheelSpeed", getRPM());
-		log("bottomflywheelSpeed", bottomEncoder.getVelocity());
+		log("bottomflywheelSpeed", getBottomRRPM());
+		log("AtGoal", this.atGoal());
 
 	}
 
-	public double getRPM() {
+	private void setVoltages(double topVoltage, double bottomVoltage) {
+		if (Robot.isSimulation()) { // TODO: Simplation Hack
+			this.topFlywheel.set(topVoltage / 12.0);
+			this.bottomFlywheel.set(bottomVoltage / 12.0);
+		}
+		this.topFlywheel.setVoltage(topVoltage);
+		this.bottomFlywheel.setVoltage(bottomVoltage);
+	}
+
+	private double getBottomRRPM() {
+		if (Robot.isSimulation()) {
+			return simVelocity;
+		}
+		return bottomEncoder.getVelocity();
+	}
+
+	private double getTopRRPM() {
+		if (Robot.isSimulation()) {
+			return simVelocity;
+		}
 		return topEncoder.getVelocity();
+	}
+
+	public double getRPM() {
+		return getTopRRPM();
 	}
 
 	public void set(double goal, ControlType controlType) {
@@ -144,9 +158,10 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	FlywheelSim flywheelSim;
 	RevEncoderSimWrapper encSim;
+	private double simVelocity = 0;
 
 	public void initSim() {
-		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.001);
+		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.002);
 		encSim = RevEncoderSimWrapper.create(topFlywheel);
 	}
 
@@ -157,9 +172,10 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		// Robot.objSim.fire();
 		flywheelSim.setInputVoltage(motorVolts);
 		flywheelSim.update(Constants.ksimDtSec);
-		if (flywheelSim.getAngularVelocityRPM() > 1000) {
+		simVelocity = flywheelSim.getAngularVelocityRPM();
+		if (simVelocity > 1000) {
 			Robot.objSim.fire();
 		}
-		encSim.setVelocity(flywheelSim.getAngularVelocityRPM());
+		encSim.setVelocity(simVelocity);
 	}
 }

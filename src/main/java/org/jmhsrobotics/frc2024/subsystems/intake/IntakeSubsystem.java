@@ -14,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
@@ -101,6 +102,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private RevEncoderSimWrapper intakeEncSim;
 	private SimTimeOfFlight lowerSim;
 	private SimTimeOfFlight upperSim;
+	private Debouncer intakeDebounceSim = new Debouncer(0.2);
 	public void simInit() {
 		intakeSwitchSim = new DIOSim(Constants.DIO.kIntakeSwitch);
 		intakeSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.3);
@@ -114,7 +116,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	public void simulationPeriodic() {
 		double intakeVolts = MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
 		intakeSim.setInput(intakeVolts);
-		Robot.objSim.setIntake(intakeMotor.get() < 0);
+		Robot.objSim.setIntake(intakeDebounceSim.calculate(intakeMotor.get() < 0));
 
 		intakeSim.update(Constants.ksimDtSec);
 		if (Robot.objSim.hasObject()) {

@@ -37,6 +37,7 @@ import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
 import org.jmhsrobotics.frc2024.utils.newcmd.NFireAmp;
 import org.jmhsrobotics.frc2024.utils.newcmd.NFloorIntake;
 import org.jmhsrobotics.frc2024.utils.newcmd.NSpinupAndShoot;
+import org.jmhsrobotics.frc2024.utils.newcmd.NSpinupNoStop;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -155,12 +156,14 @@ public class RobotContainer implements Logged {
 				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
 						.withTimeout(1));
 
-
-		//New Commands
+		// New Commands
+		NamedCommands.registerCommand("Arm Preset Shoot",
+				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
-		NamedCommands.registerCommand("Fire in Amp", new NFireAmp( this.shooterSubsystem,this.intakeSubsystem));
+		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
-		// NamedCommands.registerCommand("Spinup no Stop", getAutonomousCommand());
+		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
+		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); //TODO: Handle End condition
 	}
 
 	// TODO: fix this later to flip correctly based on side color

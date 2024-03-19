@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 
 	// Create RevSwerveDrive
 	private final RevSwerveDrive swerveDrive;
-	@Log.File
+	@Log
 	private Pose2d pose2d = new Pose2d();
 
 	/** Creates a new DriveSubsystem. */
