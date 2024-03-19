@@ -20,12 +20,6 @@
                 "data": {
                   "pathName": "Amp Path.1"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ArmAmp"
-                }
               }
             ]
           }
@@ -33,7 +27,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Fire"
+            "name": "AmpScore"
           }
         },
         {
