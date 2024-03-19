@@ -22,9 +22,7 @@ public class FireCommand extends SequentialCommandGroup {
 	public FireCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
-		addCommands(new ShooterAutoCommand(this.shooterSubsystem, 5000), Commands
-				.race(new ShooterAutoCommand(this.shooterSubsystem, 5000), new FeedShooter(this.intakeSubsystem)));
-
-		// Intake ends when note is not in front of e
+		addCommands(new ShooterAutoCommand(this.shooterSubsystem, 5000), Commands.race(
+				new ShooterAutoCommand(this.shooterSubsystem, 5000, true), new FeedShooter(this.intakeSubsystem)));
 	}
 }

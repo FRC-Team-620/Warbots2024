@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class ShooterAutoCommand extends Command {
 	private ShooterSubsystem shooterSubsystem;
 	private double targetRPM;
+	private boolean infinite;
 
 	/**
 	 * Spins up shooter to the target rpm. Command never ends, When command is
@@ -21,6 +22,12 @@ public class ShooterAutoCommand extends Command {
 		this.targetRPM = targetRPM;
 	}
 
+	public ShooterAutoCommand(ShooterSubsystem shooterSubsystem, double targetRPM, boolean infinite) {
+		this.shooterSubsystem = shooterSubsystem;
+		this.targetRPM = targetRPM;
+		this.infinite = infinite;
+	}
+
 	@Override
 	public void execute() {
 		this.shooterSubsystem.set(this.targetRPM, ControlType.PID);
@@ -28,7 +35,10 @@ public class ShooterAutoCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return this.shooterSubsystem.atGoal();
+		if (!infinite) {
+			return this.shooterSubsystem.atGoal();
+		}
+		return false;
 	}
 
 	@Override
