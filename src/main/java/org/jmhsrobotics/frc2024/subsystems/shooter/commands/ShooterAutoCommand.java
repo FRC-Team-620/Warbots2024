@@ -28,12 +28,7 @@ public class ShooterAutoCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		// return this.shooterSubsystem.atGoal();
-		return false;
-	}
-
-	@Override
-	public void end(boolean interrupted) {
-		this.shooterSubsystem.set(0, ControlType.PID);
+		return this.shooterSubsystem.atGoal();
+		// return false;
 	}
 }
