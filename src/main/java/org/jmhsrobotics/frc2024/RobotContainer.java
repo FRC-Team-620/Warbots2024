@@ -7,7 +7,6 @@ package org.jmhsrobotics.frc2024;
 import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
 import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
-import org.jmhsrobotics.frc2024.autoCommands.ScoreAmp;
 import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
@@ -33,7 +32,6 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShootOpenLoopCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
@@ -127,14 +125,18 @@ public class RobotContainer implements Logged {
 		SmartDashboard.putData(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
 		SmartDashboard.putData(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
 
-		SmartDashboard.putData("CimberPIDCommand", new ClimbCommand(this.climberSubsystem, -10.919127));
-		SmartDashboard.putData("NFireAmp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
-		SmartDashboard.putData("NFloor", new NFloorIntake(this.armSubsystem, this.intakeSubsystem));
-		SmartDashboard.putData("AmpHelper", new AmpHelper(this.armSubsystem, shooterSubsystem, intakeSubsystem));
-		// ShooterCommand shooterCommand = new ShooterCommand(2000, shooterSubsystem);
-		// SmartDashboard.putData("Shooter Command", shooterCommand);
-		SmartDashboard.putData("ShooterOpenLoop", new ShootOpenLoopCommand(12, shooterSubsystem));
-		SmartDashboard.putData("AmpScore", new ScoreAmp(intakeSubsystem, shooterSubsystem));
+		// Commands to test
+		SmartDashboard.putData("Arm Preset Shoot",
+				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
+		SmartDashboard.putData("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
+		SmartDashboard.putData("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
+		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
+		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
+		SmartDashboard.putData("Aim Arm Vision",
+				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
+																											// Handle
+																											// End
+																											// condition
 	}
 
 	private void configurePathPlanner() {
