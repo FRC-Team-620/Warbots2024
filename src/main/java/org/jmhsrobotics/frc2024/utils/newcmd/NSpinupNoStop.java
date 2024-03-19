@@ -11,7 +11,7 @@ public class NSpinupNoStop extends Command {
 
 	/**
 	 * Spins flywheel up to target RPM. Never ends.
-	 * 
+	 *
 	 * @param shooter
 	 * @param rpm
 	 */

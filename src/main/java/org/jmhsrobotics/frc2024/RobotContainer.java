@@ -163,7 +163,11 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
-		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); //TODO: Handle End condition
+		NamedCommands.registerCommand("Aim Arm Vision",
+				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
+																											// Handle
+																											// End
+																											// condition
 	}
 
 	// TODO: fix this later to flip correctly based on side color

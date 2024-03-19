@@ -53,13 +53,20 @@ public class GameObjectSim implements Logged {
 	private Pose2d lastRobotpos = new Pose2d();
 
 	public GameObjectSim() {
+		this.reset();
+
+	}
+	public void reset() {
+		objects.clear();
+		numInaked = 0;
+		isIntaking = false;
+		lastRobotpos = new Pose2d();
 		for (var pos : StagingLocations.spikeTranslations) {
 			objects.add(new Pose3d(new Pose2d(pos, new Rotation2d())));
 		}
 		for (var pos : StagingLocations.centerlineTranslations) {
 			objects.add(new Pose3d(new Pose2d(pos, new Rotation2d())));
 		}
-
 	}
 
 	public void update(Pose2d robotpos) {

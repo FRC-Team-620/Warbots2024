@@ -15,7 +15,7 @@ public class NFireAmp extends Command {
 	/**
 	 * Fires a note into the amp. Runs shooter and flywheel. End when both hasnote
 	 * and note too high are false.
-	 * 
+	 *
 	 * @param shooter
 	 * @param intake
 	 */

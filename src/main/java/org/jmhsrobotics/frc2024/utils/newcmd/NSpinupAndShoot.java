@@ -18,7 +18,7 @@ public class NSpinupAndShoot extends Command {
 	/**
 	 * Spins up Shooter Flywheel to target RPM and then runs intake to shoot a note
 	 * into the speaker. Ends when both has note and note too high are false
-	 * 
+	 *
 	 * @param shooter
 	 * @param intake
 	 * @param rpm
