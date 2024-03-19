@@ -140,7 +140,6 @@ public class RobotContainer implements Logged {
 				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
 		NamedCommands.registerCommand("AutoIntake",
 				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
-
 		// Move Arm to Pickup position
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
