@@ -156,8 +156,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		// this.bottomFlywheel.follow(topFlywheel);
 	}
 
-	FlywheelSim flywheelSim;
-	RevEncoderSimWrapper encSim;
+	private FlywheelSim flywheelSim;
+	private RevEncoderSimWrapper encSim;
 	private double simVelocity = 0;
 
 	public void initSim() {
@@ -169,7 +169,6 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	public void simulationPeriodic() {
 		double motorVolts = MathUtil.clamp(topFlywheel.get() * 12, -12, 12);
 
-		// Robot.objSim.fire();
 		flywheelSim.setInputVoltage(motorVolts);
 		flywheelSim.update(Constants.ksimDtSec);
 		simVelocity = flywheelSim.getAngularVelocityRPM();

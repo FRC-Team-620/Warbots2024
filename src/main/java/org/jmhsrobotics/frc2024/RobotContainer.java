@@ -202,9 +202,6 @@ public class RobotContainer implements Logged {
 
 		/* Intake Controls */
 		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
-		// this.control.intakeInput().onTrue(Commands.runOnce(() -> {
-		// Robot.objSim.fire();
-		// }, new Subsystem[0]));
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 
 		/* Shooter Controls */
