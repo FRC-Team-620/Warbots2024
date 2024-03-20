@@ -135,7 +135,6 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 	private void initPid() {
 		// init PID Controller
-		armPID = new ProfiledPIDController(0.02, 0, 0, new Constraints(180, 180));
 		armPID = new ProfiledPIDController(0.06, 0, 0, new Constraints(360, 300));
 
 		// reset PID state
