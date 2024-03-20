@@ -22,15 +22,29 @@ public class ArmVision extends Command {
 	private Pose2d lastAprilTag;
 	private InterpolatingDoubleTreeMap armAngles = new InterpolatingDoubleTreeMap();
 
+	/**
+	 * Moves Arm into the corect angle/height based off of the distance to the
+	 * speaker apriltag. Command Never ends
+	 *
+	 * @param arm
+	 * @param vision
+	 * @param drive
+	 */
 	public ArmVision(ArmPIDSubsystem arm, VisionSubsystem vision, DriveSubsystem drive) {
 		this.arm = arm;
 		this.vision = vision;
 		armAngles.put(0d, 0d);
-		armAngles.put(1.49d, 10d);
-		armAngles.put(4d, 31d);
-		armAngles.put(2.55d, 25d);
-		armAngles.put(3.28d, 28.5d);
-		armAngles.put(4.5d, 32d);
+		// armAngles.put(1.49d, 10d);
+		// armAngles.put(4d, 31d);
+		// armAngles.put(2.55d, 25d);
+		// armAngles.put(3.28d, 28.5d);
+		// armAngles.put(4.5d, 32d);
+		armAngles.put(1.41d, 13d);
+		armAngles.put(2.03d, 25d);
+		armAngles.put(2.49d, 28d);
+		armAngles.put(3.41d, 34d);
+		armAngles.put(4.66d, 37.5d);
+		armAngles.put(5.41d, 38.5d);
 
 		SmartDashboard.putNumber("Armangle", 0);
 
@@ -90,8 +104,9 @@ public class ArmVision extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return false;
 		// return false;
+		// return false;
+		return this.arm.atGoal();
 	}
 
 	@Override

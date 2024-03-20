@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -126,6 +127,11 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		// this.armPID.setGoal(angle);
 		this.angle = angle;
 	}
+	public void toggleBakes() {
+		var mode = this.armPivot.getIdleMode() == IdleMode.kBrake ? IdleMode.kCoast : IdleMode.kBrake;
+		this.armPivot.setIdleMode(mode);
+		this.armHelper.setIdleMode(mode);
+	}
 
 	private void initPid() {
 		// init PID Controller
@@ -147,7 +153,8 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getArmPitch() {
-		return this.relativeEncoder.getPosition();
+		// return this.relativeEncoder.getPosition();
+		return this.pitchEncoder.getPosition();
 	}
 
 	public double getArmVelocity() {

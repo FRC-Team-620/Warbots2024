@@ -12,6 +12,13 @@ public class IntakeCommand extends Command {
 	private final ShooterSubsystem shooterSubsystem;
 
 	private double speed;
+	/**
+	 * Blindly Intakes while running the shooter motor backwards. Command never ends
+	 *
+	 * @param speed
+	 * @param intakeSubsystem
+	 * @param shooterSubsystem
+	 */
 
 	public IntakeCommand(double speed, IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) { // Fixme:
 																												// add

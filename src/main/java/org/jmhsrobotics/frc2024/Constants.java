@@ -19,6 +19,7 @@ public class Constants {
 		public static final int kArmPivotFollowerID = 51;
 		public static final int kLeftClimberID = 60;
 		public static final int kRightClimberID = 61;
+		public static final int kMaxFramePeriodMs = 32767;
 
 		// Rev max Frame Period in ms
 		public static final int kMaxFramePeriodMs = 32767;
@@ -40,7 +41,7 @@ public class Constants {
 	}
 
 	public static class Arm {
-		public static double pickupSetpoint = 4.2;
+		public static double pickupSetpoint = 3.8;
 		public static double shootingSetpoint = 12.5;
 		public static double ampSetpoint = 93;
 	}
@@ -94,7 +95,7 @@ public class Constants {
 																// control later after refactor
 
 		// configure to change rotation speed
-		public static final double kMaxAngularSpeed = Math.PI; // radians per second
+		public static final double kMaxAngularSpeed = 8.5; // radians per second
 
 		/* END DRIVER CONFIGURABLES */
 
@@ -172,16 +173,16 @@ public class Constants {
 		public static final double kTurningEncoderPositionPIDMinInput = 0; // radians
 		public static final double kTurningEncoderPositionPIDMaxInput = kTurningEncoderPositionFactor; // radians
 
-		public static final double kDrivingP = 0.04;
+		public static final double kDrivingP = 0.45;
 		public static final double kDrivingI = 0;
-		public static final double kDrivingD = 0;
+		public static final double kDrivingD = 0.1;
 		public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
 		public static final double kDrivingMinOutput = -1;
 		public static final double kDrivingMaxOutput = 1;
 
-		public static final double kTurningP = 1;
+		public static final double kTurningP = 4.3;
 		public static final double kTurningI = 0;
-		public static final double kTurningD = 0;
+		public static final double kTurningD = 0.5;
 		public static final double kTurningFF = 0;
 		public static final double kTurningMinOutput = -1;
 		public static final double kTurningMaxOutput = 1;
