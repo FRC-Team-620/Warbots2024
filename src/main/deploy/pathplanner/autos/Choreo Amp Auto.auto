@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.42,
-      "y": 7.0
+      "x": 0.34882909059524536,
+      "y": 6.909913063049316
     },
-    "rotation": -90.0
+    "rotation": -90.01166961505233
   },
   "command": {
     "type": "sequential",
@@ -18,7 +18,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Amp Score Start"
+                  "pathName": "Amp Path.1"
                 }
               },
               {
@@ -31,13 +31,31 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
+          "data": {
+            "name": "Fire in Amp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmPickup"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
               {
+                "type": "path",
+                "data": {
+                  "pathName": "Amp Path.2"
+                }
+              },
+              {
                 "type": "named",
                 "data": {
-                  "name": "Fire in Amp"
+                  "name": "Intake Floor"
                 }
               }
             ]
@@ -48,23 +66,35 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "ArmPickup"
+                  "pathName": "Amp Path.3"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Amp Cross Line"
+                  "name": "ArmAmp"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire in Amp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Amp Path.4"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": false
+  "choreoAuto": true
 }

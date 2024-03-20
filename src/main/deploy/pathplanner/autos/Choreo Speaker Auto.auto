@@ -2,45 +2,38 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.42,
-      "y": 7.0
+      "x": 1.244184136390686,
+      "y": 5.574731826782227
     },
-    "rotation": -90.0
+    "rotation": -1.6597439233510508e-22
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "race",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Amp Score Start"
+                  "name": "Arm Preset Shoot"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ArmAmp"
+                  "name": "Spinup no Stop"
                 }
               }
             ]
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Fire in Amp"
-                }
-              }
-            ]
+            "name": "Spinup and Shoot"
           }
         },
         {
@@ -48,23 +41,48 @@
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "ArmPickup"
+                  "pathName": "Speaker Auto.1"
                 }
               },
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "Amp Cross Line"
+                  "name": "Intake Floor"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": false
+  "choreoAuto": true
 }
