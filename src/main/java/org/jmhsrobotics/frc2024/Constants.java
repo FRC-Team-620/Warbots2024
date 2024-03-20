@@ -19,6 +19,7 @@ public class Constants {
 		public static final int kArmPivotFollowerID = 51;
 		public static final int kLeftClimberID = 60;
 		public static final int kRightClimberID = 61;
+		public static final int kMaxFramePeriodMs = 32767;
 
 	};
 
@@ -37,7 +38,7 @@ public class Constants {
 	}
 
 	public static class Arm {
-		public static double pickupSetpoint = 4.2;
+		public static double pickupSetpoint = 3.8;
 		public static double shootingSetpoint = 12.5;
 		public static double ampSetpoint = 93;
 	}

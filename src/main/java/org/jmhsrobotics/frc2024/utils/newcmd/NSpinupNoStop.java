@@ -30,6 +30,11 @@ public class NSpinupNoStop extends Command {
 	}
 
 	@Override
+	public void execute() {
+		this.shooter.set(targetRPM, ControlType.PID);
+	}
+
+	@Override
 	public void end(boolean interrupted) {
 		shooter.set(0, ControlType.PID);
 	}

@@ -119,15 +119,14 @@ public class RobotContainer implements Logged {
 				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
 						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
-		
+
 		var preLoadOnePiece = Commands.sequence(
-			Commands.race(
-				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value), 
-				new NSpinupNoStop(this.shooterSubsystem, 5000)), 
-			new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+						new NSpinupNoStop(this.shooterSubsystem, 5000)),
+				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
 		// autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		// autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
-		
+
 		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
 
 		SmartDashboard.putData("Auto Chooser", autoChooser);

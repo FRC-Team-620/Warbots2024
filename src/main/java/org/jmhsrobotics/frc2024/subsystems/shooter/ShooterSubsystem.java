@@ -33,7 +33,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	private PIDController upperPID;
 	private PIDController lowerPID;
 	private SimpleMotorFeedforward upperFeedforward = new SimpleMotorFeedforward(0.10948, 0.019707, 0.0018555);
-	private SimpleMotorFeedforward lowerFeedforward = new SimpleMotorFeedforward(0.16094, 0.019748, 0.0020309);
+	private SimpleMotorFeedforward lowerFeedforward = new SimpleMotorFeedforward(0.10948, 0.019707, 0.0018555);
 
 	public enum ControlType {
 		BANG_BANG, VOLTAGE, PID
@@ -48,8 +48,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		this.upperPID = new PIDController(0.001, 0, 0);
 		this.lowerPID = new PIDController(0.001, 0, 0);
-		this.upperPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(50)); // WARNING: this value is in Rad/s
-		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(50)); // WARNING: this value is in Rad/s
+		this.upperPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
+		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
 
 		initializeMotors();
 		if (RobotBase.isSimulation()) {

@@ -1,8 +1,10 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Constants.CAN;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
@@ -63,6 +65,41 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		}
 		relativeEncoder.setPosition(tempAngle);
 
+		// optimize Can Traffic
+		// armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		// armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); // Velocity,
+		// temp, voltage,current - 20ms
+		// armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // Rel pos -
+		// 20ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts, vel, acc
+																						// - 50ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder Vel/pos -
+																						// 20ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20); // Duty Cycle Absolute Encoder Position/ angle -
+																		// 200ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute Encoder
+																						// Velocity/
+		// freequency - 200ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
+
+		// optimize Can Traffic
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20); // applied output, faults, sticky faults,
+																		// isfollower - 10ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 200); // Velocity, temp, voltage,current - 20ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts, vel,
+																							// acc - 50ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder Vel/pos -
+																							// 20ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus5, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute Encoder
+																							// Position/ angle
+		// - 200ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute Encoder
+																							// Velocity/
+		// freequency - 200ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
+
 		// armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
 		// armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
 		// armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
@@ -116,7 +153,8 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getArmPitch() {
-		return this.relativeEncoder.getPosition();
+		// return this.relativeEncoder.getPosition();
+		return this.pitchEncoder.getPosition();
 	}
 
 	public double getArmVelocity() {
