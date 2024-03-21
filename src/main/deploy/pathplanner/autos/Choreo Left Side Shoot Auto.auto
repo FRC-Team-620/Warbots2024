@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4751148521900177,
+      "y": 4.397593975067139
+    },
+    "rotation": -60.94540105269723
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreloadLeftCrossLine.1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": true
+}

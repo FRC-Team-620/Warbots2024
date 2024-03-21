@@ -120,14 +120,8 @@ public class RobotContainer implements Logged {
 				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
 						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
 
-		var preLoadOnePiece = Commands.sequence(
-				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-						new NSpinupNoStop(this.shooterSubsystem, 5000)),
-				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
 		// autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		// autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
-
-		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
 
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
@@ -148,6 +142,11 @@ public class RobotContainer implements Logged {
 
 	private void configurePathPlanner() {
 		// Add path planner auto chooser.
+		var preLoadOnePiece = Commands.sequence(
+				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+						new NSpinupNoStop(this.shooterSubsystem, 5000)),
+				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
 				new HolonomicPathFollowerConfig(new PIDConstants(5, 0, 0), new PIDConstants(1.5, 0, 0),
@@ -181,18 +180,17 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
-		NamedCommands.registerCommand("Aim Arm Vision",
-				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
-																											// Handle
-																											// End
-																											// condition
-
+		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
+																														// Handle
+																														// End
+																														// condition
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
 						.withTimeout(1));
 		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
 		// shooterSubsystem).withTimeout(1));
 		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
+		NamedCommands.registerCommand("One Piece Preload Shoot", preLoadOnePiece);
 	}
 
 	// TODO: fix this later to flip correctly based on side color
