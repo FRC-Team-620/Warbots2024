@@ -226,6 +226,10 @@ public class RobotContainer implements Logged {
 		this.control.climberExtend().onTrue(new ClimbCommand(this.climberSubsystem, 0));
 	}
 
+	public ArmPIDSubsystem getArmSubsystem() {
+		return armSubsystem;
+	}
+
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
