@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.shooter;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Constants.CAN;
 import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
@@ -8,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.BangBangController;
@@ -52,6 +54,42 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
 
 		initializeMotors();
+
+		// optimize Can Traffic
+		// topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		// topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); // Velocity,
+		// temp, voltage,current - 20ms
+		topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts, vel,
+																							// acc - 50ms
+		topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder Vel/pos
+																							// - 20ms
+		topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																							// Encoder Position/
+		// angle - 200ms
+		topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																							// Encoder Velocity/
+		// freequency - 200ms
+		topFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
+
+		// optimize Can Traffic
+		// bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		// bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); //
+		// Velocity, temp, voltage,current - 20ms
+		bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts,
+																								// vel, acc - 50ms
+		bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder
+																								// Vel/pos - 20ms
+		bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus5, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																								// Encoder Position/
+		// angle - 200ms
+		bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																								// Encoder Velocity/
+		// freequency - 200ms
+		bottomFlywheel.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
 		if (RobotBase.isSimulation()) {
 			initSim();
 		}

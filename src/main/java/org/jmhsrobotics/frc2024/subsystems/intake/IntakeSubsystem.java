@@ -8,6 +8,7 @@ import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.playingwithfusion.TimeOfFlight;
 import com.playingwithfusion.TimeOfFlight.RangingMode;
 import com.revrobotics.CANSparkMax;
@@ -39,6 +40,30 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
 		this.upperSensor.setRangingMode(RangingMode.Short, 24);
+
+		// optimize Can Traffic
+		// intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 0); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 200); // Velocity, temp, voltage,current - 20ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, Constants.CAN.kMaxFramePeriodMs); // Analog sensor
+																										// volts, vel,
+																										// acc - 50ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, Constants.CAN.kMaxFramePeriodMs); // Alternate
+																										// Encoder
+																										// Vel/pos -
+																										// 20ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, Constants.CAN.kMaxFramePeriodMs); // Duty Cycle
+																										// Absolute
+																										// Encoder
+																										// Position/
+		// angle - 200ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, Constants.CAN.kMaxFramePeriodMs); // Duty Cycle
+																										// Absolute
+																										// Encoder
+																										// Velocity/
+		// freequency - 200ms
+		intakeMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus7, Constants.CAN.kMaxFramePeriodMs); // I accumm
 
 		if (RobotBase.isSimulation()) {
 			simInit();

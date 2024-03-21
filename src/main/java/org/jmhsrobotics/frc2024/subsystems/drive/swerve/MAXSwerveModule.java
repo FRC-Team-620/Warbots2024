@@ -11,12 +11,14 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Constants.CAN;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
@@ -110,6 +112,43 @@ public class MAXSwerveModule implements ISwerveModule {
 		m_turningSparkMax.setIdleMode(Constants.ModuleConstants.kTurningMotorIdleMode);
 		m_drivingSparkMax.setSmartCurrentLimit(Constants.ModuleConstants.kDrivingMotorCurrentLimit);
 		m_turningSparkMax.setSmartCurrentLimit(Constants.ModuleConstants.kTurningMotorCurrentLimit);
+
+		// optimize Can Traffic
+		// m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); //
+		// applied output, faults, sticky faults, isfollower - 10ms
+		// m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); //
+		// Velocity, temp, voltage,current - 20ms
+		// m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // Rel
+		// pos - 20ms
+		m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts,
+																									// vel, acc - 50ms
+		m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder
+																									// Vel/pos - 20ms
+		m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																									// Encoder
+		// Position/ angle - 200ms
+		m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																									// Encoder
+		// Velocity/ freequency - 200ms
+		m_drivingSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
+
+		// optimize Can Traffic
+		// m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); //
+		// applied output, faults, sticky faults, isfollower - 10ms
+		// m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); //
+		// Velocity, temp, voltage,current - 20ms
+		// m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // Rel
+		// pos - 20ms
+		m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts,
+																									// vel, acc - 50ms
+		m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder
+																									// Vel/pos - 20ms
+		// m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 200); //
+		// Duty Cycle Absolute Encoder Position/ angle - 200ms
+		m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute
+																									// Encoder
+		// Velocity/ freequency - 200ms
+		m_turningSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
 
 		// Save the SPARK MAX configurations. If a SPARK MAX browns out during
 		// operation, it will maintain the above configurations.

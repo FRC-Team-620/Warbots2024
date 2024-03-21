@@ -19,6 +19,8 @@ public class Constants {
 		public static final int kArmPivotFollowerID = 51;
 		public static final int kLeftClimberID = 60;
 		public static final int kRightClimberID = 61;
+
+		// Rev max Frame Period in ms
 		public static final int kMaxFramePeriodMs = 32767;
 
 	};
