@@ -19,6 +19,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -56,10 +57,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		// SmartDashboard.putBoolean("Intake/lowSwitchState",
 		// this.lowSwitch().isPressed());
 
-		// SmartDashboard.putNumber("Intake/lowerSensorReading",
-		// this.lowerSensor.getRange());
-		// SmartDashboard.putNumber("Intake/upperSensorReading",
-		// this.upperSensor.getRange());
+		SmartDashboard.putNumber("Intake/lowerSensorReading", this.lowerSensor.getRange());
+		SmartDashboard.putNumber("Intake/upperSensorReading", this.upperSensor.getRange());
 
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 		log("intakeDutyCycle", intakeMotor.get());
@@ -90,11 +89,11 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public boolean hasNote() {
-		return this.lowerSensor.getRange() < 100;
+		return this.lowerSensor.getRange() < 270;
 	}
 
 	public boolean noteTooHigh() {
-		return this.upperSensor.getRange() < 300;
+		return this.upperSensor.getRange() < 320;
 	}
 
 	private DIOSim intakeSwitchSim;
