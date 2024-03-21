@@ -40,7 +40,8 @@ public class IntakeCommand extends Command {
 	@Override
 	public void execute() {
 		this.intakeSubsystem.set(this.speed);
-		this.shooterSubsystem.set(-1.3, ControlType.VOLTAGE);
+		this.shooterSubsystem.set(-2, ControlType.VOLTAGE);
+
 	}
 
 	@Override
