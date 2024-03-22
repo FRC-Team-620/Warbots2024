@@ -51,6 +51,20 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		return this.leftClimberEncoder.getPosition();
 	}
 
+	public void climberRetract() {
+		this.leftClimber.setVoltage(-10);
+		this.rightClimber.setVoltage(-10);
+	}
+
+	public void climberExtend() {
+		this.leftClimber.setVoltage(10);
+		this.rightClimber.setVoltage(10);
+	}
+
+	public void climberStop() {
+		this.leftClimber.setVoltage(0);
+		this.rightClimber.setVoltage(0);
+	}
 	public double getRightEncoderPosition() {
 		return this.rightClimberEncoder.getPosition();
 	}

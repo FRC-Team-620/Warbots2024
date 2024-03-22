@@ -21,7 +21,6 @@ import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.PrepareShot;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ToggleBakes;
 import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.climber.commands.ClimbCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockSpeaker;
@@ -57,6 +56,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -224,8 +224,14 @@ public class RobotContainer implements Logged {
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
-		this.control.climberRetract().onTrue(new ClimbCommand(this.climberSubsystem, -10.919127));
-		this.control.climberExtend().onTrue(new ClimbCommand(this.climberSubsystem, 0));
+		// this.control.climberRetract().onTrue(new ClimbCommand(this.climberSubsystem,
+		// -10.919127));
+		// this.control.climberExtend().onTrue(new ClimbCommand(this.climberSubsystem,
+		// 0));
+		this.control.climberRetract().whileTrue(new InstantCommand(this.climberSubsystem::climberRetract));
+		this.control.climberRetract().onFalse(new InstantCommand(this.climberSubsystem::climberStop));
+		this.control.climberExtend().whileTrue(new InstantCommand(this.climberSubsystem::climberExtend));
+		this.control.climberExtend().onFalse(new InstantCommand(this.climberSubsystem::climberStop));
 	}
 
 	public ArmPIDSubsystem getArmSubsystem() {

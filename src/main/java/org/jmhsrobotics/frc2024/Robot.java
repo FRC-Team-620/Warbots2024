@@ -11,6 +11,7 @@ import org.jmhsrobotics.frc2024.utils.GameObjectSim;
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
 import org.littletonrobotics.urcl.URCL;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
