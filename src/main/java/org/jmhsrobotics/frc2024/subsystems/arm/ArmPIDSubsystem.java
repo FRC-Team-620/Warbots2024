@@ -132,6 +132,10 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		this.armPivot.setIdleMode(mode);
 		this.armHelper.setIdleMode(mode);
 	}
+	public void setBreak() {
+		this.armPivot.setIdleMode(IdleMode.kBrake);
+		this.armHelper.setIdleMode(IdleMode.kBrake);
+	}
 
 	private void initPid() {
 		// init PID Controller

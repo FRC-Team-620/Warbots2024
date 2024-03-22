@@ -36,7 +36,7 @@ public class DefaultIntakeCommand extends Command {
 
 		if (noteTooHigh) {
 			intakeSubsystem.set(-0.1);
-			this.shooterSubsystem.set(-0.1, ControlType.VOLTAGE);
+			this.shooterSubsystem.set(-1.3, ControlType.VOLTAGE);
 		} else {
 			intakeSubsystem.set(0);
 			this.shooterSubsystem.set(0, ControlType.VOLTAGE);
