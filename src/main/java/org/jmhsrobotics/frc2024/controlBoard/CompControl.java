@@ -47,7 +47,7 @@ public class CompControl implements ControlBoard {
 		return new JoystickButton(this.driver, XboxController.Button.kRightBumper.value);
 	}
 
-		@Override
+	@Override
 	public Trigger AprilLockOn() {
 		return new Trigger(() -> {
 			return this.driver.getLeftTriggerAxis() > 0.5;
