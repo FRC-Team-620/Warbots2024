@@ -47,6 +47,12 @@ public class CompControl implements ControlBoard {
 		return new JoystickButton(this.driver, XboxController.Button.kRightBumper.value);
 	}
 
+		@Override
+	public Trigger AprilLockOn() {
+		return new Trigger(() -> {
+			return this.driver.getLeftTriggerAxis() > 0.5;
+		});
+	}
 	// =============Operator Controls=============
 	public double pitchInput() {
 		return this.operator.getRightY();
@@ -102,13 +108,6 @@ public class CompControl implements ControlBoard {
 		return new Trigger(() -> {
 			return this.operator.getPOV() == 180;
 		}); // DPAD Down
-	}
-
-	@Override
-	public Trigger AprilLockOn() {
-		return new Trigger(() -> {
-			return this.driver.getLeftTriggerAxis() > 0.5;
-		});
 	}
 
 	@Override
