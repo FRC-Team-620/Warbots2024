@@ -24,6 +24,7 @@ import org.jmhsrobotics.frc2024.subsystems.climber.ClimberSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.climber.commands.ClimbCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
+import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockSpeaker;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
@@ -184,6 +185,7 @@ public class RobotContainer implements Logged {
 																														// Handle
 																														// End
 																														// condition
+		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
 						.withTimeout(1));
