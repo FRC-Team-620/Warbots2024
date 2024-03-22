@@ -39,14 +39,14 @@ public class ArmVision extends Command {
 		// armAngles.put(2.55d, 25d);
 		// armAngles.put(3.28d, 28.5d);
 		// armAngles.put(4.5d, 32d);
-		armAngles.put(1.41d, 13d);
-		armAngles.put(2.03d, 25d);
-		armAngles.put(2.49d, 28d);
-		armAngles.put(3.41d, 34d);
-		armAngles.put(4.66d, 37.5d);
-		armAngles.put(5.41d, 38.5d);
+		armAngles.put(1.76d, 14d);
+		armAngles.put(2.16d, 17.5d);
+		armAngles.put(2.39d, 20.6d);
+		armAngles.put(2.7d, 22d);
+		armAngles.put(3.0d, 23.755d);
+		armAngles.put(3.32d, 25.3d);
 
-		SmartDashboard.putNumber("Armangle", 0);
+		// SmartDashboard.putNumber("Armangle", 0);
 
 		this.drive = drive;
 
@@ -76,8 +76,10 @@ public class ArmVision extends Command {
 		if (this.lastAprilTag != null) {
 			double dist = lastAprilTag.getTranslation().getDistance(drive.getPose().getTranslation());
 			SmartDashboard.putNumber("Distance", dist);
+
 			double angle = armAngles.get(dist);
 			arm.setGoal(angle);
+
 			// Transform2d transform = this.lastAprilTag.minus(this.arm.getPose());
 			// double theta = Math.toDegrees(Math.atan2(transform.getY(),
 			// transform.getX()));
@@ -104,7 +106,6 @@ public class ArmVision extends Command {
 
 	@Override
 	public boolean isFinished() {
-		// return false;
 		// return false;
 		return this.arm.atGoal();
 	}

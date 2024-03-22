@@ -5,7 +5,7 @@
       "x": 1.215193271636963,
       "y": 5.567
     },
-    "rotation": -5.290988080001754e-31
+    "rotation": 5.398539323514851e-31
   },
   "command": {
     "type": "sequential",
@@ -56,12 +56,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "CenterTwoPieceAuto.2"
-          }
-        },
-        {
           "type": "race",
           "data": {
             "commands": [
@@ -74,7 +68,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Arm Preset Shoot"
+                  "name": "Aim Arm Vision"
                 }
               }
             ]

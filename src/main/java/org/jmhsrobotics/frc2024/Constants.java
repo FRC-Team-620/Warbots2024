@@ -38,8 +38,8 @@ public class Constants {
 	}
 
 	public static class Arm {
-		public static double pickupSetpoint = 3.8;
-		public static double shootingSetpoint = 12.5;
+		public static double pickupSetpoint = 3.5;
+		public static double shootingSetpoint = 11.5;
 		public static double ampSetpoint = 93;
 	}
 
