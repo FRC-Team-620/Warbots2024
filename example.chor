@@ -769,6 +769,7 @@
                     "y": 6.652751445770264,
                     "heading": 0.6031421704963292,
                     "isInitialGuess": false,
+                    "translationConstrained": true,
                     "headingConstrained": true,
                     "controlIntervalCount": 11
                 },
