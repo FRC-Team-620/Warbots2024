@@ -27,7 +27,7 @@ public class LockSpeaker extends Command implements Logged {
 	public LockSpeaker(DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.02, 0, 0);
+		this.lockPID = new PIDController(0.005, 0, 0);
 		// SmartDashboard.putData(lockPID);
 
 		this.angleGoal = 180;

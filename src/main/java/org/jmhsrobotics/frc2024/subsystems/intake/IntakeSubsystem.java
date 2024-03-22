@@ -56,11 +56,6 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		// SmartDashboard.putBoolean("Intake/lowSwitchState",
 		// this.lowSwitch().isPressed());
 
-		// SmartDashboard.putNumber("Intake/lowerSensorReading",
-		// this.lowerSensor.getRange());
-		// SmartDashboard.putNumber("Intake/upperSensorReading",
-		// this.upperSensor.getRange());
-
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 		log("intakeDutyCycle", intakeMotor.get());
 		log("hasNote", this.hasNote());
@@ -90,11 +85,11 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public boolean hasNote() {
-		return this.lowerSensor.getRange() < 100;
+		return this.lowerSensor.getRange() < 270;
 	}
 
 	public boolean noteTooHigh() {
-		return this.upperSensor.getRange() < 300;
+		return this.upperSensor.getRange() < 320;
 	}
 
 	private DIOSim intakeSwitchSim;

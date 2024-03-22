@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.244184136390686,
-      "y": 5.574731826782227
+      "x": 0.47255077958106995,
+      "y": 4.393003940582275
     },
-    "rotation": -1.832005421123575e-18
+    "rotation": -60.340860212064435
   },
   "command": {
     "type": "sequential",
@@ -43,7 +43,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.1"
+                  "pathName": "Ferry Auto.1"
                 }
               },
               {
@@ -56,25 +56,19 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Lock Speaker"
-          }
-        },
-        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Aim Arm Vision"
+                  "name": "Spinup no Stop"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "name": "Arm Preset Shoot"
                 }
               }
             ]
@@ -93,7 +87,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.2"
+                  "pathName": "Ferry Auto.2"
                 }
               },
               {
@@ -106,25 +100,19 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Lock Speaker"
-          }
-        },
-        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Aim Arm Vision"
+                  "name": "Spinup no Stop"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "name": "Arm Preset Shoot"
                 }
               }
             ]
@@ -143,7 +131,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.3"
+                  "pathName": "Ferry Auto.3"
                 }
               },
               {
@@ -156,9 +144,47 @@
           }
         },
         {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Lock Speaker"
+            "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Ferry Auto.4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
           }
         },
         {
@@ -168,13 +194,57 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Aim Arm Vision"
+                  "name": "Spinup no Stop"
                 }
               },
               {
                 "type": "named",
                 "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Ferry Auto.5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "Spinup no Stop"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
                 }
               }
             ]

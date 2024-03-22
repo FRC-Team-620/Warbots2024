@@ -83,6 +83,7 @@ public class Robot extends TimedRobot implements Logged {
 		}
 		m_robotContainer.getDriveSubsystem().zeroHeading();
 		autonomousCommand = m_robotContainer.getAutonomousCommand();
+		m_robotContainer.getArmSubsystem().setBreak();
 
 		if (autonomousCommand != null) {
 			autonomousCommand.schedule();
@@ -99,6 +100,7 @@ public class Robot extends TimedRobot implements Logged {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		m_robotContainer.getArmSubsystem().setBreak();
 		m_robotContainer.configureTeam();
 	}
 
