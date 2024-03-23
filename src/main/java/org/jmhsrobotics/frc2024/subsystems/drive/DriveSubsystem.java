@@ -22,7 +22,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.BuiltInAccelerometer.Range;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
@@ -41,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 
 	// Create gyro
 	private final Pigeon2 m_gyro = new Pigeon2(Constants.SwerveConstants.kGyroCanId);
-
+	private final BuiltInAccelerometer rio_Accelerometer = new BuiltInAccelerometer(Range.k8G);
 	// Create RevSwerveDrive
 	private final RevSwerveDrive swerveDrive;
 	@Log
@@ -81,6 +83,16 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 		// Update the odometry in the periodic block
 		swerveDrive.updateOdometry();
 		pose2d = swerveDrive.getPose();
+
+		// log("");
+		log("Y-Gs", m_gyro.getAccelerationY().getValue());
+		log("X-Gs", m_gyro.getAccelerationX().getValue());
+		log("Z-Gs", m_gyro.getAccelerationZ().getValue());
+
+		log("Y-Gs-rio", rio_Accelerometer.getY());
+		log("X-Gs-rio", rio_Accelerometer.getX());
+		log("Z-Gs-rio", rio_Accelerometer.getZ());
+
 		if (Robot.isSimulation()) {
 			Robot.objSim.update(pose2d);
 		}
