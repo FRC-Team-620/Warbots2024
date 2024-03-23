@@ -19,7 +19,6 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -28,6 +27,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 
 	private SimableTimeOfFlight lowerSensor;
 	private SimableTimeOfFlight upperSensor;
+
+	private boolean isIntaking = false;
 
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
@@ -40,15 +41,18 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
 		this.upperSensor.setRangingMode(RangingMode.Short, 24);
-
-		SmartDashboard.putBoolean("HasNote", false);
 		if (RobotBase.isSimulation()) {
 			simInit();
 		}
 	}
 
+	public boolean isIntaking() {
+		return isIntaking;
+	}
+
 	@Override
 	public void periodic() {
+		this.isIntaking = this.intakeMotor.get() != 0 ? true : false;
 		// SmartDashboard.putNumber("intake/velocityRPM",
 		// intakeMotor.getEncoder().getVelocity());
 		// SmartDashboard.putNumber("intake/currentDrawAmps",
