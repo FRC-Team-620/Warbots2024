@@ -246,6 +246,7 @@ public class RobotContainer implements Logged {
 		this.control.climberRetract().onFalse(new InstantCommand(this.climberSubsystem::climberStop));
 		this.control.climberExtend().whileTrue(new InstantCommand(this.climberSubsystem::climberExtend));
 		this.control.climberExtend().onFalse(new InstantCommand(this.climberSubsystem::climberStop));
+
 	}
 
 	public ArmPIDSubsystem getArmSubsystem() {

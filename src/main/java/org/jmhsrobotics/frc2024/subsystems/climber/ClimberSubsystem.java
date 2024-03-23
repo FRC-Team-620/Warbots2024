@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -26,15 +27,19 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		rightClimber.restoreFactoryDefaults();
 		leftClimber.setSmartCurrentLimit(40);
 		rightClimber.setSmartCurrentLimit(40);
+		// TODO: input real vals for soft limit
 		leftClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
 		rightClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
-		leftClimber.setSoftLimit(SoftLimitDirection.kForward, 100);
-		rightClimber.setSoftLimit(SoftLimitDirection.kForward, 0);
+		leftClimber.setSoftLimit(SoftLimitDirection.kForward, 65);
+		rightClimber.setSoftLimit(SoftLimitDirection.kForward, 65);
 		setSoftLimit(true);
 		leftClimber.setIdleMode(IdleMode.kBrake);
 		rightClimber.setIdleMode(IdleMode.kBrake);
 		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 		rightClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
+
+		SmartDashboard.putNumber("climber/leftEncoder", 0);
+		SmartDashboard.putNumber("climber/rightEncoder", 0);
 
 		// climber.setInverted(true);
 
@@ -56,18 +61,18 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		this.rightClimber.set(amount);
 	}
 
-	public double getLeftEncoderPostition() {
-		return this.leftClimberEncoder.getPosition();
-	}
-
 	public void climberRetract() {
 		this.leftClimber.setVoltage(-10);
 		this.rightClimber.setVoltage(-10);
+		SmartDashboard.putNumber("climber/leftEncoder", getLeftEncoderPostition());
+		SmartDashboard.putNumber("climber/rightEncoder", getRightEncoderPosition());
 	}
 
 	public void climberExtend() {
 		this.leftClimber.setVoltage(10);
 		this.rightClimber.setVoltage(10);
+		SmartDashboard.putNumber("climber/leftEncoder", getLeftEncoderPostition());
+		SmartDashboard.putNumber("climber/rightEncoder", getRightEncoderPosition());
 	}
 
 	public void climberStop() {
@@ -77,6 +82,11 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 	public double getRightEncoderPosition() {
 		return this.rightClimberEncoder.getPosition();
 	}
+
+	public double getLeftEncoderPostition() {
+		return this.leftClimberEncoder.getPosition();
+	}
+
 	@Override
 	public void periodic() {
 		super.periodic();
