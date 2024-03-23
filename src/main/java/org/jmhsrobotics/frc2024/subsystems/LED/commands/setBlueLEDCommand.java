@@ -5,20 +5,14 @@ import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class ColorLEDCommand extends Command {
+public class setBlueLEDCommand extends Command {
 
 	private LEDSubsystem ledSubsystem;
 	private IntakeSubsystem intakeSubsystem;
-	private int r;
-	private int g;
-	private int b;
 
-	public ColorLEDCommand(LEDSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem, int r, int g, int b) {
+	public setBlueLEDCommand(LEDSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem) {
 		this.ledSubsystem = ledSubsystem;
 		this.intakeSubsystem = intakeSubsystem;
-		this.r = r;
-		this.g = g;
-		this.b = b;
 		addRequirements(this.ledSubsystem);
 	}
 
@@ -32,7 +26,7 @@ public class ColorLEDCommand extends Command {
 	public void execute() {
 
 		// create a rainbow effect
-		this.ledSubsystem.setRGB(r, g, b);
+		this.ledSubsystem.setBlue();
 	}
 
 	@Override
