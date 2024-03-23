@@ -88,7 +88,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public boolean hasNote() {
-		return SmartDashboard.getBoolean("HasNote", false);
+		return this.lowerSensor.getRange() < 270;
 	}
 
 	public boolean noteTooHigh() {
