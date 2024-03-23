@@ -97,9 +97,15 @@ public class RobotContainer implements Logged {
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		configureSmartDashboard();
-		new Trigger(intakeSubsystem::hasNote).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+		SmartDashboard.putBoolean("HasNote", false);
+		new Trigger(intakeSubsystem::hasNote)
+				.onTrue(new ParallelCommandGroup(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1),
+						new ColorLEDCommand(ledSubsystem, this.intakeSubsystem, 0, 255, 255)));
 
-		new Trigger(intakeSubsystem::hasNote).whileTrue(new ColorLEDCommand(ledSubsystem, 0, 255, 255));
+		// new Trigger(intakeSubsystem::hasNote).whileTrue(new
+		// ColorLEDCommand(ledSubsystem, this.intakeSubsystem, 0, 255, 255));
+		// new Trigger(this::getBoolean()).whileTrue(new ColorLEDCommand(ledSubsystem,
+		// this.intakeSubsystem, 0, 255, 255));
 
 		new Trigger(() -> {
 			return this.shooterSubsystem.atGoal();
@@ -141,7 +147,12 @@ public class RobotContainer implements Logged {
 				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
 																											// Handle
 																											// End
-																											// condition
+		// // condition
+		// SmartDashboard.putData("GreenLED", new ColorLEDCommand(ledSubsystem, 0, 255,
+		// 255));
+	}
+	private boolean getBoolean() {
+		return SmartDashboard.getBoolean("HasNote", false);
 	}
 
 	private void configurePathPlanner() {

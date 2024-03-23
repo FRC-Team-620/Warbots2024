@@ -1,18 +1,21 @@
 package org.jmhsrobotics.frc2024.subsystems.LED.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ColorLEDCommand extends Command {
 
 	private LEDSubsystem ledSubsystem;
+	private IntakeSubsystem intakeSubsystem;
 	private int r;
 	private int g;
 	private int b;
 
-	public ColorLEDCommand(LEDSubsystem ledSubsystem, int r, int g, int b) {
+	public ColorLEDCommand(LEDSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem, int r, int g, int b) {
 		this.ledSubsystem = ledSubsystem;
+		this.intakeSubsystem = intakeSubsystem;
 		this.r = r;
 		this.g = g;
 		this.b = b;
@@ -34,7 +37,7 @@ public class ColorLEDCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return false;
+		return !this.intakeSubsystem.hasNote();
 	}
 
 	@Override
