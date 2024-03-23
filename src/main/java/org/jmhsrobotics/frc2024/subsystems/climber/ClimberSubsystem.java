@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,20 +26,28 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		rightClimber.restoreFactoryDefaults();
 		leftClimber.setSmartCurrentLimit(40);
 		rightClimber.setSmartCurrentLimit(40);
+		leftClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
+		rightClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
+		leftClimber.setSoftLimit(SoftLimitDirection.kForward, 100);
+		rightClimber.setSoftLimit(SoftLimitDirection.kForward, 0);
+		setSoftLimit(true);
 		leftClimber.setIdleMode(IdleMode.kBrake);
 		rightClimber.setIdleMode(IdleMode.kBrake);
 		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 		rightClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
 
-		// climber.setSoftLimit(SoftLimitDirection.kReverse, 10);
-		// climber.setSoftLimit(SoftLimitDirection.kForward, 40);
-		// climber.enableSoftLimit(SoftLimitDirection.kForward, true);
-		// climber.enableSoftLimit(SoftLimitDirection.kReverse, true);
-
 		// climber.setInverted(true);
 
 		// rightClimber.follow(leftClimber, true);
 	}
+
+	public void setSoftLimit(boolean toggle) {
+		rightClimber.enableSoftLimit(SoftLimitDirection.kForward, toggle);
+		leftClimber.enableSoftLimit(SoftLimitDirection.kForward, toggle);
+		rightClimber.enableSoftLimit(SoftLimitDirection.kReverse, toggle);
+		leftClimber.enableSoftLimit(SoftLimitDirection.kReverse, toggle);
+	}
+
 	public void setLeftMotor(double amount) {
 		this.leftClimber.set(amount);
 	}

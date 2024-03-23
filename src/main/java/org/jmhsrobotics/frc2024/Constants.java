@@ -202,7 +202,7 @@ public class Constants {
 
 	public static final class LEDConstants {
 		public static final int LEDPortID = 0;
-		public static final int LEDLength = 60;
+		public static final int LEDLength = 65;
 		public static final int rainbowSpeed = 3;
 	}
 

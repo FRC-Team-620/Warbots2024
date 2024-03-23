@@ -14,6 +14,7 @@ import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.ColorLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
@@ -97,6 +98,8 @@ public class RobotContainer implements Logged {
 
 		configureSmartDashboard();
 		new Trigger(intakeSubsystem::hasNote).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
+
+		new Trigger(intakeSubsystem::hasNote).whileTrue(new ColorLEDCommand(ledSubsystem, 0, 255, 255));
 
 		new Trigger(() -> {
 			return this.shooterSubsystem.atGoal();
