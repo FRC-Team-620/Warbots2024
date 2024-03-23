@@ -38,7 +38,8 @@ public class DriveCommand extends Command {
 		this.visionSubsystem = visionSubsystem;
 		this.control = control;
 
-		this.lockPID = new PIDController(0.005, 0, 0);
+		this.lockPID = new PIDController(0.02
+		, 0, 0);
 
 		addRequirements(this.driveSubsystem);
 	}

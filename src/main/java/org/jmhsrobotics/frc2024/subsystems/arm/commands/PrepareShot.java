@@ -22,5 +22,4 @@ public class PrepareShot extends ParallelCommandGroup {
 	public PrepareShot(DriveSubsystem drive, ArmPIDSubsystem arm, ShooterSubsystem shooter, VisionSubsystem vision) {
 		addCommands(new ArmVision(arm, vision, drive), new ShooterAutoCommand(shooter, 5000));
 	}
-
 }
