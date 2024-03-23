@@ -90,6 +90,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		}
 
 		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		// SmartDashboard.putBooelean("hasTaget", this.);
 		log("flucialIDs", flucialIDs);
 		log("targets", posList);
 		log("cameraTransform", camOnRobot); // TODO: only log once

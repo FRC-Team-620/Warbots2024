@@ -59,7 +59,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 
@@ -117,25 +116,31 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
 
-		var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
-				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
-						.andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3, this.driveSubsystem),
-								new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
+		// var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
+		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
+		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
+		// .andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3,
+		// this.driveSubsystem),
+		// new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
 
-						).withTimeout(2));
-		var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
-				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
+		// ).withTimeout(2));
+		// var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
+		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
+		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
 
 		// autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		// autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 
+		var preLoadOnePiece = Commands.sequence(
+				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+						new NSpinupNoStop(this.shooterSubsystem, 5000)),
+				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
+
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-
 		// Commands to test
 		SmartDashboard.putData("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
@@ -274,13 +279,18 @@ public class RobotContainer implements Logged {
 	}
 
 	public void configureTeam() {
-		if (getAllianceFlipState()) {
-			this.control.AprilLockOn()
-					.whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		} else {
-			this.control.AprilLockOn()
-					.whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		}
+		this.control.AprilLockOn()
+				.whileTrue(Commands.repeatingSequence(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)));
+		this.control.AprilLockOn().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5000));
+		// if (getAllianceFlipState()) {
+		// this.control.AprilLockOn()
+		// .whileTrue(Commands.repeatingSequence(new PrepareShot(driveSubsystem,
+		// armSubsystem, shooterSubsystem, visionSubsystem)));
+		// } else {
+		// this.control.AprilLockOn()
+		// .whileTrue(Commands.repeatingSequence(new PrepareShot(driveSubsystem,
+		// armSubsystem, shooterSubsystem, visionSubsystem)));
+		// }
 	}
 
 	public Command getAutonomousCommand() {

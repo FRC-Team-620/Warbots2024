@@ -50,7 +50,7 @@ public class ArmVision extends Command {
 
 		this.drive = drive;
 
-		addRequirements(this.arm, this.vision);
+		addRequirements(this.arm);
 	}
 
 	@Override
