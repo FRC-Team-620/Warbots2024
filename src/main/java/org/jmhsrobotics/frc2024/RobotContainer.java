@@ -216,6 +216,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
+									
 																														// End
 																														// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
