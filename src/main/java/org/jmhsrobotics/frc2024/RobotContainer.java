@@ -83,6 +83,8 @@ public class RobotContainer implements Logged {
 
 	private final SendableChooser<Command> autoChooser;
 
+	private final DefaultIntakeCommand defaultIntakeCommand = new DefaultIntakeCommand(intakeSubsystem, shooterSubsystem);
+
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
@@ -94,7 +96,7 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
-		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
+		this.intakeSubsystem.setDefaultCommand(this.defaultIntakeCommand);
 
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
@@ -159,6 +161,7 @@ public class RobotContainer implements Logged {
 		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
 		// new Trigger(intakeSubsystem.getCurrentCommand()==new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem)).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		new Trigger(this.defaultIntakeCommand::isScheduled).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
 		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, intakeSubsystem));
 
