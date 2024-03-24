@@ -14,7 +14,6 @@ import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.LED.commands.FlashingLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.setBlueLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.setRedLEDCommand;
@@ -83,8 +82,11 @@ public class RobotContainer implements Logged {
 
 	private final SendableChooser<Command> autoChooser;
 
-	private final DefaultIntakeCommand defaultIntakeCommand = new DefaultIntakeCommand(intakeSubsystem,
-			shooterSubsystem);
+	// private final DefaultIntakeCommand defaultIntakeCommand = new
+	// DefaultIntakeCommand(intakeSubsystem,
+	// shooterSubsystem);
+	// private final DefaultIntakeCommand defaultIntakeCommand = new DefaultIntakeCommand(intakeSubsystem,
+	// 		shooterSubsystem);
 
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
@@ -97,7 +99,7 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
-		this.intakeSubsystem.setDefaultCommand(this.defaultIntakeCommand);
+		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(intakeSubsystem, shooterSubsystem));
 
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
@@ -163,8 +165,11 @@ public class RobotContainer implements Logged {
 		// new Trigger(intakeSubsystem::isIntaking).onTrue(new
 		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
-		// new Trigger(intakeSubsystem.getCurrentCommand()==new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem)).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
-		new Trigger(this.defaultIntakeCommand::isScheduled).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// new Trigger(intakeSubsystem.getCurrentCommand()==new
+		// DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem)).onTrue(new
+		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// new Trigger(this.defaultIntakeCommand::isScheduled)
+		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
 		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, intakeSubsystem));
 
