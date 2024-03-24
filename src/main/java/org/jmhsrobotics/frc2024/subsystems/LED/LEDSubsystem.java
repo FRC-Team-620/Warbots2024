@@ -62,7 +62,7 @@ public class LEDSubsystem extends SubsystemBase implements Logged {
 		this.setRGB(255, 0, 0);
 	}
 
-	public void setYellow(){
+	public void setYellow() {
 		this.setRGB(255, 255, 0);
 	}
 
