@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.subsystems.LED.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;

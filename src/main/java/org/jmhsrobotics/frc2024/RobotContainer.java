@@ -85,8 +85,9 @@ public class RobotContainer implements Logged {
 	// private final DefaultIntakeCommand defaultIntakeCommand = new
 	// DefaultIntakeCommand(intakeSubsystem,
 	// shooterSubsystem);
-	// private final DefaultIntakeCommand defaultIntakeCommand = new DefaultIntakeCommand(intakeSubsystem,
-	// 		shooterSubsystem);
+	// private final DefaultIntakeCommand defaultIntakeCommand = new
+	// DefaultIntakeCommand(intakeSubsystem,
+	// shooterSubsystem);
 
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
@@ -152,6 +153,8 @@ public class RobotContainer implements Logged {
 		// // condition
 		// SmartDashboard.putData("RedLED", new setRedLEDCommand(ledSubsystem,
 		// intakeSubsystem));
+		SmartDashboard.putData("ArmVision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
+		SmartDashboard.putData("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 
 	}
 
@@ -161,7 +164,7 @@ public class RobotContainer implements Logged {
 						new setBlueLEDCommand(ledSubsystem, this.intakeSubsystem)));
 
 		// new Trigger(this.defaultIntakeCommand::isScheduled)
-		// 		.onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 		// new Trigger(intakeSubsystem::isIntaking).onTrue(new
 		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
@@ -221,9 +224,8 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
-									
 																														// End
-																														// condition
+		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)

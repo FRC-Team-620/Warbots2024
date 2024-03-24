@@ -45,8 +45,12 @@ public class ArmVision extends Command {
 		armAngles.put(2.7d, 22d);
 		armAngles.put(3.0d, 23.755d);
 		armAngles.put(3.32d, 25.3d);
+		armAngles.put(2.18d, 21.75d);
+		armAngles.put(2.42d, 23.5d);
+		armAngles.put(2.54d, 24d);
+		armAngles.put(3.14d, 27.5d);
 
-		// SmartDashboard.putNumber("Armangle", 0);
+		SmartDashboard.putNumber("Armangle", 0);
 
 		this.drive = drive;
 
