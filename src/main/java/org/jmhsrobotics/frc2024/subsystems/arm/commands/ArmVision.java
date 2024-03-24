@@ -39,12 +39,12 @@ public class ArmVision extends Command {
 		// armAngles.put(2.55d, 25d);
 		// armAngles.put(3.28d, 28.5d);
 		// armAngles.put(4.5d, 32d);
-		armAngles.put(1.76d, 14d);
-		armAngles.put(2.16d, 17.5d);
-		armAngles.put(2.39d, 20.6d);
-		armAngles.put(2.7d, 22d);
-		armAngles.put(3.0d, 23.755d);
-		armAngles.put(3.32d, 25.3d);
+		// armAngles.put(1.76d, 14d);
+		// armAngles.put(2.16d, 17.5d);
+		// armAngles.put(2.39d, 20.6d);
+		// armAngles.put(2.7d, 22d);
+		// armAngles.put(3.0d, 23.755d);
+		// armAngles.put(3.32d, 25.3d);
 		armAngles.put(2.18d, 21.75d);
 		armAngles.put(2.42d, 23.5d);
 		armAngles.put(2.54d, 24d);
