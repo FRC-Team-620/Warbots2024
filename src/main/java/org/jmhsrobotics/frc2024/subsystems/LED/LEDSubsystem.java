@@ -62,6 +62,10 @@ public class LEDSubsystem extends SubsystemBase implements Logged {
 		this.setRGB(255, 0, 0);
 	}
 
+	public void setYellow(){
+		this.setRGB(255, 255, 0);
+	}
+
 	public void rainBow() {
 		for (var i = 0; i < this.ledBuffer.getLength(); i++) {
 			final var hue = (rainBowPixelHue + (i * 180 / this.ledBuffer.getLength())) % 180;

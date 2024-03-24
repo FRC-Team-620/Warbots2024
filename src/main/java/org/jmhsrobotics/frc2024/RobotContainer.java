@@ -18,6 +18,7 @@ import org.jmhsrobotics.frc2024.subsystems.LED.commands.FlashingLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.setBlueLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.setRedLEDCommand;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.setYellowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
@@ -147,8 +148,9 @@ public class RobotContainer implements Logged {
 																											// Handle
 																											// End
 		// // condition
-		// SmartDashboard.putData("GreenLED", new ColorLEDCommand(ledSubsystem, 0, 255,
-		// 255));
+		// SmartDashboard.putData("RedLED", new setRedLEDCommand(ledSubsystem,
+		// intakeSubsystem));
+
 	}
 
 	private void configureDriverFeedback() {
@@ -156,13 +158,20 @@ public class RobotContainer implements Logged {
 				.onTrue(new ParallelCommandGroup(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1),
 						new setBlueLEDCommand(ledSubsystem, this.intakeSubsystem)));
 
-		new Trigger(this.defaultIntakeCommand::isScheduled)
-				.onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// new Trigger(this.defaultIntakeCommand::isScheduled)
+		// 		.onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// new Trigger(intakeSubsystem::isIntaking).onTrue(new
+		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+
+		// new Trigger(intakeSubsystem.getCurrentCommand()==new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem)).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		new Trigger(this.defaultIntakeCommand::isScheduled).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
 		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, intakeSubsystem));
 
 		new Trigger(shooterSubsystem::atGoal)
 				.whileTrue(new RumbleTimeCommand(this.control, RumbleType.kRightRumble, 0.2, 1));
+
+		new Trigger(shooterSubsystem::atGoal).onTrue(new setYellowLEDCommand(ledSubsystem, shooterSubsystem));
 	}
 
 	private void configurePathPlanner() {
