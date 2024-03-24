@@ -1,0 +1,193 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2413955926895142,
+      "y": 5.541520118713379
+    },
+    "rotation": 1.1897858804732057e-26
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center Four Piece Auto.1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim Arm Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Triple Helix.1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim Arm Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Triple Helix.2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Triple Helix.3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim Arm Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Triple Helix.4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Speaker Autos",
+  "choreoAuto": true
+}
