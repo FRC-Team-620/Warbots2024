@@ -82,7 +82,8 @@ public class RobotContainer implements Logged {
 
 	private final SendableChooser<Command> autoChooser;
 
-	private final DefaultIntakeCommand defaultIntakeCommand = new DefaultIntakeCommand(intakeSubsystem, shooterSubsystem);
+	private final DefaultIntakeCommand defaultIntakeCommand = new DefaultIntakeCommand(intakeSubsystem,
+			shooterSubsystem);
 
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
@@ -155,7 +156,8 @@ public class RobotContainer implements Logged {
 				.onTrue(new ParallelCommandGroup(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1),
 						new setBlueLEDCommand(ledSubsystem, this.intakeSubsystem)));
 
-		new Trigger(this.defaultIntakeCommand::isScheduled).onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		new Trigger(this.defaultIntakeCommand::isScheduled)
+				.onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
 		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, intakeSubsystem));
 

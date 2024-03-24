@@ -47,7 +47,7 @@ public class DefaultIntakeCommand extends Command {
 		}
 	}
 
-	public boolean isDefaultIntakeRunning(){
+	public boolean isDefaultIntakeRunning() {
 		return this.isDefaultIntakeRunning;
 	}
 }
