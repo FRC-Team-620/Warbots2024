@@ -15,6 +15,9 @@ import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
 import org.jmhsrobotics.frc2024.controlBoard.SwitchableControlBoard;
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.LED.commands.RainbowLEDCommand;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.setBlueLEDCommand;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.setRedLEDCommand;
+import org.jmhsrobotics.frc2024.subsystems.LED.commands.setYellowLEDCommand;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.ArmVision;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
@@ -58,7 +61,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 
@@ -80,6 +82,13 @@ public class RobotContainer implements Logged {
 
 	private final SendableChooser<Command> autoChooser;
 
+	// private final DefaultIntakeCommand defaultIntakeCommand = new
+	// DefaultIntakeCommand(intakeSubsystem,
+	// shooterSubsystem);
+	// private final DefaultIntakeCommand defaultIntakeCommand = new
+	// DefaultIntakeCommand(intakeSubsystem,
+	// shooterSubsystem);
+
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
@@ -91,16 +100,13 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
-		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem));
+		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(intakeSubsystem, shooterSubsystem));
 
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		configureSmartDashboard();
-		new Trigger(intakeSubsystem::hasNote).onTrue(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1));
-
-		new Trigger(() -> {
-			return this.shooterSubsystem.atGoal();
-		}).whileTrue(new RumbleTimeCommand(this.control, RumbleType.kRightRumble, 0.2, 1));
+		SmartDashboard.putBoolean("HasNote", false);
+		configureDriverFeedback();
 
 		configureBindings();
 		// Named commands must be added before building the chooser.
@@ -108,25 +114,31 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
 
-		var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
-				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
-						.andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3, this.driveSubsystem),
-								new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
+		// var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
+		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
+		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
+		// .andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3,
+		// this.driveSubsystem),
+		// new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
 
-						).withTimeout(2));
-		var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
-				new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-				new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-						.andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
+		// ).withTimeout(2));
+		// var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
+		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
+		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
 
 		// autoChooser.addOption("Preload-shoot-intake", preloadShoot);
 		// autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
 
+		var preLoadOnePiece = Commands.sequence(
+				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
+						new NSpinupNoStop(this.shooterSubsystem, 5000)),
+				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
+
 		SmartDashboard.putData("Auto Chooser", autoChooser);
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
-
 		// Commands to test
 		SmartDashboard.putData("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
@@ -138,7 +150,36 @@ public class RobotContainer implements Logged {
 				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
 																											// Handle
 																											// End
-																											// condition
+		// // condition
+		// SmartDashboard.putData("RedLED", new setRedLEDCommand(ledSubsystem,
+		// intakeSubsystem));
+		SmartDashboard.putData("ArmVision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
+		SmartDashboard.putData("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
+
+	}
+
+	private void configureDriverFeedback() {
+		new Trigger(intakeSubsystem::hasNote)
+				.onTrue(new ParallelCommandGroup(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1),
+						new setBlueLEDCommand(ledSubsystem, this.intakeSubsystem)));
+
+		// new Trigger(this.defaultIntakeCommand::isScheduled)
+		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// new Trigger(intakeSubsystem::isIntaking).onTrue(new
+		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+
+		// new Trigger(intakeSubsystem.getCurrentCommand()==new
+		// DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem)).onTrue(new
+		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+		// new Trigger(this.defaultIntakeCommand::isScheduled)
+		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
+
+		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, intakeSubsystem));
+
+		new Trigger(shooterSubsystem::atGoal)
+				.whileTrue(new RumbleTimeCommand(this.control, RumbleType.kRightRumble, 0.2, 1));
+
+		new Trigger(shooterSubsystem::atGoal).onTrue(new setYellowLEDCommand(ledSubsystem, shooterSubsystem));
 	}
 
 	private void configurePathPlanner() {
@@ -177,14 +218,14 @@ public class RobotContainer implements Logged {
 		// New Commands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(2));
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
 																														// End
-																														// condition
+		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
@@ -232,6 +273,7 @@ public class RobotContainer implements Logged {
 		this.control.climberRetract().onFalse(new InstantCommand(this.climberSubsystem::climberStop));
 		this.control.climberExtend().whileTrue(new InstantCommand(this.climberSubsystem::climberExtend));
 		this.control.climberExtend().onFalse(new InstantCommand(this.climberSubsystem::climberStop));
+
 	}
 
 	public ArmPIDSubsystem getArmSubsystem() {
@@ -259,13 +301,18 @@ public class RobotContainer implements Logged {
 	}
 
 	public void configureTeam() {
-		if (getAllianceFlipState()) {
-			this.control.AprilLockOn()
-					.whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		} else {
-			this.control.AprilLockOn()
-					.whileTrue(new PrepareShot(driveSubsystem, armSubsystem, shooterSubsystem, visionSubsystem));
-		}
+		this.control.AprilLockOn()
+				.whileTrue(Commands.repeatingSequence(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)));
+		this.control.AprilLockOn().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5000));
+		// if (getAllianceFlipState()) {
+		// this.control.AprilLockOn()
+		// .whileTrue(Commands.repeatingSequence(new PrepareShot(driveSubsystem,
+		// armSubsystem, shooterSubsystem, visionSubsystem)));
+		// } else {
+		// this.control.AprilLockOn()
+		// .whileTrue(Commands.repeatingSequence(new PrepareShot(driveSubsystem,
+		// armSubsystem, shooterSubsystem, visionSubsystem)));
+		// }
 	}
 
 	public Command getAutonomousCommand() {

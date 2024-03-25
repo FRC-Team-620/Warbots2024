@@ -28,6 +28,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private SimableTimeOfFlight lowerSensor;
 	private SimableTimeOfFlight upperSensor;
 
+	private boolean isIntaking = false;
+
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
@@ -39,14 +41,18 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
 		this.upperSensor.setRangingMode(RangingMode.Short, 24);
-
 		if (RobotBase.isSimulation()) {
 			simInit();
 		}
 	}
 
+	public boolean isIntaking() {
+		return isIntaking;
+	}
+
 	@Override
 	public void periodic() {
+		this.isIntaking = this.intakeMotor.get() != 0 ? true : false;
 		// SmartDashboard.putNumber("intake/velocityRPM",
 		// intakeMotor.getEncoder().getVelocity());
 		// SmartDashboard.putNumber("intake/currentDrawAmps",
@@ -57,6 +63,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		// this.lowSwitch().isPressed());
 
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
+
 		log("intakeDutyCycle", intakeMotor.get());
 		log("hasNote", this.hasNote());
 		log("noteTooHigh", this.noteTooHigh());

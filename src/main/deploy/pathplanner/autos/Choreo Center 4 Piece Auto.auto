@@ -2,23 +2,60 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.47255077958106995,
-      "y": 4.393003940582275
+      "x": 1.2413955926895142,
+      "y": 5.541520118713379
     },
-    "rotation": -60.340860212064435
+    "rotation": 1.1897858804732057e-26
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Center Four Piece Auto.1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Arm Preset Shoot"
+                  "name": "Aim Arm Vision"
                 }
               },
               {
@@ -43,7 +80,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.1"
+                  "pathName": "Center Four Piece Auto.2"
                 }
               },
               {
@@ -56,19 +93,25 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "name": "Aim Arm Vision"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Arm Preset Shoot"
+                  "name": "Spinup no Stop"
                 }
               }
             ]
@@ -87,7 +130,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.2"
+                  "pathName": "Center Four Piece Auto.3"
                 }
               },
               {
@@ -100,19 +143,25 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
           "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "name": "Aim Arm Vision"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Arm Preset Shoot"
+                  "name": "Spinup no Stop"
                 }
               }
             ]
@@ -131,7 +180,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.3"
+                  "pathName": "Center Four Piece Auto.4"
                 }
               },
               {
@@ -144,116 +193,9 @@
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Ferry Auto.4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Ferry Auto.5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
+            "pathName": "Center Four Piece Auto.5"
           }
         }
       ]

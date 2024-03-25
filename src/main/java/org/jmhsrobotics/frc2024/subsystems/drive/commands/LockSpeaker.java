@@ -45,7 +45,7 @@ public class LockSpeaker extends Command implements Logged {
 		this.lockPID.reset();
 		this.lockPID.setSetpoint(this.angleGoal);
 		// SmartDashboard.putData(this.lockPID);
-		// this.lockPID.setTolerance(3, 1);
+		this.lockPID.setTolerance(5, 1);
 		this.lockPID.enableContinuousInput(-180, 180);
 		// TODO: add portential april estimation
 		// var potentialAprilTag =

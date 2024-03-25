@@ -2,38 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.244184136390686,
-      "y": 5.574731826782227
+      "x": 1.2413955926895142,
+      "y": 5.541520118713379
     },
-    "rotation": -1.832005421123575e-18
+    "rotation": 1.1897858804732057e-26
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              }
-            ]
+            "name": "One Piece Preload Shoot"
           }
         },
         {
-          "type": "named",
+          "type": "wait",
           "data": {
-            "name": "Spinup and Shoot"
+            "waitTime": 0.3
           }
         },
         {
@@ -43,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.1"
+                  "pathName": "Center Four Piece Auto.1"
                 }
               },
               {
@@ -93,7 +80,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.2"
+                  "pathName": "Triple Helix.1"
                 }
               },
               {
@@ -143,7 +130,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.3"
+                  "pathName": "Triple Helix.2"
                 }
               },
               {
@@ -153,6 +140,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Triple Helix.3"
           }
         },
         {
@@ -184,11 +177,17 @@
           "type": "named",
           "data": {
             "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Triple Helix.4"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Speaker Autos",
   "choreoAuto": true
 }

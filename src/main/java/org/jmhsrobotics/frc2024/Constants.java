@@ -38,7 +38,7 @@ public class Constants {
 	}
 
 	public static class Arm {
-		public static double pickupSetpoint = 3.5;
+		public static double pickupSetpoint = 4.25;
 		public static double shootingSetpoint = 11.5;
 		public static double ampSetpoint = 93;
 	}
@@ -202,7 +202,7 @@ public class Constants {
 
 	public static final class LEDConstants {
 		public static final int LEDPortID = 0;
-		public static final int LEDLength = 60;
+		public static final int LEDLength = 65;
 		public static final int rainbowSpeed = 3;
 	}
 
