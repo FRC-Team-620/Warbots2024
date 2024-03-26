@@ -135,7 +135,7 @@ public class ShintakeSubsystem extends SubsystemBase implements Logged {
 	public boolean noteTooHigh() {
 		return this.upperSensor.getRange() < 320;
 	}
-	
+
 	private void initializeMotors() {
 		// this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
@@ -183,7 +183,7 @@ public class ShintakeSubsystem extends SubsystemBase implements Logged {
 		}
 		return topEncoder.getVelocity();
 	}
-	
+
 	private FlywheelSim flywheelSim;
 	private RevEncoderSimWrapper encSim;
 	private DIOSim intakeSwitchSim;
@@ -219,7 +219,7 @@ public class ShintakeSubsystem extends SubsystemBase implements Logged {
 
 		if (simVelocity > 1000) {
 			Robot.objSim.fire();
-		}else{
+		} else {
 			encSim.setVelocity(simVelocity);
 		}
 		if (Robot.objSim.hasObject()) {

@@ -28,16 +28,13 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockSpeaker;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shintake.commands.DefaultShintakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
@@ -76,7 +73,7 @@ public class RobotContainer implements Logged {
 
 	// private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-	
+
 	// private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 	private final ShintakeSubsystem shintakeSubsystem = new ShintakeSubsystem();
 

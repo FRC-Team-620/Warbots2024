@@ -1,7 +1,6 @@
 package org.jmhsrobotics.frc2024.utils.newcmd;
 
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
