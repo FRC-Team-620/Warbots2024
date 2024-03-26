@@ -12,6 +12,8 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
@@ -232,13 +234,13 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		// armPivot.getEncoder().getPosition());
 	}
 
-	// @Override
-	// public void periodic() {
-	// this.calculatePiditeration();
+	@Override
+	public void periodic() {
+		this.calculatePiditeration();
 
-	// this.updateOdometry();
+		this.updateOdometry();
 
-		m_arm.setAngle(getArmPitch());
+		m_arm.setAngle(this.getArmPitch());
 		log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
 		log("armComponent_Goal",
 				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(armPID.getGoal().position), 0)));

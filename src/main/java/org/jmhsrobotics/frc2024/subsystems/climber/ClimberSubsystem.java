@@ -87,17 +87,6 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		return this.leftClimberEncoder.getPosition();
 	}
 
-	public void setRightMotor(double amount) {
-		this.rightClimber.set(amount);
-	}
-
-	public double getLeftEncoderPostition() {
-		return this.leftClimberEncoder.getPosition();
-	}
-
-	public double getRightEncoderPosition() {
-		return this.rightClimberEncoder.getPosition();
-	}
 	@Override
 	public void periodic() {
 		super.periodic();

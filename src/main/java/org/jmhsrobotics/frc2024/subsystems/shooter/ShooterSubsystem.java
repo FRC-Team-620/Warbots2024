@@ -15,8 +15,11 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
@@ -65,8 +68,7 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		this.topRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
 				new SysIdRoutine.Mechanism(this::voltageDrive, null, this));
-		this.bottomRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
-				new SysIdRoutine.Mechanism(this::bottomVoltageDrive, null, this));
+		this.bottomRoutine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(this::bottomVoltageDrive, null, this));
 	}
 
 	private void voltageDrive(Measure<Voltage> num) {
@@ -114,9 +116,6 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		return topEncoder.getVelocity();
 	}
 
-	public double getRPM() {
-		return getTopRRPM();
-	}
 
 	public void set(double goal, ControlType controlType) {
 		this.reference = goal;

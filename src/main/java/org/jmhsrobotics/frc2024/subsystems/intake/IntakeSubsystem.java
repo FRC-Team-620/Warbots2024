@@ -33,8 +33,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private TimeOfFlight upperSensor;
 
 	public SysIdRoutine routine;
-	private SimableTimeOfFlight lowerSensor;
-	private SimableTimeOfFlight upperSensor;
+	// private SimableTimeOfFlight lowerSensor;
+	// private SimableTimeOfFlight upperSensor;
 
 	private boolean isIntaking = false;
 
@@ -132,8 +132,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		intakeSwitchSim = new DIOSim(Constants.DIO.kIntakeSwitch);
 		intakeSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.3);
 		intakeEncSim = RevEncoderSimWrapper.create(intakeMotor);
-		lowerSim = new SimTimeOfFlight(lowerSensor);
-		upperSim = new SimTimeOfFlight(upperSensor);
+		// lowerSim = new SimTimeOfFlight(lowerSensor);
+		// upperSim = new SimTimeOfFlight(upperSensor);
 		upperSim.setRange(400);
 	}
 
