@@ -17,13 +17,13 @@ public class ScoreAmp extends Command {
 
 	@Override
 	public void initialize() {
-		this.intake.set(1);
+		this.intake.setIntakeSpeed(1);
 		this.shooter.set(12, ControlType.VOLTAGE);
 	}
 
 	@Override
 	public void execute() {
-		this.intake.set(1);
+		this.intake.setIntakeSpeed(1);
 		this.shooter.set(12, ControlType.VOLTAGE);
 	}
 

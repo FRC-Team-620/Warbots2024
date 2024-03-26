@@ -25,7 +25,7 @@ public class DefaultIntakeCommand extends Command {
 	@Override
 	public void end(boolean interrupted) {
 		this.isDefaultIntakeRunning = false;
-		intakeSubsystem.set(0);
+		intakeSubsystem.setIntakeSpeed(0);
 	}
 
 	@Override
@@ -39,10 +39,10 @@ public class DefaultIntakeCommand extends Command {
 
 		if (noteTooHigh) {
 			this.isDefaultIntakeRunning = true;
-			intakeSubsystem.set(-0.1);
+			intakeSubsystem.setIntakeSpeed(-0.1);
 			this.shooterSubsystem.set(-1.3, ControlType.VOLTAGE);
 		} else {
-			intakeSubsystem.set(0);
+			intakeSubsystem.setIntakeSpeed(0);
 			this.shooterSubsystem.set(0, ControlType.VOLTAGE);
 		}
 	}

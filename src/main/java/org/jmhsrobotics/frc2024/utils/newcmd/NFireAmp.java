@@ -33,19 +33,19 @@ public class NFireAmp extends Command {
 	@Override
 	public void initialize() {
 		shooter.set(12, ControlType.VOLTAGE);
-		intake.set(1);
+		intake.setIntakeSpeed(1);
 	}
 
 	@Override
 	public void execute() {
 		shooter.set(12, ControlType.VOLTAGE);
-		intake.set(1);
+		intake.setIntakeSpeed(1);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
 		shooter.set(0, ControlType.VOLTAGE);
-		intake.set(0);
+		intake.setIntakeSpeed(0);
 	}
 
 }

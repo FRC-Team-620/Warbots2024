@@ -71,7 +71,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		log("upperSensor", this.upperSensor.getRange());
 	}
 
-	public void set(double speed) {
+	public void setIntakeSpeed(double speed) {
 		intakeMotor.set(-speed);
 	}
 
