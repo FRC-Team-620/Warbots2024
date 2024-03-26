@@ -22,21 +22,39 @@ public class ArmVision extends Command {
 	private Pose2d lastAprilTag;
 	private InterpolatingDoubleTreeMap armAngles = new InterpolatingDoubleTreeMap();
 
+	/**
+	 * Moves Arm into the corect angle/height based off of the distance to the
+	 * speaker apriltag. Command Never ends
+	 *
+	 * @param arm
+	 * @param vision
+	 * @param drive
+	 */
 	public ArmVision(ArmPIDSubsystem arm, VisionSubsystem vision, DriveSubsystem drive) {
 		this.arm = arm;
 		this.vision = vision;
 		armAngles.put(0d, 0d);
-		armAngles.put(1.49d, 10d);
-		armAngles.put(4d, 31d);
-		armAngles.put(2.55d, 25d);
-		armAngles.put(3.28d, 28.5d);
-		armAngles.put(4.5d, 32d);
+		// armAngles.put(1.49d, 10d);
+		// armAngles.put(4d, 31d);
+		// armAngles.put(2.55d, 25d);
+		// armAngles.put(3.28d, 28.5d);
+		// armAngles.put(4.5d, 32d);
+		// armAngles.put(1.76d, 14d);
+		// armAngles.put(2.16d, 17.5d);
+		// armAngles.put(2.39d, 20.6d);
+		// armAngles.put(2.7d, 22d);
+		// armAngles.put(3.0d, 23.755d);
+		// armAngles.put(3.32d, 25.3d);
+		armAngles.put(2.18d, 21.75d);
+		armAngles.put(2.42d, 23.5d);
+		armAngles.put(2.54d, 24d);
+		armAngles.put(3.14d, 27.5d);
 
 		SmartDashboard.putNumber("Armangle", 0);
 
 		this.drive = drive;
 
-		addRequirements(this.arm, this.vision);
+		addRequirements(this.arm);
 	}
 
 	@Override
@@ -62,8 +80,10 @@ public class ArmVision extends Command {
 		if (this.lastAprilTag != null) {
 			double dist = lastAprilTag.getTranslation().getDistance(drive.getPose().getTranslation());
 			SmartDashboard.putNumber("Distance", dist);
+
 			double angle = armAngles.get(dist);
 			arm.setGoal(angle);
+
 			// Transform2d transform = this.lastAprilTag.minus(this.arm.getPose());
 			// double theta = Math.toDegrees(Math.atan2(transform.getY(),
 			// transform.getX()));
@@ -90,8 +110,8 @@ public class ArmVision extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return false;
 		// return false;
+		return this.arm.atGoal();
 	}
 
 	@Override

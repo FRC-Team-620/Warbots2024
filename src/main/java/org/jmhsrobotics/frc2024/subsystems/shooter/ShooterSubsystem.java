@@ -1,6 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.shooter;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -11,12 +12,11 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Voltage;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import monologue.Logged;
@@ -33,6 +33,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 	private PIDController upperPID;
 	private PIDController lowerPID;
+	private SimpleMotorFeedforward upperFeedforward = new SimpleMotorFeedforward(0.10948, 0.019707, 0.0018555);
+	private SimpleMotorFeedforward lowerFeedforward = new SimpleMotorFeedforward(0.10948, 0.019707, 0.0018555);
 
 	public SysIdRoutine topRoutine;
 	public SysIdRoutine bottomRoutine;
@@ -48,8 +50,11 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		this.bangBangController = new BangBangController();
 		this.bangBangController.setTolerance(200);
 
-		this.upperPID = new PIDController(0.01, 0, 0);
-		this.lowerPID = new PIDController(0.01, 0, 0);
+		this.upperPID = new PIDController(0.001, 0, 0);
+		this.lowerPID = new PIDController(0.001, 0, 0);
+		this.upperPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
+		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
+
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
 			initSim();
@@ -109,6 +114,10 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		return topEncoder.getVelocity();
 	}
 
+	public double getRPM() {
+		return getTopRRPM();
+	}
+
 	public void set(double goal, ControlType controlType) {
 		this.reference = goal;
 		this.controlType = controlType;
@@ -118,16 +127,18 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		if (controlType == ControlType.VOLTAGE) {
 			return false;
 		} else {
-			return this.bangBangController.atSetpoint();
+			return this.upperPID.atSetpoint() && this.lowerPID.atSetpoint();
 		}
-
 	}
+
 	private void initializeMotors() {
 		// this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);
 		this.topFlywheel.setSmartCurrentLimit(60);
 		this.topFlywheel.setOpenLoopRampRate(0.0);
 		this.topEncoder = topFlywheel.getEncoder();
+		this.topEncoder.setAverageDepth(2);
+		this.topEncoder.setMeasurementPeriod(16);
 
 		this.topEncoder.setMeasurementPeriod(16);
 		this.topEncoder.setAverageDepth(2);
@@ -143,18 +154,25 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 		// this.bottomFlywheel.follow(topFlywheel);
 	}
 
-	FlywheelSim flywheelSim;
-	RevEncoderSimWrapper encSim;
+	private FlywheelSim flywheelSim;
+	private RevEncoderSimWrapper encSim;
+	private double simVelocity = 0;
+
 	public void initSim() {
-		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 1);
+		flywheelSim = new FlywheelSim(DCMotor.getNEO(1), 1, 0.002);
 		encSim = RevEncoderSimWrapper.create(topFlywheel);
 	}
 
 	@Override
 	public void simulationPeriodic() {
 		double motorVolts = MathUtil.clamp(topFlywheel.get() * 12, -12, 12);
+
 		flywheelSim.setInputVoltage(motorVolts);
 		flywheelSim.update(Constants.ksimDtSec);
-		encSim.setVelocity(flywheelSim.getAngularVelocityRPM());
+		simVelocity = flywheelSim.getAngularVelocityRPM();
+		if (simVelocity > 1000) {
+			Robot.objSim.fire();
+		}
+		encSim.setVelocity(simVelocity);
 	}
 }

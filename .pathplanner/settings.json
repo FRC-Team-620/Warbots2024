@@ -5,7 +5,10 @@
   "pathFolders": [
     "Amp Paths"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Amp Autos",
+    "Speaker Autos"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

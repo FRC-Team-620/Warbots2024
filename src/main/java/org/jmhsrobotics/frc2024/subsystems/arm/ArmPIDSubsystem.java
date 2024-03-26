@@ -1,13 +1,14 @@
 package org.jmhsrobotics.frc2024.subsystems.arm;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Constants.CAN;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -40,40 +41,84 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	private double angle;
 	private ProfiledPIDController armPID;
 	public SysIdRoutine routine;
+	private SimableRelativeEncoder relativeEncoder;
 
 	public ArmPIDSubsystem() {
 
-		armPivot.restoreFactoryDefaults();
-		armHelper.restoreFactoryDefaults();
+		// armPivot.restoreFactoryDefaults();
+		// armHelper.restoreFactoryDefaults();
 		// armHelper.setInverted(true);
-		armPivot.setInverted(true);
+		// armPivot.setInverted(true);
 
 		pitchEncoder = new SimableAbsoluteEncoder(armPivot.getAbsoluteEncoder(Type.kDutyCycle));
 		armPivot.setSmartCurrentLimit(60);
 		armHelper.setSmartCurrentLimit(60);
 		armPivot.setIdleMode(IdleMode.kBrake);
 		armHelper.setIdleMode(IdleMode.kBrake);
+		// armPivot.setSmartCurrentLimit(40);
+		// armPivot.setIdleMode(IdleMode.kBrake);
+		// armHelper.setIdleMode(IdleMode.kBrake);
 
 		// 1 to 25 gearbox to a 9 tooth to 66 sprocket, times 360 degrees
 
-		armPivot.getEncoder().setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
+		relativeEncoder = new SimableRelativeEncoder(this.armPivot.getEncoder());
+		relativeEncoder.setPositionConversionFactor(((1.0 / 25.0) * (9.0 / 66.0)) * 360.0);
 
 		armHelper.follow(armPivot, true);
 		pitchEncoder.setPositionConversionFactor(360);
-		armPivot.getEncoder().setPosition(getArmPitch());
-		armPivot.setOpenLoopRampRate(0.0);
-		armHelper.setOpenLoopRampRate(0.0);
+		double tempAngle = pitchEncoder.getPosition();
+		if (tempAngle > 270) {
+			tempAngle -= 360;
+		}
+		relativeEncoder.setPosition(tempAngle);
 
-		armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
-		armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
-		armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
-		armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+		// optimize Can Traffic
+		// armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10); // applied
+		// output, faults, sticky faults, isfollower - 10ms
+		// armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); // Velocity,
+		// temp, voltage,current - 20ms
+		// armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // Rel pos -
+		// 20ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts, vel, acc
+																						// - 50ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder Vel/pos -
+																						// 20ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20); // Duty Cycle Absolute Encoder Position/ angle -
+																		// 200ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute Encoder
+																						// Velocity/
+		// freequency - 200ms
+		armPivot.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
 
-		// not yet on Robot (02/10/24)
-		pitchSwitchF = armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		pitchSwitchR = armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
-		pitchSwitchF.enableLimitSwitch(false);
-		pitchSwitchR.enableLimitSwitch(false);
+		// optimize Can Traffic
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 20); // applied output, faults, sticky faults,
+																		// isfollower - 10ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 200); // Velocity, temp, voltage,current - 20ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 200); // Rel pos - 20ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus3, CAN.kMaxFramePeriodMs); // Analog sensor volts, vel,
+																							// acc - 50ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus4, CAN.kMaxFramePeriodMs); // Alternate Encoder Vel/pos -
+																							// 20ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus5, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute Encoder
+																							// Position/ angle
+		// - 200ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus6, CAN.kMaxFramePeriodMs); // Duty Cycle Absolute Encoder
+																							// Velocity/
+		// freequency - 200ms
+		armHelper.setPeriodicFramePeriod(PeriodicFrame.kStatus7, CAN.kMaxFramePeriodMs); // I accumm
+
+		// armPivot.setSoftLimit(SoftLimitDirection.kReverse, 2);
+		// armPivot.setSoftLimit(SoftLimitDirection.kForward, 120);
+		// armPivot.enableSoftLimit(SoftLimitDirection.kForward, true);
+		// armPivot.enableSoftLimit(SoftLimitDirection.kReverse, true);
+
+		// // not yet on Robot (02/10/24)
+		// pitchSwitchF =
+		// armPivot.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		// pitchSwitchR =
+		// armPivot.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+		// pitchSwitchF.enableLimitSwitch(false);
+		// pitchSwitchR.enableLimitSwitch(false);
 
 		// armPivot.burnFlash();
 		// armHelper.burnFlash();
@@ -105,10 +150,19 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		// this.armPID.setGoal(angle);
 		this.angle = angle;
 	}
+	public void toggleBakes() {
+		var mode = this.armPivot.getIdleMode() == IdleMode.kBrake ? IdleMode.kCoast : IdleMode.kBrake;
+		this.armPivot.setIdleMode(mode);
+		this.armHelper.setIdleMode(mode);
+	}
+	public void setBreak() {
+		this.armPivot.setIdleMode(IdleMode.kBrake);
+		this.armHelper.setIdleMode(IdleMode.kBrake);
+	}
 
 	private void initPid() {
 		// init PID Controller
-		armPID = new ProfiledPIDController(0.02, 0, 0, new Constraints(180, 180));
+		armPID = new ProfiledPIDController(0.06, 0, 0, new Constraints(360, 300));
 
 		// reset PID state
 		armPID.reset(new State(this.getArmPitch(), 0));
@@ -126,6 +180,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public double getArmPitch() {
+		// return this.relativeEncoder.getPosition();
 		return this.pitchEncoder.getPosition();
 	}
 
@@ -183,15 +238,13 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 
 	// this.updateOdometry();
 
-	// m_arm.setAngle(getArmPitch());
-	// log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
-	// -Units.degreesToRadians(getArmPitch()), 0)));
-	// log("armComponent_Goal",
-	// new Pose3d(-0.213, 0, 0.286, new Rotation3d(0,
-	// -Units.degreesToRadians(armPID.getGoal().position), 0)));
-	// log("angleDegrees", getArmPitch());
-	// log("angleGoalDegrees", armPID.getGoal().position);
-	// }
+		m_arm.setAngle(getArmPitch());
+		log("armComponent", new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(getArmPitch()), 0)));
+		log("armComponent_Goal",
+				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(armPID.getGoal().position), 0)));
+		log("angleDegrees", getArmPitch());
+		log("angleGoalDegrees", armPID.getGoal().position);
+	}
 
 	SingleJointedArmSim armSim;
 
@@ -209,6 +262,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 		armSim.setInputVoltage(armVolts);
 		armSim.update(Constants.ksimDtSec);
 		pitchEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
+		relativeEncoder.setPosition(Units.radiansToDegrees(armSim.getAngleRads()));
 	}
 
 }

@@ -10,6 +10,8 @@ public class DefaultIntakeCommand extends Command {
 	private IntakeSubsystem intakeSubsystem;
 	private ShooterSubsystem shooterSubsystem;
 
+	private boolean isDefaultIntakeRunning = false;
+
 	public DefaultIntakeCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
 		this.intakeSubsystem = intakeSubsystem;
 		this.shooterSubsystem = shooterSubsystem;
@@ -22,6 +24,7 @@ public class DefaultIntakeCommand extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
+		this.isDefaultIntakeRunning = false;
 		intakeSubsystem.set(0);
 	}
 
@@ -35,11 +38,16 @@ public class DefaultIntakeCommand extends Command {
 		// boolean hasNote = lowSwitch.isPressed();
 
 		if (noteTooHigh) {
+			this.isDefaultIntakeRunning = true;
 			intakeSubsystem.set(-0.1);
-			this.shooterSubsystem.set(-0.1, ControlType.VOLTAGE);
+			this.shooterSubsystem.set(-1.3, ControlType.VOLTAGE);
 		} else {
 			intakeSubsystem.set(0);
 			this.shooterSubsystem.set(0, ControlType.VOLTAGE);
 		}
+	}
+
+	public boolean isDefaultIntakeRunning() {
+		return this.isDefaultIntakeRunning;
 	}
 }

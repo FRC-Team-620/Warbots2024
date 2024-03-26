@@ -1,6 +1,9 @@
 package org.jmhsrobotics.frc2024.subsystems.intake;
 
 import org.jmhsrobotics.frc2024.Constants;
+import org.jmhsrobotics.frc2024.Robot;
+import org.jmhsrobotics.frc2024.utils.SimTimeOfFlight;
+import org.jmhsrobotics.frc2024.utils.SimableTimeOfFlight;
 import org.jmhsrobotics.warcore.rev.RevEncoderSimWrapper;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -11,6 +14,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Voltage;
@@ -29,14 +33,18 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	private TimeOfFlight upperSensor;
 
 	public SysIdRoutine routine;
+	private SimableTimeOfFlight lowerSensor;
+	private SimableTimeOfFlight upperSensor;
+
+	private boolean isIntaking = false;
 
 	public IntakeSubsystem() {
 		intakeMotor = new CANSparkMax(Constants.CAN.kIntakeId, MotorType.kBrushless);
 		intakeMotor.setInverted(true);
 		intakeMotor.setIdleMode(IdleMode.kBrake);
 
-		this.lowerSensor = new TimeOfFlight(1);
-		this.upperSensor = new TimeOfFlight(0);
+		this.lowerSensor = new SimableTimeOfFlight(1);
+		this.upperSensor = new SimableTimeOfFlight(0);
 		intakeMotor.setSmartCurrentLimit(35);
 
 		this.lowerSensor.setRangingMode(RangingMode.Short, 24);
@@ -61,8 +69,13 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	public Command sysIdDynamic(SysIdRoutine.Direction direction) {
 		return this.routine.dynamic(direction);
 	}
+	public boolean isIntaking() {
+		return isIntaking;
+	}
+
 	@Override
 	public void periodic() {
+		this.isIntaking = this.intakeMotor.get() != 0 ? true : false;
 		// SmartDashboard.putNumber("intake/velocityRPM",
 		// intakeMotor.getEncoder().getVelocity());
 		// SmartDashboard.putNumber("intake/currentDrawAmps",
@@ -72,12 +85,8 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		// SmartDashboard.putBoolean("Intake/lowSwitchState",
 		// this.lowSwitch().isPressed());
 
-		// SmartDashboard.putNumber("Intake/lowerSensorReading",
-		// this.lowerSensor.getRange());
-		// SmartDashboard.putNumber("Intake/upperSensorReading",
-		// this.upperSensor.getRange());
-
 		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
+
 		log("intakeDutyCycle", intakeMotor.get());
 		log("hasNote", this.hasNote());
 		log("noteTooHigh", this.noteTooHigh());
@@ -106,27 +115,40 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 	}
 
 	public boolean hasNote() {
-		return this.lowerSensor.getRange() < 100;
+		return this.lowerSensor.getRange() < 270;
 	}
 
 	public boolean noteTooHigh() {
-		return this.upperSensor.getRange() < 300;
+		return this.upperSensor.getRange() < 320;
 	}
+
 	private DIOSim intakeSwitchSim;
 	private DCMotorSim intakeSim;
 	private RevEncoderSimWrapper intakeEncSim;
-
+	private SimTimeOfFlight lowerSim;
+	private SimTimeOfFlight upperSim;
+	private Debouncer intakeDebounceSim = new Debouncer(0.2);
 	public void simInit() {
 		intakeSwitchSim = new DIOSim(Constants.DIO.kIntakeSwitch);
 		intakeSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.3);
 		intakeEncSim = RevEncoderSimWrapper.create(intakeMotor);
+		lowerSim = new SimTimeOfFlight(lowerSensor);
+		upperSim = new SimTimeOfFlight(upperSensor);
+		upperSim.setRange(400);
 	}
 
 	@Override
 	public void simulationPeriodic() {
 		double intakeVolts = MathUtil.clamp(intakeMotor.get() * 12, -12, 12);
 		intakeSim.setInput(intakeVolts);
+		Robot.objSim.setIntake(intakeDebounceSim.calculate(intakeMotor.get() < 0));
+
 		intakeSim.update(Constants.ksimDtSec);
+		if (Robot.objSim.hasObject()) {
+			lowerSim.setRange(20);
+		} else {
+			lowerSim.setRange(400);
+		}
 		intakeSwitchSim.setValue(true); // TODO placeholder.
 		intakeEncSim.setDistance(intakeSim.getAngularPositionRotations());
 		intakeEncSim.setVelocity(intakeSim.getAngularVelocityRPM());

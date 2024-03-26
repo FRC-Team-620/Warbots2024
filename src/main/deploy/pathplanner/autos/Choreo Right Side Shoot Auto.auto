@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.4865800440311432,
+      "y": 6.7020978927612305
+    },
+    "rotation": 59.34933763738902
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PreloadRightCrossLine.1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Speaker Autos",
+  "choreoAuto": true
+}

@@ -34,7 +34,7 @@ public class CompControl implements ControlBoard {
 
 	@Override
 	public double rotationalInput() {
-		return this.driver.getRightX();
+		return this.driver.getRightX() * 0.7;
 	}
 
 	@Override
@@ -47,6 +47,12 @@ public class CompControl implements ControlBoard {
 		return new JoystickButton(this.driver, XboxController.Button.kRightBumper.value);
 	}
 
+	@Override
+	public Trigger AprilLockOn() {
+		return new Trigger(() -> {
+			return this.driver.getLeftTriggerAxis() > 0.5;
+		});
+	}
 	// =============Operator Controls=============
 	public double pitchInput() {
 		return this.operator.getRightY();
@@ -105,16 +111,9 @@ public class CompControl implements ControlBoard {
 	}
 
 	@Override
-	public Trigger AprilLockOn() {
-		return new Trigger(() -> {
-			return this.driver.getLeftTriggerAxis() > 0.5;
-		});
-	}
-
-	@Override
 	public void setRumble(RumbleType type, double value) {
 		// TODO Auto-generated method stub
-		this.driver.setRumble(type, 1);
-		this.operator.setRumble(type, 1);
+		this.driver.setRumble(type, value);
+		this.operator.setRumble(type, value);
 	}
 }

@@ -4,9 +4,14 @@
 
 package org.jmhsrobotics.frc2024;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.jmhsrobotics.frc2024.utils.GameObjectSim;
 import org.jmhsrobotics.warcore.util.BuildDataLogger;
 import org.littletonrobotics.urcl.URCL;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.hal.AllianceStationID;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,9 +27,15 @@ public class Robot extends TimedRobot implements Logged {
 	private Command autonomousCommand;
 
 	private RobotContainer m_robotContainer;
+	public static GameObjectSim objSim;
 
 	@Override
 	public void robotInit() {
+		if (Robot.isSimulation()) {
+			objSim = new GameObjectSim();
+			objSim.preload();
+		}
+
 		m_robotContainer = new RobotContainer();
 		m_robotContainer.getDriveSubsystem().zeroHeading();
 		setupLogs();
@@ -44,7 +55,7 @@ public class Robot extends TimedRobot implements Logged {
 		boolean fileOnly = false;
 		boolean lazyLogging = true;
 		Monologue.setupMonologue(this, "Robot", fileOnly, lazyLogging);
-		URCL.start();
+		URCL.start(getCanIDMap());
 	}
 
 	@Override
@@ -67,8 +78,13 @@ public class Robot extends TimedRobot implements Logged {
 
 	@Override
 	public void autonomousInit() {
+		if (Robot.isSimulation()) {
+			Robot.objSim.reset();
+			Robot.objSim.preload();
+		}
 		m_robotContainer.getDriveSubsystem().zeroHeading();
 		autonomousCommand = m_robotContainer.getAutonomousCommand();
+		m_robotContainer.getArmSubsystem().setBreak();
 
 		if (autonomousCommand != null) {
 			autonomousCommand.schedule();
@@ -85,6 +101,7 @@ public class Robot extends TimedRobot implements Logged {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		m_robotContainer.getArmSubsystem().setBreak();
 		m_robotContainer.configureTeam();
 	}
 
@@ -115,6 +132,31 @@ public class Robot extends TimedRobot implements Logged {
 		DriverStationSim.setDsAttached(true);
 		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
 		DriverStationSim.setEnabled(true);
+
 		DriverStationSim.setAllianceStationId(AllianceStationID.Blue1);
+	}
+
+	private Map<Integer, String> getCanIDMap() {
+		var map = new HashMap<Integer, String>();
+
+		map.put(Constants.SwerveConstants.kFrontLeftDrivingCanId, "FrontLeftDriving");
+		map.put(Constants.SwerveConstants.kFrontLeftTurningCanId, "FrontLeftTurningCan");
+		map.put(Constants.SwerveConstants.kFrontRightDrivingCanId, "FrontRightDriving");
+		map.put(Constants.SwerveConstants.kFrontRightTurningCanId, "FrontRightTurning");
+		map.put(Constants.SwerveConstants.kRearLeftDrivingCanId, "RearLeftDriving");
+		map.put(Constants.SwerveConstants.kRearLeftTurningCanId, "RearLeftTurning");
+		map.put(Constants.SwerveConstants.kRearRightDrivingCanId, "RearRightDriving");
+		map.put(Constants.SwerveConstants.kRearRightTurningCanId, "RearRightTurning");
+
+		map.put(Constants.CAN.kArmPivotFollowerID, "ArmPivotFollower");
+		map.put(Constants.CAN.kArmPivotRightID, "ArmPivotRight");
+
+		map.put(Constants.CAN.kIntakeId, "Intake");
+		map.put(Constants.CAN.kShooterBottomId, "ShooterBottom");
+		map.put(Constants.CAN.kShooterTopId, "ShooterTop");
+
+		map.put(Constants.CAN.kLeftClimberID, "LeftClimber");
+		map.put(Constants.CAN.kRightClimberID, "RightClimber");
+		return map;
 	}
 }

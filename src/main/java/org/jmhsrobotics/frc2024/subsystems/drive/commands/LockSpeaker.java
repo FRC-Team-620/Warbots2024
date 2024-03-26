@@ -27,7 +27,7 @@ public class LockSpeaker extends Command implements Logged {
 	public LockSpeaker(DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.02, 0, 0);
+		this.lockPID = new PIDController(0.005, 0, 0);
 		// SmartDashboard.putData(lockPID);
 
 		this.angleGoal = 180;
@@ -45,7 +45,7 @@ public class LockSpeaker extends Command implements Logged {
 		this.lockPID.reset();
 		this.lockPID.setSetpoint(this.angleGoal);
 		// SmartDashboard.putData(this.lockPID);
-		// this.lockPID.setTolerance(3, 1);
+		this.lockPID.setTolerance(5, 1);
 		this.lockPID.enableContinuousInput(-180, 180);
 		// TODO: add portential april estimation
 		// var potentialAprilTag =
