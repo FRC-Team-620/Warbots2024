@@ -35,6 +35,8 @@ import org.jmhsrobotics.frc2024.subsystems.intake.commands.DefaultIntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.commands.DefaultShintakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
@@ -72,9 +74,11 @@ public class RobotContainer implements Logged {
 
 	private final VisionSubsystem visionSubsystem = new VisionSubsystem(this.driveSubsystem);
 
-	private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+	// private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 	private final LEDSubsystem ledSubsystem = new LEDSubsystem();
-	private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+	
+	// private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+	private final ShintakeSubsystem shintakeSubsystem = new ShintakeSubsystem();
 
 	private final ArmPIDSubsystem armSubsystem = new ArmPIDSubsystem();
 
@@ -100,14 +104,12 @@ public class RobotContainer implements Logged {
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
-		this.intakeSubsystem.setDefaultCommand(new DefaultIntakeCommand(intakeSubsystem, shooterSubsystem));
+		this.shintakeSubsystem.setDefaultCommand(new DefaultShintakeCommand(this.shintakeSubsystem));
 
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		configureSmartDashboard();
-		SmartDashboard.putBoolean("HasNote", false);
 		configureDriverFeedback();
-
 		configureBindings();
 		// Named commands must be added before building the chooser.
 		configurePathPlanner();
@@ -133,8 +135,8 @@ public class RobotContainer implements Logged {
 
 		var preLoadOnePiece = Commands.sequence(
 				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-						new NSpinupNoStop(this.shooterSubsystem, 5000)),
-				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+						new NSpinupNoStop(this.shintakeSubsystem, 5000)),
+				new NSpinupAndShoot(this.shintakeSubsystem, 5000));
 		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
 
 		SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -142,10 +144,10 @@ public class RobotContainer implements Logged {
 		// Commands to test
 		SmartDashboard.putData("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		SmartDashboard.putData("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
-		SmartDashboard.putData("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
-		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
-		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
+		SmartDashboard.putData("Intake Floor", new NFloorIntake(armSubsystem, shintakeSubsystem));
+		SmartDashboard.putData("Fire in Amp", new NFireAmp(shintakeSubsystem));
+		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shintakeSubsystem, 5000));
+		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shintakeSubsystem, 5000));
 		SmartDashboard.putData("Aim Arm Vision",
 				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
 																											// Handle

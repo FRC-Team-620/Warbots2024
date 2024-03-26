@@ -1,16 +1,14 @@
 package org.jmhsrobotics.frc2024.utils.newcmd;
 
 import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem.ControlType;
 
 import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class NSpinupAndShoot extends Command {
-
-	private ShooterSubsystem shooter;
-	private IntakeSubsystem intake;
+	private ShintakeSubsystem shintake;
 	private double targetRPM;
 	private boolean shouldFire = false;
 	private Debouncer noteExitDebouncer = new Debouncer(0.1);
@@ -19,41 +17,39 @@ public class NSpinupAndShoot extends Command {
 	 * Spins up Shooter Flywheel to target RPM and then runs intake to shoot a note
 	 * into the speaker. Ends when both has note and note too high are false
 	 *
-	 * @param shooter
-	 * @param intake
+	 * @param shintake
 	 * @param rpm
 	 */
-	public NSpinupAndShoot(ShooterSubsystem shooter, IntakeSubsystem intake, double rpm) {
-		this.shooter = shooter;
-		this.intake = intake;
+	public NSpinupAndShoot(ShintakeSubsystem shintake, double rpm) {
+		this.shintake = shintake;
 		this.targetRPM = rpm;
-		addRequirements(shooter, intake);
+		addRequirements(shintake);
 	}
 
 	@Override
 	public void initialize() {
 		this.shouldFire = false;
-		this.shooter.set(targetRPM, ControlType.PID);
+		this.shintake.setShooterGoal(targetRPM, ControlType.PID);
 	}
 
 	@Override
 	public void execute() {
-		if (this.shooter.atGoal()) { // TODO: Do we need debouncing?
+		if (this.shintake.isShooterAtGoal()) { // TODO: Do we need debouncing?
 			shouldFire = true;
 		}
 
-		intake.set(shouldFire ? 1 : 0);
+		shintake.setIntakeSpeed(shouldFire ? 1 : 0);
 	}
 
 	@Override
 	public boolean isFinished() {
-		return shouldFire && noteExitDebouncer.calculate(!this.intake.hasNote() && !this.intake.noteTooHigh());
+		return shouldFire && noteExitDebouncer.calculate(!this.shintake.hasNote() && !this.shintake.noteTooHigh());
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		intake.set(0);
-		shooter.set(0, ControlType.PID);
+		shintake.setIntakeSpeed(0);
+		this.shintake.setShooterGoal(targetRPM, ControlType.PID);
 	}
 
 }

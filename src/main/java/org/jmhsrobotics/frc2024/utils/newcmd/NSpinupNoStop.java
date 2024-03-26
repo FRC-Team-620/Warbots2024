@@ -1,28 +1,29 @@
 package org.jmhsrobotics.frc2024.utils.newcmd;
 
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class NSpinupNoStop extends Command {
-	private ShooterSubsystem shooter;
+	private ShintakeSubsystem shintake;
 	private double targetRPM;
 
 	/**
 	 * Spins flywheel up to target RPM. Never ends.
 	 *
-	 * @param shooter
+	 * @param shintake
 	 * @param rpm
 	 */
-	public NSpinupNoStop(ShooterSubsystem shooter, double rpm) {
-		this.shooter = shooter;
+	public NSpinupNoStop(ShintakeSubsystem shintake, double rpm) {
+		this.shintake = shintake;
 		this.targetRPM = rpm;
-		addRequirements(shooter);
+		addRequirements(shintake);
 	}
 	@Override
 	public void initialize() {
-		shooter.set(targetRPM, ControlType.PID);
+		shintake.setShooterGoal(targetRPM, ControlType.PID);
 	}
 	@Override
 	public boolean isFinished() {
@@ -31,12 +32,12 @@ public class NSpinupNoStop extends Command {
 
 	@Override
 	public void execute() {
-		this.shooter.set(targetRPM, ControlType.PID);
+		this.shintake.setShooterGoal(targetRPM, ControlType.PID);
 	}
 
 	@Override
 	public void end(boolean interrupted) {
-		shooter.set(0, ControlType.PID);
+		shintake.setShooterGoal(0, ControlType.PID);
 	}
 
 }

@@ -37,7 +37,7 @@ public class NFloorIntake extends SequentialCommandGroup {
 
 		@Override
 		public void execute() {
-			intake.set(1);
+			intake.setIntakeSpeed(1);
 		}
 
 		@Override
@@ -47,7 +47,7 @@ public class NFloorIntake extends SequentialCommandGroup {
 
 		@Override
 		public void end(boolean interrupted) {
-			intake.set(0);
+			intake.setIntakeSpeed(0);
 		}
 	}
 

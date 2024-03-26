@@ -26,12 +26,12 @@ public class AmpShotCommand extends Command {
 
 	@Override
 	public void initialize() {
-		this.intakeSubsystem.set(0);
+		this.intakeSubsystem.setIntakeSpeed(0);
 	}
 
 	@Override
 	public void execute() {
-		this.intakeSubsystem.set(1);
+		this.intakeSubsystem.setIntakeSpeed(1);
 		this.shooterSubsystem.set(0.4 * 12, ControlType.VOLTAGE);
 	}
 
@@ -43,6 +43,6 @@ public class AmpShotCommand extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		this.intakeSubsystem.set(0);
+		this.intakeSubsystem.setIntakeSpeed(0);
 	}
 }
