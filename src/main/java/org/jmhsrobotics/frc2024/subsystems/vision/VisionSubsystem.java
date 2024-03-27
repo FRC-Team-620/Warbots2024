@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import org.jmhsrobotics.frc2024.Robot;
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.estimation.TargetModel;
 import org.photonvision.simulation.PhotonCameraSim;
 import org.photonvision.simulation.SimCameraProperties;
 import org.photonvision.simulation.VisionSystemSim;
+import org.photonvision.simulation.VisionTargetSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -33,7 +36,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	private AprilTagFieldLayout layout;
 
 	// declare the camera
-	private PhotonCamera cam;
+	private PhotonCamera cam, objectCamera;
 
 	// get the camera position on the robot
 	private Transform3d camOnRobot = new Transform3d(
@@ -50,6 +53,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 	public VisionSubsystem(DriveSubsystem drive) {
 		this.cam = new PhotonCamera("Sechenov");
+		this.objectCamera = new PhotonCamera("Kirby");
 		this.estimator = new PhotonPoseEstimator(this.layout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, this.cam,
 				this.camOnRobot);
 		this.drive = drive;
@@ -131,12 +135,16 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	}
 
 	VisionSystemSim visionSim = new VisionSystemSim("main");
-	PhotonCameraSim cameraSim;
+	VisionSystemSim objectVisionSim = new VisionSystemSim("gameobjects");
+	TargetModel noteTarget = new TargetModel(Units.inchesToMeters(14));
+	PhotonCameraSim cameraSim, objectCameraSim;
 
 	private void simulationInit() {
 		visionSim.addAprilTags(layout);
 		SimCameraProperties cameraProp = new SimCameraProperties();
 		cameraSim = new PhotonCameraSim(this.cam, cameraProp);
+		objectCameraSim = new PhotonCameraSim(this.objectCamera, cameraProp);
+		objectVisionSim.addCamera(objectCameraSim, new Transform3d(0, 0, 0.3, new Rotation3d(0, 0, Math.PI)));
 		// robot-to-camera transform.
 		visionSim.addCamera(cameraSim, camOnRobot);
 		// A 640 x 480 camera with a 100 degree diagonal FOV.
@@ -151,18 +159,23 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		// // The average and standard deviation in milliseconds of image data latency.
 		cameraProp.setAvgLatencyMs(50);
 		cameraProp.setLatencyStdDevMs(5);
-		// SmartDashboard.putData("VisionDebug", visionSim.getDebugField());
-		// cameraSim.enableRawStream(true);
-		// cameraSim.enableProcessedStream(true);
+		// SmartDashboard.putData("VisionDebug", objectVisionSim.getDebugField());
+		// objectCameraSim.enableRawStream(true);
+		// objectCameraSim.enableProcessedStream(true);
 
-		// // Enable drawing a wireframe visualization of the field to the camera
-		// streams.
-		// // This is extremely resource-intensive and is disabled by default.
-		// cameraSim.enableDrawWireframe(true);
+		// // // Enable drawing a wireframe visualization of the field to the camera
+		// // streams.
+		// // // This is extremely resource-intensive and is disabled by default.
+		// objectCameraSim.enableDrawWireframe(true);
 	}
 
 	@Override
 	public void simulationPeriodic() {
+		objectVisionSim.update(drive.simpos);
+		objectVisionSim.clearVisionTargets();
+		Robot.objSim.objects.forEach((Pose3d obj) -> {
+			objectVisionSim.addVisionTargets(new VisionTargetSim(obj, noteTarget));
+		});
 		visionSim.update(drive.simpos); // Slight hack but fixes latency issue
 
 	}
