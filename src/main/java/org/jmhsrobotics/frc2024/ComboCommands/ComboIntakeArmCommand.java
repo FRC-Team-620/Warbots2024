@@ -3,9 +3,8 @@ package org.jmhsrobotics.frc2024.ComboCommands;
 import org.jmhsrobotics.frc2024.Constants;
 import org.jmhsrobotics.frc2024.subsystems.arm.ArmPIDSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.arm.commands.CommandArm;
-import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.commands.IntakeCommand;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -15,12 +14,11 @@ public class ComboIntakeArmCommand extends ParallelCommandGroup {
 	 * Moves arm to the Pickup position and Intakes.
 	 *
 	 * @param arm
-	 * @param shooter
-	 * @param intake
+	 * @param shintake
 	 */
-	public ComboIntakeArmCommand(ArmPIDSubsystem arm, ShooterSubsystem shooter, IntakeSubsystem intake) {
+	public ComboIntakeArmCommand(ArmPIDSubsystem arm, ShintakeSubsystem shintakeSubsystem) {
 		addCommands(new CommandArm(arm, Constants.ArmSetpoint.PICKUP.value), // move arm to intake position
-				new IntakeCommand(1, intake, shooter)// start intkae
+				new IntakeCommand(1, false, shintakeSubsystem)// start intkae
 		);
 	}
 
