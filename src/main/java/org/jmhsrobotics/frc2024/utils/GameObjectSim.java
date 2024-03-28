@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import monologue.Logged;
@@ -45,7 +46,7 @@ public class GameObjectSim implements Logged {
 	}
 
 	// private Pose3d[] objects = new Pose3d[8];
-	private ArrayList<Pose3d> objects = new ArrayList<>();
+	public ArrayList<Pose3d> objects = new ArrayList<>();
 	@Log
 	private int numInaked = 0;
 	@Log
@@ -62,10 +63,12 @@ public class GameObjectSim implements Logged {
 		isIntaking = false;
 		lastRobotpos = new Pose2d();
 		for (var pos : StagingLocations.spikeTranslations) {
-			objects.add(new Pose3d(new Pose2d(pos, new Rotation2d())));
+			objects.add(
+					new Pose3d(new Pose2d(pos, new Rotation2d())).plus(new Transform3d(0, 0, 0.1, new Rotation3d())));
 		}
 		for (var pos : StagingLocations.centerlineTranslations) {
-			objects.add(new Pose3d(new Pose2d(pos, new Rotation2d())));
+			objects.add(
+					new Pose3d(new Pose2d(pos, new Rotation2d())).plus(new Transform3d(0, 0, 0.1, new Rotation3d())));
 		}
 	}
 
