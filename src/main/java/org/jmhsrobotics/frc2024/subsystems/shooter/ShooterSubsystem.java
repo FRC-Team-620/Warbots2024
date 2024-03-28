@@ -68,7 +68,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		this.topRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
 				new SysIdRoutine.Mechanism(this::voltageDrive, null, this));
-		this.bottomRoutine = new SysIdRoutine(new SysIdRoutine.Config(), new SysIdRoutine.Mechanism(this::bottomVoltageDrive, null, this));
+		this.bottomRoutine = new SysIdRoutine(new SysIdRoutine.Config(),
+				new SysIdRoutine.Mechanism(this::bottomVoltageDrive, null, this));
 	}
 
 	private void voltageDrive(Measure<Voltage> num) {
@@ -115,7 +116,6 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 	public double getRPM() {
 		return topEncoder.getVelocity();
 	}
-
 
 	public void set(double goal, ControlType controlType) {
 		this.reference = goal;
