@@ -4,7 +4,6 @@
 
 package org.jmhsrobotics.frc2024;
 
-import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
 import org.jmhsrobotics.frc2024.ComboCommands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
 import org.jmhsrobotics.frc2024.autoCommands.NFireAmp;
@@ -191,8 +190,7 @@ public class RobotContainer implements Logged {
 
 		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
 		NamedCommands.registerCommand("ArmShoot", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.shintakeSubsystem).withTimeout(0.5));
+		NamedCommands.registerCommand("Intake", new IntakeCommand(1, this.shintakeSubsystem).withTimeout(0.5));
 
 		// Move Arm to Pickup position
 		NamedCommands.registerCommand("ArmPickup",

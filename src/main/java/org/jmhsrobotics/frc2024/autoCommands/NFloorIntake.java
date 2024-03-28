@@ -20,8 +20,8 @@ public class NFloorIntake extends SequentialCommandGroup {
 	 */
 	public NFloorIntake(ArmPIDSubsystem arm, ShintakeSubsystem shintakeSubsystem) {
 		// new CommandArm(arm, Constants.ArmSetpoint.PICKUP.value),
-		addCommands(Commands.either(Commands.none(),
-				Commands.parallel(new CommandArm(arm, Constants.ArmSetpoint.PICKUP.value), new LIntake(shintakeSubsystem)),
+		addCommands(Commands.either(Commands.none(), Commands
+				.parallel(new CommandArm(arm, Constants.ArmSetpoint.PICKUP.value), new LIntake(shintakeSubsystem)),
 				shintakeSubsystem::hasNote));
 
 	}

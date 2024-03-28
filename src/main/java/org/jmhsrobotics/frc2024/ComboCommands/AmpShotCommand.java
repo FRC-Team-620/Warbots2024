@@ -1,6 +1,5 @@
 package org.jmhsrobotics.frc2024.ComboCommands;
 
-
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem.ControlType;
 

@@ -20,7 +20,8 @@ public class PrepareShot extends Command {
 	 * @param shintake
 	 * @param vision
 	 */
-	public PrepareShot(DriveSubsystem drive, ArmPIDSubsystem arm, ShintakeSubsystem shintakeSubsystem, VisionSubsystem vision) {
+	public PrepareShot(DriveSubsystem drive, ArmPIDSubsystem arm, ShintakeSubsystem shintakeSubsystem,
+			VisionSubsystem vision) {
 		Commands.repeatingSequence(new ArmVision(arm, vision, drive), new ShooterAutoCommand(shintakeSubsystem, 5000));
 	}
 }

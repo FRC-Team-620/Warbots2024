@@ -18,10 +18,10 @@ public class IntakeCommand extends Command {
 	 */
 
 	public IntakeCommand(double speed, ShintakeSubsystem shintakeSubsystem) { // Fixme:
-																												// add
-																												// requirements
-																												// for
-																												// shooter!
+																				// add
+																				// requirements
+																				// for
+																				// shooter!
 		this.speed = speed;
 		this.shintakeSubsystem = shintakeSubsystem;
 
