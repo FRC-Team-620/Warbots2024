@@ -1,4 +1,4 @@
-package org.jmhsrobotics.frc2024.utils.newcmd;
+package org.jmhsrobotics.frc2024.autoCommands;
 
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem.ControlType;

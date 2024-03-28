@@ -136,6 +136,9 @@ public class ShintakeSubsystem extends SubsystemBase implements Logged {
 		return this.upperSensor.getRange() < 320;
 	}
 
+	public boolean shooterAtGoal(){
+		return this.lowerPID.atSetpoint() || this.upperPID.atSetpoint();
+	}
 	private void initializeMotors() {
 		// this.topFlywheel.restoreFactoryDefaults();
 		this.topFlywheel.setIdleMode(IdleMode.kCoast);

@@ -1,12 +1,12 @@
-package org.jmhsrobotics.frc2024.subsystems.shooter.commands;
+package org.jmhsrobotics.frc2024.subsystems.shintake.commands;
 
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem.ControlType;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem.ControlType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class ShooterAutoCommand extends Command {
-	private ShooterSubsystem shooterSubsystem;
+	private ShintakeSubsystem shintakeSubsystem;
 	private double targetRPM;
 
 	/**
@@ -16,14 +16,14 @@ public class ShooterAutoCommand extends Command {
 	 * @param shooterSubsystem
 	 * @param targetRPM
 	 */
-	public ShooterAutoCommand(ShooterSubsystem shooterSubsystem, double targetRPM) {
-		this.shooterSubsystem = shooterSubsystem;
+	public ShooterAutoCommand(ShintakeSubsystem shintakeSubsystem, double targetRPM) {
+		this.shintakeSubsystem = shintakeSubsystem;
 		this.targetRPM = targetRPM;
 	}
 
 	@Override
 	public void execute() {
-		this.shooterSubsystem.set(this.targetRPM, ControlType.PID);
+		this.shintakeSubsystem.setShooterGoal(-1, ControlType.VOLTAGE);
 	}
 
 	@Override
@@ -35,6 +35,6 @@ public class ShooterAutoCommand extends Command {
 
 	@Override
 	public void end(boolean interrupted) {
-		this.shooterSubsystem.set(0, ControlType.PID);
+		this.shintakeSubsystem.setShooterGoal(0, ControlType.PID);
 	}
 }

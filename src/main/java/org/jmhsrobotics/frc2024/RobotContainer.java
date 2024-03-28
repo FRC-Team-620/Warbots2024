@@ -5,10 +5,12 @@
 package org.jmhsrobotics.frc2024;
 
 import org.jmhsrobotics.frc2024.ComboCommands.AmpHelper;
+import org.jmhsrobotics.frc2024.ComboCommands.AmpShotCommand;
 import org.jmhsrobotics.frc2024.ComboCommands.ComboIntakeArmCommand;
-import org.jmhsrobotics.frc2024.autoCommands.AutoAmpShotCommand;
-import org.jmhsrobotics.frc2024.autoCommands.FireCommand;
-import org.jmhsrobotics.frc2024.autoCommands.TurnAndShootCommand;
+import org.jmhsrobotics.frc2024.autoCommands.NFireAmp;
+import org.jmhsrobotics.frc2024.autoCommands.NFloorIntake;
+import org.jmhsrobotics.frc2024.autoCommands.NSpinupAndShoot;
+import org.jmhsrobotics.frc2024.autoCommands.NSpinupNoStop;
 import org.jmhsrobotics.frc2024.controlBoard.CompControl;
 import org.jmhsrobotics.frc2024.controlBoard.ControlBoard;
 import org.jmhsrobotics.frc2024.controlBoard.SingleControl;
@@ -28,20 +30,13 @@ import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.DriveCommand;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.LockSpeaker;
 import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.AmpShotCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.AutoIntakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.ExtakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.intake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shintake.commands.DefaultShintakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.shooter.commands.ShooterAutoCommand;
+import org.jmhsrobotics.frc2024.subsystems.shintake.commands.IntakeCommand;
+import org.jmhsrobotics.frc2024.subsystems.shintake.commands.IntakeFireCommand;
+import org.jmhsrobotics.frc2024.subsystems.shintake.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
-import org.jmhsrobotics.frc2024.utils.newcmd.NFireAmp;
-import org.jmhsrobotics.frc2024.utils.newcmd.NFloorIntake;
-import org.jmhsrobotics.frc2024.utils.newcmd.NSpinupAndShoot;
-import org.jmhsrobotics.frc2024.utils.newcmd.NSpinupNoStop;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -158,9 +153,9 @@ public class RobotContainer implements Logged {
 	}
 
 	private void configureDriverFeedback() {
-		new Trigger(intakeSubsystem::hasNote)
+		new Trigger(shintakeSubsystem::hasNote)
 				.onTrue(new ParallelCommandGroup(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1),
-						new setBlueLEDCommand(ledSubsystem, this.intakeSubsystem)));
+						new setBlueLEDCommand(ledSubsystem, this.shintakeSubsystem)));
 
 		// new Trigger(this.defaultIntakeCommand::isScheduled)
 		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
@@ -173,20 +168,20 @@ public class RobotContainer implements Logged {
 		// new Trigger(this.defaultIntakeCommand::isScheduled)
 		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
-		new Trigger(intakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, intakeSubsystem));
+		new Trigger(shintakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, shintakeSubsystem));
 
-		new Trigger(shooterSubsystem::atGoal)
+		new Trigger(shintakeSubsystem::shooterAtGoal)
 				.whileTrue(new RumbleTimeCommand(this.control, RumbleType.kRightRumble, 0.2, 1));
 
-		new Trigger(shooterSubsystem::atGoal).onTrue(new setYellowLEDCommand(ledSubsystem, shooterSubsystem));
+		new Trigger(shintakeSubsystem::shooterAtGoal).onTrue(new setYellowLEDCommand(ledSubsystem, shintakeSubsystem));
 	}
 
 	private void configurePathPlanner() {
 		// Add path planner auto chooser.
 		var preLoadOnePiece = Commands.sequence(
 				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-						new NSpinupNoStop(this.shooterSubsystem, 5000)),
-				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+						new NSpinupNoStop(this.shintakeSubsystem, 5000)),
+				new NSpinupAndShoot(this.shintakeSubsystem, 5000));
 
 		AutoBuilder.configureHolonomic(driveSubsystem::getPose, driveSubsystem::resetOdometry,
 				driveSubsystem::getChassisSpeeds, driveSubsystem::drive,
@@ -196,42 +191,27 @@ public class RobotContainer implements Logged {
 
 		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
 		NamedCommands.registerCommand("ArmShoot", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Extake", new ExtakeCommand(this.intakeSubsystem, 1).withTimeout(5));
-		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
-				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
-		NamedCommands.registerCommand("AutoIntake",
-				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
+				new IntakeCommand(1, this.shintakeSubsystem).withTimeout(0.5));
 
 		// Move Arm to Pickup position
 		NamedCommands.registerCommand("ArmPickup",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.PICKUP.value));
-		NamedCommands.registerCommand("Fire", new FireCommand(this.intakeSubsystem, this.shooterSubsystem));
 		NamedCommands.registerCommand("PrepareShot",
-				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shooterSubsystem, this.visionSubsystem)
+				new PrepareShot(this.driveSubsystem, this.armSubsystem, this.shintakeSubsystem, this.visionSubsystem)
 						.withTimeout(1));
-		NamedCommands.registerCommand("AmpScore",
-				new AmpHelper(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 
-		// New Commands
+		// AutoCommands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(2));
-		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
-		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
-		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, shintakeSubsystem).withTimeout(2));
+		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shintakeSubsystem));
+		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shintakeSubsystem, 5000));
+		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shintakeSubsystem, 5000));
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
 																														// End
-		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
-		NamedCommands.registerCommand("ComboIntake",
-				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
-						.withTimeout(1));
-		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
-		// shooterSubsystem).withTimeout(1));
-		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
 		NamedCommands.registerCommand("One Piece Preload Shoot", preLoadOnePiece);
 	}
 
@@ -252,16 +232,16 @@ public class RobotContainer implements Logged {
 		this.control.presetMid().onTrue(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		// this.control.presetLow().onTrue(new CommandArm(this.armSubsystem,
 		// Constants.ArmSetpoint.PICKUP.value));
-		this.control.presetLow().whileTrue(new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem));
+		this.control.presetLow().whileTrue(new ComboIntakeArmCommand(armSubsystem, shintakeSubsystem));
 		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 
 		/* Intake Controls */
-		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.intakeSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
+		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.shintakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.shintakeSubsystem));
 
 		/* Shooter Controls */
-		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 5000));
-		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shintakeSubsystem, 5000));
+		this.control.ampShooterInput().whileTrue(new AmpShotCommand(shintakeSubsystem));
 
 		// temp climber controls
 		// this.control.climberRetract().onTrue(new ClimbCommand(this.climberSubsystem,
@@ -302,7 +282,7 @@ public class RobotContainer implements Logged {
 	public void configureTeam() {
 		this.control.AprilLockOn()
 				.whileTrue(Commands.repeatingSequence(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)));
-		this.control.AprilLockOn().whileTrue(new ShooterAutoCommand(shooterSubsystem, 5000));
+		this.control.AprilLockOn().whileTrue(new ShooterAutoCommand(shintakeSubsystem, 5000));
 		// if (getAllianceFlipState()) {
 		// this.control.AprilLockOn()
 		// .whileTrue(Commands.repeatingSequence(new PrepareShot(driveSubsystem,

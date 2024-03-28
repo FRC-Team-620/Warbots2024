@@ -1,18 +1,18 @@
 package org.jmhsrobotics.frc2024.subsystems.LED.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class setBlueLEDCommand extends Command {
 
 	private LEDSubsystem ledSubsystem;
-	private IntakeSubsystem intakeSubsystem;
+	private ShintakeSubsystem shintakeSubsystem;
 
-	public setBlueLEDCommand(LEDSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem) {
+	public setBlueLEDCommand(LEDSubsystem ledSubsystem, ShintakeSubsystem shintakeSubsystem) {
 		this.ledSubsystem = ledSubsystem;
-		this.intakeSubsystem = intakeSubsystem;
+		this.shintakeSubsystem = shintakeSubsystem;
 		addRequirements(this.ledSubsystem);
 	}
 
@@ -31,7 +31,7 @@ public class setBlueLEDCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return !this.intakeSubsystem.hasNote();
+		return !this.shintakeSubsystem.hasNote();
 	}
 
 	@Override

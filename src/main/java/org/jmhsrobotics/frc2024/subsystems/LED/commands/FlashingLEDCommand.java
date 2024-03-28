@@ -1,7 +1,7 @@
 package org.jmhsrobotics.frc2024.subsystems.LED.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.intake.IntakeSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class FlashingLEDCommand extends Command {
 
 	private LEDSubsystem ledSubsystem;
-	private IntakeSubsystem intakeSubsystem;
+	private ShintakeSubsystem shintakeSubsystem;
 	private Timer timer;
 
-	public FlashingLEDCommand(LEDSubsystem ledSubsystem, IntakeSubsystem intakeSubsystem) {
+	public FlashingLEDCommand(LEDSubsystem ledSubsystem, ShintakeSubsystem shintakeSubsystem) {
 		this.ledSubsystem = ledSubsystem;
-		this.intakeSubsystem = intakeSubsystem;
+		this.shintakeSubsystem = shintakeSubsystem;
 		this.timer = new Timer();
 
 		addRequirements(this.ledSubsystem);
@@ -40,7 +40,7 @@ public class FlashingLEDCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return !this.intakeSubsystem.isIntaking();
+		return false;
 	}
 
 	@Override

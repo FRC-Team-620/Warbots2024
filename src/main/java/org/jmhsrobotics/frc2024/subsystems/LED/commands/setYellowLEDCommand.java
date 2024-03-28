@@ -1,18 +1,18 @@
 package org.jmhsrobotics.frc2024.subsystems.LED.commands;
 
 import org.jmhsrobotics.frc2024.subsystems.LED.LEDSubsystem;
-import org.jmhsrobotics.frc2024.subsystems.shooter.ShooterSubsystem;
+import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class setYellowLEDCommand extends Command {
 
+	private ShintakeSubsystem shintakeSubsystem;
 	private LEDSubsystem ledSubsystem;
-	private ShooterSubsystem shooterSubsystem;
 
-	public setYellowLEDCommand(LEDSubsystem ledSubsystem, ShooterSubsystem shooterSubsystem) {
+	public setYellowLEDCommand(LEDSubsystem ledSubsystem, ShintakeSubsystem shintakeSubsystem) {
 		this.ledSubsystem = ledSubsystem;
-		this.shooterSubsystem = shooterSubsystem;
+		this.shintakeSubsystem = shintakeSubsystem;
 		addRequirements(this.ledSubsystem);
 	}
 
@@ -31,7 +31,7 @@ public class setYellowLEDCommand extends Command {
 
 	@Override
 	public boolean isFinished() {
-		return !this.shooterSubsystem.atGoal();
+		return !this.shintakeSubsystem.shooterAtGoal();
 	}
 
 	@Override
