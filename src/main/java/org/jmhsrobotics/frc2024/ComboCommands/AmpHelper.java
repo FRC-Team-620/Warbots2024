@@ -20,6 +20,6 @@ public class AmpHelper extends SequentialCommandGroup {
 
 		addCommands(new CommandArm(this.armPIDSubsystem, Constants.ArmSetpoint.AMP.value),
 				new ParallelRaceGroup(new ShooterAutoCommand(this.shintakeSubsystem, 5000).withTimeout(5),
-						new IntakeCommand(0.8, this.shintakeSubsystem).withTimeout(5)));
+						new IntakeCommand(0.8, true, this.shintakeSubsystem).withTimeout(5)));
 	}
 }

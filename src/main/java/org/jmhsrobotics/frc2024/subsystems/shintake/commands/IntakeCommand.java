@@ -19,10 +19,10 @@ public class IntakeCommand extends Command {
 	 */
 
 	public IntakeCommand(double speed, boolean isFiring, ShintakeSubsystem shintakeSubsystem) { // Fixme:
-																				// add
-																				// requirements
-																				// for
-																				// shooter!
+		// add
+		// requirements
+		// for
+		// shooter!
 		this.speed = speed;
 		this.shintakeSubsystem = shintakeSubsystem;
 		this.isFiring = isFiring;
@@ -37,13 +37,13 @@ public class IntakeCommand extends Command {
 
 	@Override
 	public void execute() {
-		if(this.isFiring){
+		if (this.isFiring) {
 			this.shintakeSubsystem.setIntakeSpeed(this.speed);
-		}else{
+		} else {
 			this.shintakeSubsystem.setIntakeSpeed(this.speed);
 			this.shintakeSubsystem.setShooterGoal(-1, ControlType.VOLTAGE);
-	}
 		}
+	}
 	@Override
 	public boolean isFinished() {
 		// return this.intakeSubsystem.hasNote();
