@@ -23,13 +23,13 @@ public class ShooterAutoCommand extends Command {
 
 	@Override
 	public void execute() {
-		this.shintakeSubsystem.setShooterGoal(-1, ControlType.VOLTAGE);
+		this.shintakeSubsystem.setShooterGoal(this.targetRPM, ControlType.VOLTAGE);
 	}
 
 	@Override
 	public boolean isFinished() {
-		// return this.shooterSubsystem.atGoal();
-		return false;
+		return this.shintakeSubsystem.shooterAtGoal();
+		// return false;
 
 	}
 

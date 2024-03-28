@@ -143,9 +143,6 @@ public class RobotContainer implements Logged {
 				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
 																											// Handle
 																											// End
-		// // condition
-		// SmartDashboard.putData("RedLED", new setRedLEDCommand(ledSubsystem,
-		// intakeSubsystem));
 		SmartDashboard.putData("ArmVision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem));
 		SmartDashboard.putData("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 
@@ -155,17 +152,6 @@ public class RobotContainer implements Logged {
 		new Trigger(shintakeSubsystem::hasNote)
 				.onTrue(new ParallelCommandGroup(new RumbleTimeCommand(control, RumbleType.kLeftRumble, 1, 1),
 						new setBlueLEDCommand(ledSubsystem, this.shintakeSubsystem)));
-
-		// new Trigger(this.defaultIntakeCommand::isScheduled)
-		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
-		// new Trigger(intakeSubsystem::isIntaking).onTrue(new
-		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
-
-		// new Trigger(intakeSubsystem.getCurrentCommand()==new
-		// DefaultIntakeCommand(this.intakeSubsystem, this.shooterSubsystem)).onTrue(new
-		// FlashingLEDCommand(ledSubsystem, intakeSubsystem));
-		// new Trigger(this.defaultIntakeCommand::isScheduled)
-		// .onTrue(new FlashingLEDCommand(ledSubsystem, intakeSubsystem));
 
 		new Trigger(shintakeSubsystem::noteTooHigh).onTrue(new setRedLEDCommand(ledSubsystem, shintakeSubsystem));
 
