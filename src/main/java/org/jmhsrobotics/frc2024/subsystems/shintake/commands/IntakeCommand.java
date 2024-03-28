@@ -10,6 +10,7 @@ public class IntakeCommand extends Command {
 	private final ShintakeSubsystem shintakeSubsystem;
 
 	private double speed;
+	private boolean isFiring = false;
 	/**
 	 * Blindly Intakes while running the shooter motor backwards. Command never ends
 	 *
@@ -17,13 +18,14 @@ public class IntakeCommand extends Command {
 	 * @param shitnakeSubsystem
 	 */
 
-	public IntakeCommand(double speed, ShintakeSubsystem shintakeSubsystem) { // Fixme:
+	public IntakeCommand(double speed, boolean isFiring, ShintakeSubsystem shintakeSubsystem) { // Fixme:
 																				// add
 																				// requirements
 																				// for
 																				// shooter!
 		this.speed = speed;
 		this.shintakeSubsystem = shintakeSubsystem;
+		this.isFiring = isFiring;
 
 		addRequirements(this.shintakeSubsystem);
 	}
@@ -35,11 +37,13 @@ public class IntakeCommand extends Command {
 
 	@Override
 	public void execute() {
-		this.shintakeSubsystem.setIntakeSpeed(this.speed);
-		this.shintakeSubsystem.setShooterGoal(-1, ControlType.VOLTAGE);
-
+		if(this.isFiring){
+			this.shintakeSubsystem.setIntakeSpeed(this.speed);
+		}else{
+			this.shintakeSubsystem.setIntakeSpeed(this.speed);
+			this.shintakeSubsystem.setShooterGoal(-1, ControlType.VOLTAGE);
 	}
-
+		}
 	@Override
 	public boolean isFinished() {
 		// return this.intakeSubsystem.hasNote();

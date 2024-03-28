@@ -32,7 +32,6 @@ import org.jmhsrobotics.frc2024.subsystems.drive.commands.auto.DriveTimeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shintake.ShintakeSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.shintake.commands.DefaultShintakeCommand;
 import org.jmhsrobotics.frc2024.subsystems.shintake.commands.IntakeCommand;
-import org.jmhsrobotics.frc2024.subsystems.shintake.commands.IntakeFireCommand;
 import org.jmhsrobotics.frc2024.subsystems.shintake.commands.ShooterAutoCommand;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
 import org.jmhsrobotics.frc2024.utils.RumbleTimeCommand;
@@ -190,7 +189,7 @@ public class RobotContainer implements Logged {
 
 		NamedCommands.registerCommand("ArmAmp", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.AMP.value));
 		NamedCommands.registerCommand("ArmShoot", new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake", new IntakeCommand(1, this.shintakeSubsystem).withTimeout(0.5));
+		NamedCommands.registerCommand("Intake", new IntakeCommand(1, false, this.shintakeSubsystem).withTimeout(0.5));
 
 		// Move Arm to Pickup position
 		NamedCommands.registerCommand("ArmPickup",
@@ -234,8 +233,8 @@ public class RobotContainer implements Logged {
 		this.control.presetLow().onFalse(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 
 		/* Intake Controls */
-		this.control.intakeInput().whileTrue(new IntakeFireCommand(1, this.shintakeSubsystem));
-		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.shintakeSubsystem));
+		this.control.intakeInput().whileTrue(new IntakeCommand(1, true, this.shintakeSubsystem));
+		this.control.extakeInput().whileTrue(new IntakeCommand(-1, false, this.shintakeSubsystem));
 
 		/* Shooter Controls */
 		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shintakeSubsystem, 5000));
