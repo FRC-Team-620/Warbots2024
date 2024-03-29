@@ -26,12 +26,6 @@
                 "data": {
                   "pathName": "Allience Backup Path.1"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
               }
             ]
           }
@@ -57,12 +51,6 @@
                 "data": {
                   "pathName": "Allience Backup Path.3"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
               }
             ]
           }
@@ -87,12 +75,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "Allience Backup Path.5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
                 }
               }
             ]
