@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4568531811237335,
-      "y": 6.687067031860352
+      "x": 0.6372164487838745,
+      "y": 6.719836235046387
     },
     "rotation": 59.80838112264037
   },
@@ -15,12 +15,6 @@
           "type": "named",
           "data": {
             "name": "One Piece Preload Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
           }
         },
         {
@@ -46,6 +40,12 @@
           "type": "path",
           "data": {
             "pathName": "Allience Backup Path.1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
           }
         }
       ]
