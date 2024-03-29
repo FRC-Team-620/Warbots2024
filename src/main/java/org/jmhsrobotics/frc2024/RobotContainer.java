@@ -114,27 +114,10 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
 
-		// var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
-		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
-		// .andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3,
-		// this.driveSubsystem),
-		// new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
-
-		// ).withTimeout(2));
-		// var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
-		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
-
-		// autoChooser.addOption("Preload-shoot-intake", preloadShoot);
-		// autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
-
 		var preLoadOnePiece = Commands.sequence(
 				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-						new NSpinupNoStop(this.shooterSubsystem, 5000)),
-				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+						new NSpinupNoStop(this.shooterSubsystem, 4000)),
+				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 4000));
 		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
 
 		SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -144,8 +127,8 @@ public class RobotContainer implements Logged {
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		SmartDashboard.putData("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
 		SmartDashboard.putData("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
-		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
-		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
+		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 4000));
+		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 4000));
 		SmartDashboard.putData("Aim Arm Vision",
 				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
 																											// Handle
@@ -229,7 +212,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
-						.withTimeout(1));
+						.withTimeout(5));
 		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
 		// shooterSubsystem).withTimeout(1));
 		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
@@ -261,7 +244,7 @@ public class RobotContainer implements Logged {
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 
 		/* Shooter Controls */
-		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 5000));
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 4000));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
@@ -299,7 +282,6 @@ public class RobotContainer implements Logged {
 		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
 		// this.driveSubsystem, this.visionSubsystem));
 	}
-
 	public void configureTeam() {
 		this.control.AprilLockOn()
 				.whileTrue(Commands.repeatingSequence(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)));

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6372164487838745,
-      "y": 6.719836235046387
+      "x": 0.4745416641235352,
+      "y": 6.697556018829346
     },
-    "rotation": 59.80838112264037
+    "rotation": 60.16056848873644
   },
   "command": {
     "type": "sequential",
@@ -24,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Alliance Auto.1"
+                  "pathName": "Allience Backup Path.1"
                 }
               },
               {
@@ -39,7 +39,69 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Allience Backup Path.1"
+            "pathName": "Allience Backup Path.2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Allience Backup Path.3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Allience Backup Path.4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Allience Backup Path.5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake Floor"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Allience Backup Path.6"
           }
         },
         {
