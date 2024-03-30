@@ -212,7 +212,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
-						.withTimeout(5));
+						.withTimeout(8));
 		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
 		// shooterSubsystem).withTimeout(1));
 		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
