@@ -109,6 +109,12 @@
           "data": {
             "name": "One Piece Preload Shoot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Allience Backup Path.7"
+          }
         }
       ]
     }
