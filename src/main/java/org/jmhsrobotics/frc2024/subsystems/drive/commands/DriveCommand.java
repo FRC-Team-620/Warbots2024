@@ -132,11 +132,7 @@ public class DriveCommand extends Command {
 	private double computeObjectAngleLockValue() {
 		double out = 0;
 		PhotonTrackedTarget piece = this.visionSubsystem.getBestObjectTarget();
-		Pose2d pose = this.visionSubsystem
-					.targetToField(piece.getBestCameraToTarget(), this.driveSubsystem.getPose()).toPose2d();
-
-		Transform2d transform = pose.minus(this.driveSubsystem.getPose());
-		double theta = Math.toDegrees(Math.atan2(transform.getY(), transform.getX()));
+		double theta = piece.getYaw();
 		// SmartDashboard.putNumber("Theta", theta);
 		var rawOutput = this.gamePiecePidController.calculate(theta);
 		double output = MathUtil.clamp(rawOutput, -1, 1);
