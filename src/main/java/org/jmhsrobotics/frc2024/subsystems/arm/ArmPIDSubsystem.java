@@ -221,6 +221,7 @@ public class ArmPIDSubsystem extends SubsystemBase implements Logged {
 				new Pose3d(-0.213, 0, 0.286, new Rotation3d(0, -Units.degreesToRadians(armPID.getGoal().position), 0)));
 		log("angleDegrees", getArmPitch());
 		log("angleGoalDegrees", armPID.getGoal().position);
+		log("ArmAtGoal", this.atGoal());
 	}
 
 	SingleJointedArmSim armSim;
