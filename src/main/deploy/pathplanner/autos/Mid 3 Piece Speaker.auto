@@ -62,7 +62,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Arm Preset Shoot"
+                  "name": "Aim Arm Vision"
                 }
               }
             ]
@@ -144,7 +144,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Arm Preset Shoot"
+                  "name": "Aim Arm Vision"
                 }
               }
             ]
@@ -179,12 +179,6 @@
           "type": "named",
           "data": {
             "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "AutoPuro.5"
           }
         }
       ]
