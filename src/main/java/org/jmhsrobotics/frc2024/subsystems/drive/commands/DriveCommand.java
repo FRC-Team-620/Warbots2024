@@ -27,6 +27,7 @@ public class DriveCommand extends Command {
 
 	// Angle lock
 	private final PIDController lockPID;
+	private final PIDController gamePiecePidController;
 
 	private final double angleGoal = 180;
 	private double fiducialID = -1;
@@ -40,7 +41,7 @@ public class DriveCommand extends Command {
 		this.control = control;
 
 		this.lockPID = new PIDController(0.005, 0, 0);
-
+		this.gamePiecePidController = new PIDController(0.005, 0, 0);
 		addRequirements(this.driveSubsystem);
 	}
 
@@ -81,6 +82,8 @@ public class DriveCommand extends Command {
 		SmartDashboard.putNumber("Angle Offset", computeAngleLockValue());
 		if (this.control.AprilLockOn().getAsBoolean()) {
 			rotationSpeed += computeAngleLockValue();
+		}else if(this.control.ObjectLockOn().getAsBoolean()){
+			rotationSpeed += computeObjectAngleLockValue();
 		}
 		this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed, Constants.SwerveConstants.kFieldRelative,
 				Constants.SwerveConstants.kRateLimit);
@@ -124,6 +127,23 @@ public class DriveCommand extends Command {
 		return out;
 	}
 
+
+
+	private double computeObjectAngleLockValue() {
+		double out = 0;
+		PhotonTrackedTarget piece = this.visionSubsystem.getBestObjectTarget();
+		Pose2d pose = this.visionSubsystem
+					.targetToField(piece.getBestCameraToTarget(), this.driveSubsystem.getPose()).toPose2d();
+
+		Transform2d transform = pose.minus(this.driveSubsystem.getPose());
+		double theta = Math.toDegrees(Math.atan2(transform.getY(), transform.getX()));
+		// SmartDashboard.putNumber("Theta", theta);
+		var rawOutput = this.gamePiecePidController.calculate(theta);
+		double output = MathUtil.clamp(rawOutput, -1, 1);
+
+		out = -output;
+		return out;
+	}
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {

@@ -48,6 +48,8 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 
 	private DriveSubsystem drive;
 
+	private PhotonPipelineResult objectResults;
+
 	private double[] flucialIDs;
 	List<PhotonTrackedTarget> targets;
 
@@ -77,9 +79,9 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 	public void periodic() {
 
 		PhotonPipelineResult results = this.cam.getLatestResult();
+		this.objectResults = this.objectCamera.getLatestResult();
 
 		targets = results.getTargets();
-
 		// SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
@@ -113,6 +115,9 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		return this.estimator.update();
 	}
 
+	public PhotonTrackedTarget getBestObjectTarget(){
+		return this.objectResults.getBestTarget();
+	}
 	public PhotonTrackedTarget getTarget(double fiducialID) {
 		for (PhotonTrackedTarget i : targets) {
 			if (i.getFiducialId() == fiducialID) {
