@@ -50,47 +50,53 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "AutoPuro.2"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "AutoPuro.2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Lock Speaker"
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Aim Arm Vision"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spinup no Stop"
-                      }
-                    }
-                  ]
+                  "name": "Aim Arm Vision"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Spinup and Shoot"
+                  "name": "Spinup no Stop"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
           }
         },
         {
@@ -126,47 +132,53 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "AutoPuro.4"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "AutoPuro.4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              }
+            ]
           }
         },
         {
-          "type": "sequential",
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Lock Speaker"
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Aim Arm Vision"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spinup no Stop"
-                      }
-                    }
-                  ]
+                  "name": "Aim Arm Vision"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Spinup and Shoot"
+                  "name": "Spinup no Stop"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
           }
         },
         {
