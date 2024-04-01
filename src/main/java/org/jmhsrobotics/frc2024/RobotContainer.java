@@ -273,7 +273,7 @@ public class RobotContainer implements Logged {
 		// this.control.intakeInput().onTrue(shooterSubsystem.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
 		// this.control.extakeInput().onTrue(shooterSubsystem.sysIdDynamic(SysIdRoutine.Direction.kForward));
 
-		SmartDashboard.putData("sysIDTest", fullTest(this.armSubsystem.routine,
+		SmartDashboard.putData("sysIDTest", fullTest(this.shooterSubsystem.topRoutine,
 				this.control.intakeInput()::getAsBoolean, this.control.extakeInput()::getAsBoolean));
 
 		/* Shooter Controls */
