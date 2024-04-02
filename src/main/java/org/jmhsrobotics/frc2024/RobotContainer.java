@@ -106,6 +106,7 @@ public class RobotContainer implements Logged {
 
 		configureSmartDashboard();
 		SmartDashboard.putBoolean("HasNote", false);
+		SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem, this.visionSubsystem));
 		configureDriverFeedback();
 
 		configureBindings();
@@ -201,7 +202,7 @@ public class RobotContainer implements Logged {
 		// New Commands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(2));
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));

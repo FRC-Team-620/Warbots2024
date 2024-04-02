@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import monologue.Logged;
 
@@ -27,8 +28,8 @@ public class LockSpeaker extends Command implements Logged {
 	public LockSpeaker(DriveSubsystem drive, VisionSubsystem vision) {
 		this.drive = drive;
 		this.vision = vision;
-		this.lockPID = new PIDController(0.005, 0, 0);
-		// SmartDashboard.putData(lockPID);
+		this.lockPID = new PIDController(0.01, 0, 0);
+		SmartDashboard.putData("LockPID", lockPID);
 
 		this.angleGoal = 180;
 
