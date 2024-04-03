@@ -238,6 +238,37 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim Arm Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
+          }
         }
       ]
     }
