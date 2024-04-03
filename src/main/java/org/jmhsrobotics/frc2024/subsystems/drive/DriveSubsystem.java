@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.BuiltInAccelerometer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.BuiltInAccelerometer.Range;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 import monologue.Annotations.Log;
@@ -92,6 +93,7 @@ public class DriveSubsystem extends SubsystemBase implements Logged {
 		log("Y-Gs-rio", rio_Accelerometer.getY());
 		log("X-Gs-rio", rio_Accelerometer.getX());
 		log("Z-Gs-rio", rio_Accelerometer.getZ());
+		SmartDashboard.putNumber("GyroAngle", m_gyro.getAngle());
 
 		if (Robot.isSimulation()) {
 			Robot.objSim.update(pose2d);

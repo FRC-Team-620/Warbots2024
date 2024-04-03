@@ -89,6 +89,8 @@ public class RobotContainer implements Logged {
 	// DefaultIntakeCommand(intakeSubsystem,
 	// shooterSubsystem);
 
+	private final DriveCommand driveCommand;
+
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
@@ -97,6 +99,7 @@ public class RobotContainer implements Logged {
 		// swboard.setControlBoard(new CompControl());
 
 		this.control = swboard;
+		this.driveCommand = new DriveCommand(this.driveSubsystem, visionSubsystem, this.control);
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
@@ -106,6 +109,9 @@ public class RobotContainer implements Logged {
 
 		configureSmartDashboard();
 		SmartDashboard.putBoolean("HasNote", false);
+		SmartDashboard.putBoolean("LockAtGoal", this.driveCommand.lockAtGoal());
+		SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
+		SmartDashboard.putNumber("MatchNumber", DriverStation.getMatchNumber());
 		SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem, this.visionSubsystem));
 		configureDriverFeedback();
 
