@@ -108,11 +108,6 @@ public class RobotContainer implements Logged {
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		configureSmartDashboard();
-		SmartDashboard.putBoolean("HasNote", false);
-		SmartDashboard.putBoolean("LockAtGoal", this.driveCommand.lockAtGoal());
-		SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
-		SmartDashboard.putNumber("MatchNumber", DriverStation.getMatchNumber());
-		SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem, this.visionSubsystem));
 		configureDriverFeedback();
 
 		configureBindings();
@@ -273,6 +268,11 @@ public class RobotContainer implements Logged {
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
+
+		SmartDashboard.putBoolean("LockAtGoal", this.driveCommand.lockAtGoal());
+		SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
+		SmartDashboard.putNumber("MatchNumber", DriverStation.getMatchNumber());
+		SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem, this.visionSubsystem));
 		// SmartDashboard.putData("AutoIntakeCommand",
 		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
