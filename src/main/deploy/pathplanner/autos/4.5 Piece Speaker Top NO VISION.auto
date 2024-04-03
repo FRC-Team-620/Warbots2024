@@ -75,6 +75,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -129,6 +135,12 @@
           "type": "named",
           "data": {
             "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
           }
         },
         {
@@ -189,9 +201,54 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Top 4 Piece NO VISION.7"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Top 4 Piece NO VISION.7"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Floor"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Top 4 Piece NO VISION.8"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              }
+            ]
           }
         }
       ]
