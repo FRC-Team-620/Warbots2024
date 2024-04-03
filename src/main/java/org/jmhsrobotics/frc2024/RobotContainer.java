@@ -202,7 +202,7 @@ public class RobotContainer implements Logged {
 		// New Commands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(6));
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
@@ -213,7 +213,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
-						.withTimeout(8));
+						.withTimeout(6));
 		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
 		// shooterSubsystem).withTimeout(1));
 		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
