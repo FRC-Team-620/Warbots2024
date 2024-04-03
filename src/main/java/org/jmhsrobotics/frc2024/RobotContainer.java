@@ -50,7 +50,6 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -290,7 +289,6 @@ public class RobotContainer implements Logged {
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
-		CameraServer.startAutomaticCapture("Kirby", 0);
 		// SmartDashboard.putData("AutoIntakeCommand",
 		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
