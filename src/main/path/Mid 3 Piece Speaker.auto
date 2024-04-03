@@ -2,38 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.244184136390686,
-      "y": 5.574731826782227
+      "x": 0.5285192728042603,
+      "y": 4.4514946937561035
     },
-    "rotation": -1.832005421123575e-18
+    "rotation": -59.186540237014036
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Spinup and Shoot"
+            "name": "One Piece Preload Shoot"
           }
         },
         {
@@ -43,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.1"
+                  "pathName": "AutoPuro.1"
                 }
               },
               {
@@ -53,6 +34,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AutoPuro.2"
           }
         },
         {
@@ -93,7 +80,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.2"
+                  "pathName": "AutoPuro.3"
                 }
               },
               {
@@ -103,6 +90,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "AutoPuro.4"
           }
         },
         {
@@ -137,53 +130,9 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Speaker Auto.3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Lock Speaker"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Aim Arm Vision"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
+            "pathName": "AutoPuro.5"
           }
         }
       ]

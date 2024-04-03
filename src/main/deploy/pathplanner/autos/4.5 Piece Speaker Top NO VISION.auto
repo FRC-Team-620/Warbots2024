@@ -2,38 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.47255077958106995,
-      "y": 4.393003940582275
+      "x": 0.4745416641235352,
+      "y": 6.697556018829346
     },
-    "rotation": -60.340860212064435
+    "rotation": 60.16056848873644
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Spinup and Shoot"
+            "name": "One Piece Preload Shoot"
           }
         },
         {
@@ -43,7 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.1"
+                  "pathName": "Top 4 Piece NO VISION.1"
                 }
               },
               {
@@ -56,13 +37,26 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Top 4 Piece NO VISION.2"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spinup no Stop"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -81,13 +75,19 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.2"
+                  "pathName": "Top 4 Piece NO VISION.3"
                 }
               },
               {
@@ -100,13 +100,26 @@
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "race",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Top 4 Piece NO VISION.4"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spinup no Stop"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -125,13 +138,19 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.3"
+                  "pathName": "Top 4 Piece NO VISION.5"
                 }
               },
               {
@@ -144,57 +163,26 @@
           }
         },
         {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "race",
                 "data": {
-                  "pathName": "Ferry Auto.4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "Top 4 Piece NO VISION.6"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Spinup no Stop"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -219,26 +207,39 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Ferry Auto.5"
+                  "pathName": "Top 4 Piece NO VISION.7"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Intake Floor"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.75
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Floor"
+                      }
+                    }
+                  ]
                 }
               }
             ]
           }
         },
         {
-          "type": "race",
+          "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "named",
+                "type": "path",
                 "data": {
-                  "name": "Spinup no Stop"
+                  "pathName": "Top 4 Piece NO VISION.8"
                 }
               },
               {
@@ -248,12 +249,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
           }
         }
       ]
