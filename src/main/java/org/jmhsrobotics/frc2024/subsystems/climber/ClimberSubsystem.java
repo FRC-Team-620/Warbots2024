@@ -32,7 +32,7 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		rightClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
 		leftClimber.setSoftLimit(SoftLimitDirection.kForward, 34);
 		rightClimber.setSoftLimit(SoftLimitDirection.kForward, 34);
-		setSoftLimit(true);
+		setSoftLimit(false);
 		leftClimber.setIdleMode(IdleMode.kBrake);
 		rightClimber.setIdleMode(IdleMode.kBrake);
 		leftClimberEncoder.setPositionConversionFactor((5.0 * 4.0) / 100.0); // 20:1 gear reduction
