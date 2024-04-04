@@ -30,8 +30,8 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		// TODO: input real vals for soft limit
 		leftClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
 		rightClimber.setSoftLimit(SoftLimitDirection.kReverse, 0);
-		leftClimber.setSoftLimit(SoftLimitDirection.kForward, 65);
-		rightClimber.setSoftLimit(SoftLimitDirection.kForward, 65);
+		leftClimber.setSoftLimit(SoftLimitDirection.kForward, 34);
+		rightClimber.setSoftLimit(SoftLimitDirection.kForward, 34);
 		setSoftLimit(true);
 		leftClimber.setIdleMode(IdleMode.kBrake);
 		rightClimber.setIdleMode(IdleMode.kBrake);
@@ -51,6 +51,9 @@ public class ClimberSubsystem extends SubsystemBase implements Logged {
 		leftClimber.enableSoftLimit(SoftLimitDirection.kForward, toggle);
 		rightClimber.enableSoftLimit(SoftLimitDirection.kReverse, toggle);
 		leftClimber.enableSoftLimit(SoftLimitDirection.kReverse, toggle);
+		// rightClimberEncoder.setPosition(0);
+		// leftClimberEncoder.setPosition(0);
+
 	}
 
 	public void setLeftMotor(double amount) {
