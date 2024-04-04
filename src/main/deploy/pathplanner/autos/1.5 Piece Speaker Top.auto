@@ -18,6 +18,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.5
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -47,6 +53,37 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Qual 4 Auto.2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ArmAmp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Fire in Amp"
           }
         }
       ]
