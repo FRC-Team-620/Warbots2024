@@ -85,6 +85,18 @@
           "data": {
             "name": "Fire in Amp"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm Preset Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Qual 4 Auto.3"
+          }
         }
       ]
     }
