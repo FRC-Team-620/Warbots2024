@@ -49,7 +49,7 @@ public class DriveCommand extends Command {
 		this.lockPID.reset();
 		this.lockPID.setSetpoint(this.angleGoal);
 		// SmartDashboard.putData(this.lockPID);
-		// this.lockPID.setTolerance(3, 1);
+		this.lockPID.setTolerance(3, 1);
 		this.lockPID.enableContinuousInput(-180, 180);
 		var optionalColor = DriverStation.getAlliance();
 		if (optionalColor.isPresent()) {
