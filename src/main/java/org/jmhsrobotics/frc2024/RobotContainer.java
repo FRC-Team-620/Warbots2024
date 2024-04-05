@@ -186,7 +186,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.25));
 		NamedCommands.registerCommand("AutoIntake",
 				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
@@ -210,6 +210,8 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
 																														// End
+		// temp in order to adjust note in intake
+		NamedCommands.registerCommand("IntakeAdjust", new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(.25));
 		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
