@@ -20,7 +20,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.5
+            "waitTime": 2.5
           }
         },
         {
@@ -90,12 +90,6 @@
           "type": "named",
           "data": {
             "name": "Arm Preset Shoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Qual 4 Auto.3"
           }
         }
       ]

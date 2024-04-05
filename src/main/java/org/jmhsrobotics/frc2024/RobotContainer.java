@@ -211,7 +211,7 @@ public class RobotContainer implements Logged {
 																														// Handle
 																														// End
 		// temp in order to adjust note in intake
-		NamedCommands.registerCommand("IntakeAdjust", new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(.25));
+		NamedCommands.registerCommand("IntakeAdjust", new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(.17));
 		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
