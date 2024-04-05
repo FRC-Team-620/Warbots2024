@@ -85,7 +85,7 @@ public class Constants {
 		/* START DRIVER CONFIGURABLES */
 
 		// configure to change drivetrain turbo mode
-		public static final double kMaxSpeedFeetPerSecond = 16;
+		public static final double kMaxSpeedFeetPerSecond = 17;
 
 		// configure to change drivetrain slow mode
 		public static final double slowSpeedFeetPerSecond = 12; // TODO: Remove used when not in turbo mode move to Comp
