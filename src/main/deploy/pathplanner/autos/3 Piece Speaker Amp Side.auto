@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.4745416641235352,
-      "y": 6.697556018829346
+      "x": 0.475,
+      "y": 6.678
     },
     "rotation": 60.16056848873644
   },
@@ -24,184 +24,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Top 4 Piece NO VISION.1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Top 4 Piece NO VISION.2"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spinup no Stop"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Top 4 Piece NO VISION.3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Top 4 Piece NO VISION.4"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spinup no Stop"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Top 4 Piece NO VISION.5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "race",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Top 4 Piece NO VISION.6"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Spinup no Stop"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Preset Shoot"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Top 4 Piece NO VISION.7"
+                  "pathName": "3 Piece Speaker Amp Side.1"
                 }
               },
               {
@@ -211,7 +34,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.75
+                        "waitTime": 1.5
                       }
                     },
                     {
@@ -233,7 +56,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Top 4 Piece NO VISION.8"
+                  "pathName": "3 Piece Speaker Amp Side.2"
                 }
               },
               {
@@ -241,8 +64,159 @@
                 "data": {
                   "name": "Arm Preset Shoot"
                 }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.25
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeAdjust"
+                      }
+                    }
+                  ]
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim Arm Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 Piece Speaker Amp Side.3"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Floor"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 Piece Speaker Amp Side.4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Arm Preset Shoot"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.25
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeAdjust"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lock Speaker"
+          }
+        },
+        {
+          "type": "race",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Aim Arm Vision"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Spinup no Stop"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spinup and Shoot"
           }
         }
       ]

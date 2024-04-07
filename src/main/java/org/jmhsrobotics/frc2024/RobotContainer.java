@@ -108,11 +108,6 @@ public class RobotContainer implements Logged {
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		configureSmartDashboard();
-		SmartDashboard.putBoolean("HasNote", false);
-		SmartDashboard.putBoolean("LockAtGoal", this.driveCommand.lockAtGoal());
-		SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
-		SmartDashboard.putNumber("MatchNumber", DriverStation.getMatchNumber());
-		SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem, this.visionSubsystem));
 		configureDriverFeedback();
 
 		configureBindings();
@@ -191,7 +186,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.25));
 		NamedCommands.registerCommand("AutoIntake",
 				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
@@ -208,13 +203,15 @@ public class RobotContainer implements Logged {
 		// New Commands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(6));
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(4));
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
 																														// End
+		// temp in order to adjust note in intake
+		NamedCommands.registerCommand("IntakeAdjust", new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(.17));
 		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
@@ -251,7 +248,7 @@ public class RobotContainer implements Logged {
 		this.control.extakeInput().whileTrue(new IntakeCommand(-1, this.intakeSubsystem, this.shooterSubsystem));
 
 		/* Shooter Controls */
-		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 4000));
+		this.control.shooterInput().whileTrue(new ShooterAutoCommand(this.shooterSubsystem, 5000));
 		this.control.ampShooterInput().whileTrue(new AmpShotCommand(intakeSubsystem, shooterSubsystem));
 
 		// temp climber controls
@@ -273,6 +270,11 @@ public class RobotContainer implements Logged {
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
+		SmartDashboard.putBoolean("LockAtGoal", this.driveCommand.lockAtGoal());
+		SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
+		SmartDashboard.putNumber("MatchNumber", DriverStation.getMatchNumber());
+		// SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem,
+		// this.visionSubsystem));
 		// SmartDashboard.putData("AutoIntakeCommand",
 		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 

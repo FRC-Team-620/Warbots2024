@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5285192728042603,
-      "y": 4.4514946937561035
+      "x": 0.72,
+      "y": 4.52
     },
     "rotation": -59.186540237014036
   },
@@ -62,7 +62,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Aim Arm Vision"
+                  "name": "Arm Preset Shoot"
                 }
               }
             ]
@@ -144,7 +144,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Aim Arm Vision"
+                  "name": "Arm Preset Shoot"
                 }
               }
             ]

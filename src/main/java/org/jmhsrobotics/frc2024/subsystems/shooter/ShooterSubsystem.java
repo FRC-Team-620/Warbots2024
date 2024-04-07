@@ -48,8 +48,8 @@ public class ShooterSubsystem extends SubsystemBase implements Logged {
 
 		this.upperPID = new PIDController(0.001, 0, 0);
 		this.lowerPID = new PIDController(0.001, 0, 0);
-		this.upperPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
-		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(100)); // WARNING: this value is in Rad/s
+		this.upperPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(200)); // WARNING: this value is in Rad/s
+		this.lowerPID.setTolerance(Units.rotationsPerMinuteToRadiansPerSecond(200)); // WARNING: this value is in Rad/s
 
 		initializeMotors();
 		if (RobotBase.isSimulation()) {
