@@ -28,6 +28,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -82,7 +83,8 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		this.objectResults = this.objectCamera.getLatestResult();
 
 		targets = results.getTargets();
-		// SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
+
+		SmartDashboard.putBoolean("Vision/isConnected", this.cam.isConnected());
 		int len = targets.size();
 		Pose3d[] posList = new Pose3d[len];
 		flucialIDs = new double[len];
@@ -95,7 +97,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 			flucialIDs[i] = targets.get(i).getFiducialId();
 		}
 
-		// SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
+		SmartDashboard.putNumberArray("Vision/flucialIDs", flucialIDs);
 		// SmartDashboard.putBooelean("hasTaget", this.);
 		log("flucialIDs", flucialIDs);
 		log("targets", posList);

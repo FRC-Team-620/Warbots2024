@@ -2,19 +2,63 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.244184136390686,
-      "y": 5.574731826782227
+      "x": 0.475,
+      "y": 6.678
     },
-    "rotation": -1.832005421123575e-18
+    "rotation": 60.16056848873644
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "race",
+          "type": "named",
+          "data": {
+            "name": "One Piece Preload Shoot"
+          }
+        },
+        {
+          "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 Piece Speaker Amp Side.1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Floor"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "3 Piece Speaker Amp Side.2"
+                }
+              },
               {
                 "type": "named",
                 "data": {
@@ -22,34 +66,22 @@
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Spinup no Stop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Speaker Auto.1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake Floor"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.25
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeAdjust"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -93,47 +125,29 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.2"
+                  "pathName": "3 Piece Speaker Amp Side.3"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Intake Floor"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake Floor"
+                      }
+                    }
+                  ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Lock Speaker"
-          }
-        },
-        {
-          "type": "race",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Aim Arm Vision"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Spinup no Stop"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Spinup and Shoot"
           }
         },
         {
@@ -143,13 +157,32 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker Auto.3"
+                  "pathName": "3 Piece Speaker Amp Side.4"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake Floor"
+                  "name": "Arm Preset Shoot"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.25
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeAdjust"
+                      }
+                    }
+                  ]
                 }
               }
             ]

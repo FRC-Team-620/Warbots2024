@@ -49,6 +49,9 @@ public class ArmVision extends Command {
 		armAngles.put(2.42d, 23.5d);
 		armAngles.put(2.54d, 24d);
 		armAngles.put(3.14d, 27.5d);
+		armAngles.put(3.32d, 28d);
+		armAngles.put(3.69d, 29d);
+		armAngles.put(4d, 30.5d);
 
 		SmartDashboard.putNumber("Armangle", 0);
 
@@ -81,6 +84,7 @@ public class ArmVision extends Command {
 			double dist = lastAprilTag.getTranslation().getDistance(drive.getPose().getTranslation());
 			SmartDashboard.putNumber("Distance", dist);
 
+			// arm.setGoal(SmartDashboard.getNumber("ArmAngle", 0));
 			double angle = armAngles.get(dist);
 			arm.setGoal(angle);
 

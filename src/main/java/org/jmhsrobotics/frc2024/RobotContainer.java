@@ -89,6 +89,8 @@ public class RobotContainer implements Logged {
 	// DefaultIntakeCommand(intakeSubsystem,
 	// shooterSubsystem);
 
+	private final DriveCommand driveCommand;
+
 	public RobotContainer() {
 		SwitchableControlBoard swboard = new SwitchableControlBoard(new CompControl());
 		if (Robot.isSimulation()) { // Switch to single control in sim
@@ -97,6 +99,7 @@ public class RobotContainer implements Logged {
 		// swboard.setControlBoard(new CompControl());
 
 		this.control = swboard;
+		this.driveCommand = new DriveCommand(this.driveSubsystem, visionSubsystem, this.control);
 		this.driveSubsystem
 				.setDefaultCommand(new DriveCommand(this.driveSubsystem, this.visionSubsystem, this.control));
 
@@ -105,7 +108,6 @@ public class RobotContainer implements Logged {
 		this.ledSubsystem.setDefaultCommand(new RainbowLEDCommand(this.ledSubsystem));
 
 		configureSmartDashboard();
-		SmartDashboard.putBoolean("HasNote", false);
 		configureDriverFeedback();
 
 		configureBindings();
@@ -114,27 +116,10 @@ public class RobotContainer implements Logged {
 		autoChooser = AutoBuilder.buildAutoChooser();
 		autoChooser.setDefaultOption("BaseLineAuto", new DriveTimeCommand(2.2, 0.3, driveSubsystem));
 
-		// var preloadShoot = new ParallelCommandGroup(new WaitCommand(4),
-		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2))
-		// .andThen(new ParallelCommandGroup(new DriveTimeCommand(0.5, 0.3,
-		// this.driveSubsystem),
-		// new ComboIntakeArmCommand(armSubsystem, shooterSubsystem, intakeSubsystem)
-
-		// ).withTimeout(2));
-		// var preloadShoot_only = new ParallelCommandGroup(new WaitCommand(4),
-		// new CommandArm(armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-		// new ShooterAutoCommand(shooterSubsystem, 4500)).withTimeout(4)
-		// .andThen(new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(2));
-
-		// autoChooser.addOption("Preload-shoot-intake", preloadShoot);
-		// autoChooser.addOption("Preload-shot-NODRIVE", preloadShoot_only);
-
 		var preLoadOnePiece = Commands.sequence(
 				Commands.race(new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value),
-						new NSpinupNoStop(this.shooterSubsystem, 5000)),
-				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 5000));
+						new NSpinupNoStop(this.shooterSubsystem, 4000)),
+				new NSpinupAndShoot(this.shooterSubsystem, this.intakeSubsystem, 4000));
 		autoChooser.addOption("preLoadOnePiece", preLoadOnePiece);
 
 		SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -144,8 +129,8 @@ public class RobotContainer implements Logged {
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
 		SmartDashboard.putData("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem));
 		SmartDashboard.putData("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
-		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
-		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
+		SmartDashboard.putData("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 4000));
+		SmartDashboard.putData("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 4000));
 		SmartDashboard.putData("Aim Arm Vision",
 				new ArmVision(armSubsystem, visionSubsystem, driveSubsystem).until(armSubsystem::atGoal)); // TODO:
 																											// Handle
@@ -201,7 +186,7 @@ public class RobotContainer implements Logged {
 		NamedCommands.registerCommand("TurnAndShoot", new TurnAndShootCommand(this.visionSubsystem, this.driveSubsystem,
 				this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Intake",
-				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.5));
+				new IntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem).withTimeout(0.25));
 		NamedCommands.registerCommand("AutoIntake",
 				new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
@@ -218,18 +203,20 @@ public class RobotContainer implements Logged {
 		// New Commands
 		NamedCommands.registerCommand("Arm Preset Shoot",
 				new CommandArm(this.armSubsystem, Constants.ArmSetpoint.SHOOT.value));
-		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(2));
+		NamedCommands.registerCommand("Intake Floor", new NFloorIntake(armSubsystem, intakeSubsystem).withTimeout(4));
 		NamedCommands.registerCommand("Fire in Amp", new NFireAmp(this.shooterSubsystem, this.intakeSubsystem));
 		NamedCommands.registerCommand("Spinup and Shoot", new NSpinupAndShoot(shooterSubsystem, intakeSubsystem, 5000));
 		NamedCommands.registerCommand("Spinup no Stop", new NSpinupNoStop(shooterSubsystem, 5000));
 		NamedCommands.registerCommand("Aim Arm Vision", new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)); // TODO:
 																														// Handle
 																														// End
+		// temp in order to adjust note in intake
+		NamedCommands.registerCommand("IntakeAdjust", new IntakeFireCommand(1, this.intakeSubsystem).withTimeout(.17));
 		// condition
 		NamedCommands.registerCommand("Lock Speaker", new LockSpeaker(driveSubsystem, visionSubsystem));
 		NamedCommands.registerCommand("ComboIntake",
 				new ComboIntakeArmCommand(this.armSubsystem, this.shooterSubsystem, this.intakeSubsystem)
-						.withTimeout(1));
+						.withTimeout(6));
 		// NamedCommands.registerCommand("AmpShoot", new AmpShotCommand(intakeSubsystem,
 		// shooterSubsystem).withTimeout(1));
 		NamedCommands.registerCommand("AmpShoot", new AutoAmpShotCommand(this.intakeSubsystem, this.shooterSubsystem));
@@ -283,6 +270,11 @@ public class RobotContainer implements Logged {
 	public void configureSmartDashboard() {
 		SmartDashboard.putData("Scheduler", CommandScheduler.getInstance());
 
+		SmartDashboard.putBoolean("LockAtGoal", this.driveCommand.lockAtGoal());
+		SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
+		SmartDashboard.putNumber("MatchNumber", DriverStation.getMatchNumber());
+		// SmartDashboard.putData("lock speaker", new LockSpeaker(this.driveSubsystem,
+		// this.visionSubsystem));
 		// SmartDashboard.putData("AutoIntakeCommand",
 		// new AutoIntakeCommand(1, this.intakeSubsystem, this.shooterSubsystem));
 
@@ -299,7 +291,6 @@ public class RobotContainer implements Logged {
 		// SmartDashboard.putData("LockAprilTagCommand", new LockAprilTag(7,
 		// this.driveSubsystem, this.visionSubsystem));
 	}
-
 	public void configureTeam() {
 		this.control.AprilLockOn()
 				.whileTrue(Commands.repeatingSequence(new ArmVision(armSubsystem, visionSubsystem, driveSubsystem)));

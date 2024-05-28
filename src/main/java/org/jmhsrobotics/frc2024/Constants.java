@@ -38,7 +38,7 @@ public class Constants {
 	}
 
 	public static class Arm {
-		public static double pickupSetpoint = 4.25;
+		public static double pickupSetpoint = 3;
 		public static double shootingSetpoint = 11.5;
 		public static double ampSetpoint = 93;
 	}
@@ -85,7 +85,7 @@ public class Constants {
 		/* START DRIVER CONFIGURABLES */
 
 		// configure to change drivetrain turbo mode
-		public static final double kMaxSpeedFeetPerSecond = 16;
+		public static final double kMaxSpeedFeetPerSecond = 17;
 
 		// configure to change drivetrain slow mode
 		public static final double slowSpeedFeetPerSecond = 12; // TODO: Remove used when not in turbo mode move to Comp

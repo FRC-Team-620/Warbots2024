@@ -19,6 +19,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.wpilibj.simulation.DIOSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import monologue.Logged;
 
@@ -62,7 +63,7 @@ public class IntakeSubsystem extends SubsystemBase implements Logged {
 		// SmartDashboard.putBoolean("Intake/lowSwitchState",
 		// this.lowSwitch().isPressed());
 
-		// SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
+		SmartDashboard.putBoolean("intake/hasNote", this.hasNote());
 
 		log("intakeDutyCycle", intakeMotor.get());
 		log("hasNote", this.hasNote());
