@@ -26,7 +26,6 @@ public class DriveCommand extends Command {
 
 	// Angle lock
 	private final PIDController lockPID;
-	private final PIDController gamePiecePidController;
 
 	private final double angleGoal = 180;
 	private double fiducialID = -1;
@@ -82,8 +81,6 @@ public class DriveCommand extends Command {
 
 		if (this.control.AprilLockOn().getAsBoolean()) {
 			rotationSpeed += computeAngleLockValue();
-		}else if(this.control.ObjectLockOn().getAsBoolean()){
-			rotationSpeed += computeObjectAngleLockValue();
 		}
 		this.driveSubsystem.drive(xSpeed, ySpeed, rotationSpeed, Constants.SwerveConstants.kFieldRelative,
 				Constants.SwerveConstants.kRateLimit);
@@ -124,20 +121,6 @@ public class DriveCommand extends Command {
 		} else {
 			out = 0;
 		}
-		return out;
-	}
-
-
-
-	private double computeObjectAngleLockValue() {
-		double out = 0;
-		PhotonTrackedTarget piece = this.visionSubsystem.getBestObjectTarget();
-		double theta = piece.getYaw();
-		// SmartDashboard.putNumber("Theta", theta);
-		var rawOutput = this.gamePiecePidController.calculate(theta);
-		double output = MathUtil.clamp(rawOutput, -1, 1);
-
-		out = -output;
 		return out;
 	}
 	// Called once the command ends or is interrupted.

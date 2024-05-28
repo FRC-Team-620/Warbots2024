@@ -117,7 +117,7 @@ public class VisionSubsystem extends SubsystemBase implements Logged {
 		return this.estimator.update();
 	}
 
-	public PhotonTrackedTarget getBestObjectTarget(){
+	public PhotonTrackedTarget getBestObjectTarget() {
 		return this.objectResults.getBestTarget();
 	}
 	public PhotonTrackedTarget getTarget(double fiducialID) {
