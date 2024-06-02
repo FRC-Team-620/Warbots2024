@@ -34,27 +34,25 @@ public class NoteHunterCommand extends Command {
 		this.yGoal = 1;
 		this.thetaGoal = 175;
 
-		SmartDashboard.putData("xPID", this.xPID);
-		SmartDashboard.putData("yPID", this.yPID);
+		// SmartDashboard.putData("xPID", this.xPID);
+		// SmartDashboard.putData("yPID", this.yPID);
 		SmartDashboard.putData("thetaPID", this.thetaPID);
 		addRequirements(this.drive);
 	}
 	@Override
 	public void initialize() {
-		this.xPID.setSetpoint(this.xGoal);
-		this.xPID.setTolerance(3, 1);
+		// this.xPID.setSetpoint(this.xGoal);
+		// this.xPID.setTolerance(3, 1);
 
-		this.yPID.reset();
-		this.yPID.setSetpoint(this.yGoal);
-		this.yPID.setTolerance(3, 1);
+		// this.yPID.reset();
+		// this.yPID.setSetpoint(this.yGoal);
+		// this.yPID.setTolerance(3, 1);
 
 		// this.xPID.setSetpoint();
 		this.thetaPID.reset();
-		this.thetaPID.setSetpoint(this.thetaGoal);
+		this.thetaPID.setSetpoint(0);
 		this.thetaPID.setTolerance(3, 1);
 		this.thetaPID.enableContinuousInput(-180, 180);
-		// our goal should be 0 degrees if the camera is in the center of the robot
-		// Right now we are not accounting for the camera angle and cordnate sys
 
 		this.drive.stopDrive();
 	}
@@ -67,16 +65,19 @@ public class NoteHunterCommand extends Command {
 		double x = trans.getX();
 		double y = trans.getY();
 		double theta = trans.getRotation().getDegrees();
-		var rawXOutput = this.xPID.calculate(x);
-		double xOutput = MathUtil.clamp(rawXOutput, -0.3, 0.3);
+		// var rawXOutput = this.xPID.calculate(x);
+		// double xOutput = MathUtil.clamp(rawXOutput, -0.3, 0.3);
 
-		var rawYOutput = this.yPID.calculate(y);
-		double yOutPut = MathUtil.clamp(rawYOutput, -0.3, 0.3);
+		// var rawYOutput = this.yPID.calculate(y);
+		// double yOutPut = MathUtil.clamp(rawYOutput, -0.3, 0.3);
 
 		var rawThetaOutput = this.thetaPID.calculate(theta);
 		double thetaOutput = MathUtil.clamp(rawThetaOutput, -0.1, 0.1);
 
-		this.drive.drive(-xOutput, -yOutPut, -thetaOutput, false, true);
+		SmartDashboard.putNumber("currentTheta", theta);
+		SmartDashboard.putNumber("thetaOutput", thetaOutput);
+		SmartDashboard.putNumber("goal", 0);
+		this.drive.drive(0, 0, -thetaOutput, false, true);
 	}
 
 	@Override
