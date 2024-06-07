@@ -2,6 +2,7 @@ package org.jmhsrobotics.frc2024.subsystems.drive.commands.auto;
 
 import org.jmhsrobotics.frc2024.subsystems.drive.DriveSubsystem;
 import org.jmhsrobotics.frc2024.subsystems.vision.VisionSubsystem;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.math.MathUtil;
@@ -36,7 +37,7 @@ public class NoteHunterCommand extends Command {
 
 		// SmartDashboard.putData("xPID", this.xPID);
 		// SmartDashboard.putData("yPID", this.yPID);
-		SmartDashboard.putData("thetaPID", this.thetaPID);
+		SmartDashboard.putData("NoteHunter/thetaPID", this.thetaPID);
 		addRequirements(this.drive);
 	}
 	@Override
@@ -59,25 +60,32 @@ public class NoteHunterCommand extends Command {
 
 	@Override
 	public void execute() {
-		PhotonTrackedTarget piece = this.vision.getBestObjectTarget();
-		Transform2d trans = new Transform2d(piece.getBestCameraToTarget().getTranslation().toTranslation2d(),
-				piece.getBestCameraToTarget().getRotation().toRotation2d());
-		double x = trans.getX();
-		double y = trans.getY();
-		double theta = trans.getRotation().getDegrees();
-		// var rawXOutput = this.xPID.calculate(x);
-		// double xOutput = MathUtil.clamp(rawXOutput, -0.3, 0.3);
+		PhotonPipelineResult rawPiece = this.vision.objectCamera.getLatestResult();
+		SmartDashboard.putBoolean("NoteHunter/hasTargets", rawPiece.hasTargets());
+		PhotonTrackedTarget piece = rawPiece.getBestTarget();
+		if (piece != null) {
+			Transform2d trans = new Transform2d(piece.getBestCameraToTarget().getTranslation().toTranslation2d(),
+					piece.getBestCameraToTarget().getRotation().toRotation2d());
+			double x = trans.getX();
+			double y = trans.getY();
+			double theta = trans.getRotation().getDegrees();
 
-		// var rawYOutput = this.yPID.calculate(y);
-		// double yOutPut = MathUtil.clamp(rawYOutput, -0.3, 0.3);
+			SmartDashboard.putNumber("NoteHunter/currentTheta", theta);
+			// var rawXOutput = this.xPID.calculate(x);
+			// double xOutput = MathUtil.clamp(rawXOutput, -0.3, 0.3);
 
-		var rawThetaOutput = this.thetaPID.calculate(theta);
-		double thetaOutput = MathUtil.clamp(rawThetaOutput, -0.1, 0.1);
+			// var rawYOutput = this.yPID.calculate(y);
+			// double yOutPut = MathUtil.clamp(rawYOutput, -0.3, 0.3);
 
-		SmartDashboard.putNumber("currentTheta", theta);
-		SmartDashboard.putNumber("thetaOutput", thetaOutput);
-		SmartDashboard.putNumber("goal", 0);
-		this.drive.drive(0, 0, -thetaOutput, false, true);
+			var rawThetaOutput = this.thetaPID.calculate(theta);
+			double thetaOutput = MathUtil.clamp(rawThetaOutput, -0.1, 0.1);
+
+			SmartDashboard.putNumber("NoteHunter/thetaOutput", thetaOutput);
+			SmartDashboard.putNumber("NoteHunter/goal", 0);
+			this.drive.drive(0, 0, -thetaOutput, false, true);
+		} else {
+			this.drive.drive(0, 0, 0, false, true);
+		}
 	}
 
 	@Override
